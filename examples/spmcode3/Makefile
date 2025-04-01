@@ -4,19 +4,20 @@ CXXFLAGS          += -Wall
 INCLUDES	   = -I. -I./include
 LIBS               = -pthread
 SOURCES            = $(wildcard *.cpp)
-TARGET             = $(SOURCES:.cpp=)
+TARGET             = $(SOURCES:.cpp=.out)
 
-.PHONY: all clean cleanall 
+.PHONY: all clean recompile
 
-%: %.cpp
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) -o $@.out $< $(LIBS)
+%.out: %.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) -o $@ $< $(LIBS)
 
 all: $(TARGET)
 
 some-cpp-features: some-cpp-features.cpp
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) -o $@.out $<
+	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) -o $@ $<
 
 clean: 
-	-rm -fr *.o *~
-cleanall: clean
-	-rm -fr *.out
+	-rm -fr *.o *.out
+
+recompile: clean all
+
