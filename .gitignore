@@ -1,0 +1,57 @@
+*.out
+*.o
+*.a
+*.so
+*.log
+
+bin/
+obj/
+.env/
+
+# Visual Studio
+.vs/
+.vscode/
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+build/
+*.cmake
+.cache/
+*.in
+compile_commands.json
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# latex for reports
+*.aux
+*.fdb_latexmk
+*.fls
+*.toc
+*.log
+*.lol
+*.out
+*.bbl
+*.lof
+*.blg
+*.gz
+*.pdf
+*.snm
+*.nav
+*.pgf
+*.vcd
+*.vpp.bak*
+*.lck
+*.pygtex
+*.pygstyle
+*.Identifier
+
+.vscode/
+svg-inkscape/
+

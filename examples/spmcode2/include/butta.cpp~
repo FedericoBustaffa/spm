@@ -1,0 +1,19 @@
+#include "hpc_helpers.hpp"
+
+
+int main() {
+
+	TIMERSTART(primo);
+	sleep(1);
+	TIMERSTOP(primo);
+
+
+	TIMERSTART(secondo);
+	sleep(0.5);
+	TIMERSTOP(secondo);
+
+
+	TIMERSUM(primo,secondo);
+
+}
+	
