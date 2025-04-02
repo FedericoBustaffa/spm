@@ -1,68 +1,67 @@
-#include <iostream>
-#include <vector>
-#include <random>
 #include <cassert>
+#include <iostream>
+#include <random>
+#include <vector>
 
-#include "timer.hpp"
 #include "thread_pool.hpp"
+#include "timer.hpp"
 
 std::vector<double> generate_vector(size_t n_elems)
 {
-	std::mt19937 rand_eng(42);
-	std::normal_distribution<double> dist;
-	std::vector<double> values;
+    std::mt19937 rand_eng(42);
+    std::normal_distribution<double> dist;
+    std::vector<double> values;
 
-	for (size_t i = 0; i < n_elems; i++)
-		values.push_back(dist(rand_eng));
+    for (size_t i = 0; i < n_elems; i++)
+        values.push_back(dist(rand_eng));
 
-	return values;
+    return values;
 }
 
 double sum(double a, double b)
 {
-	return a + b;
+    return a + b;
 }
 
-template <typename T, typename Func, typename... Args>
-std::vector<T> map(Func&& func, const std::vector<T>& v)
+template <typename T, typename Func, typename... Args> std::vector<T> map(Func &&func, const std::vector<T> &v)
 {
-	std::vector<T> res;
-	res.reserve(v.size());
+    std::vector<T> res;
+    res.reserve(v.size());
 
-	for (const auto& i : v)
-		res.push_back(func(i));
+    for (const auto &i : v)
+        res.push_back(func(i));
 
-	return res;
+    return res;
 }
 
-int main(int argc, const char** argv)
+int main(int argc, const char **argv)
 {
-	size_t n = 10000;
-	if (argc >= 2)
-		n = std::atol(argv[1]);
+    size_t n = 10000;
+    if (argc >= 2)
+        n = std::atol(argv[1]);
 
-	timer t;
+    timer t;
 
-	std::vector<double> v = generate_vector(n);
+    std::vector<double> v = generate_vector(n);
 
-	auto partial_sum = std::bind(sum, 10.0, std::placeholders::_1);
+    auto partial_sum = std::bind(sum, 10.0, std::placeholders::_1);
 
-	t.start();
-	auto v1 = map(partial_sum, v);
-	double stime = t.stop();
-	std::cout << "sequential time: " << stime << " seconds" << std::endl;
+    t.start();
+    auto v1 = map(partial_sum, v);
+    double stime = t.stop();
+    std::cout << "sequential time: " << stime << " seconds" << std::endl;
 
-	thread_pool pool;
-	t.start();
-	auto f = pool.map_async(partial_sum, v, n / pool.size());
-	auto v2 = f.get();
+    thread_pool pool;
+    t.start();
+    auto f = pool.map_async(partial_sum, v, n / pool.size());
+    auto v2 = f.get();
 
-	double ptime = t.stop();
-	std::cout << "parallel time: " << ptime << " seconds" << std::endl;
+    double ptime = t.stop();
+    std::cout << "parallel time: " << ptime << " seconds" << std::endl;
 
-	assert(std::equal(v1.begin(), v1.end(), v2.begin()));
+    assert(std::equal(v1.begin(), v1.end(), v2.begin()));
 
-	std::cout << "speed up: " << stime / ptime << std::endl;
+    std::cout << "speed up: " << stime / ptime << std::endl;
 
-	return 0;
+    return 0;
 }
