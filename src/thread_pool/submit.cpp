@@ -2,6 +2,7 @@
 #include <future>
 #include <iostream>
 #include <random>
+#include <vector>
 
 #include "thread_pool.hpp"
 #include "timer.hpp"
