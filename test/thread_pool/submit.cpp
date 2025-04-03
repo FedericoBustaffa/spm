@@ -32,24 +32,24 @@ void parallel_generation(size_t n, size_t m)
     results.reserve(n);
 
     for (size_t i = 0; i < n; i++)
-        results.push_back(pool.submit_async(generate_vector, m));
+        results.push_back(pool.submit(generate_vector, m));
 
     for (auto &r : results)
         auto v = r.get();
 }
 
-void parallel_generation_async(size_t n, size_t m)
-{
-    thread_pool pool;
-    std::vector<std::future<std::vector<double>>> results;
-    results.reserve(n);
+// void parallel_generation_async(size_t n, size_t m)
+// {
+//     thread_pool pool;
+//     std::vector<std::future<std::vector<double>>> results;
+//     results.reserve(n);
 
-    for (size_t i = 0; i < n; i++)
-        results.push_back(pool.submit_async(generate_vector, m));
+//     for (size_t i = 0; i < n; i++)
+//         results.push_back(pool.submit_async(generate_vector, m));
 
-    for (auto &r : results)
-        auto v = r.get();
-}
+//     for (auto &r : results)
+//         auto v = r.get();
+// }
 
 int main(int argc, const char **argv)
 {
@@ -74,14 +74,14 @@ int main(int argc, const char **argv)
     double ptime = t.stop();
     std::cout << "parallel time: " << ptime << " seconds" << std::endl;
 
-    t.start();
-    parallel_generation_async(n, m);
-    double ptime_async = t.stop();
-    std::cout << "parallel async time: " << ptime_async << " seconds"
-              << std::endl;
+    // t.start();
+    // parallel_generation_async(n, m);
+    // double ptime_async = t.stop();
+    // std::cout << "parallel async time: " << ptime_async << " seconds"
+    //           << std::endl;
 
     std::cout << "speed up: " << stime / ptime << std::endl;
-    std::cout << "speed up async: " << stime / ptime_async << std::endl;
+    // std::cout << "speed up async: " << stime / ptime_async << std::endl;
 
     return 0;
 }
