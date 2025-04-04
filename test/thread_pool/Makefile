@@ -1,16 +1,15 @@
 CXX = g++
-OPTFLAGS = -O3 -march=native
 CXXFLAGS += -Wall -std=c++17
+OPTFLAGS = -O3 -march=native
 LIBS = -pthread
-SOURCES = $(wildcard *.cpp)
-TARGET = $(SOURCES:.cpp=.out)
+TARGETS = submit.out map.out
 
 .PHONY: all clean recompile 
 
-%.out: %.cpp
+%.out: %.cpp task_queue.hpp thread_pool.hpp
 	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) -o $@ $< $(LIBS)
 
-all: $(TARGET)
+all: $(TARGETS)
 
 clean: 
 	-rm -fr *.o *.out

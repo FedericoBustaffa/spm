@@ -32,7 +32,7 @@ public:
         return m_capacity == 0 ? false : m_tasks.size() >= m_capacity;
     }
 
-    inline size_t capacity() const
+    inline const size_t capacity() const
     {
         return m_capacity;
     }
@@ -47,7 +47,7 @@ public:
     std::future<Ret> push(Func &&func, Args &&...args)
     {
         if (m_joined.load())
-            throw std::runtime_error("Joined Queue: can't submit more tasks");
+            throw std::runtime_error("JOINED_QUEUE: can't submit more tasks");
 
         // push task into the queue
         std ::function<Ret(void)> aux_func =
@@ -66,6 +66,35 @@ public:
 
         m_tasks.push(task);
 
+        m_empty.notify_one();
+        lock.unlock();
+
+        return promise->get_future();
+    }
+
+    template <typename Func, typename... Args,
+              typename Ret = typename std::result_of<Func(Args...)>::type>
+    std::future<Ret> push_async(Func &&func, Args &&...args)
+    {
+        if (this->full())
+            throw std::runtime_error("FULL QUEUE: submission failed");
+
+        if (m_joined.load())
+            throw std::runtime_error("JOINED_QUEUE: can't submit more tasks");
+
+        // push task into the queue
+        std ::function<Ret(void)> aux_func =
+            std::bind(std::forward<Func>(func), std::forward<Args>(args)...);
+
+        auto promise = std::make_shared<std::promise<Ret>>();
+
+        // make a void(void) function and store the result in a promise
+        auto task = [promise, aux_func]() mutable {
+            promise->set_value(aux_func());
+        };
+
+        std::unique_lock<std::mutex> lock(m_mutex);
+        m_tasks.push(task);
         m_empty.notify_one();
         lock.unlock();
 
@@ -102,7 +131,7 @@ public:
 
 private:
     std::atomic<bool> m_joined;
-    size_t m_capacity;
+    const size_t m_capacity;
     std::queue<std::function<void(void)>> m_tasks;
 
     std::mutex m_mutex;

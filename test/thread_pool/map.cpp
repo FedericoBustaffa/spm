@@ -6,6 +6,8 @@
 #include "thread_pool.hpp"
 #include "timer.hpp"
 
+using namespace std::chrono_literals;
+
 std::vector<double> generate_vector(size_t n_elems)
 {
     std::mt19937 rand_eng(42);
@@ -20,10 +22,12 @@ std::vector<double> generate_vector(size_t n_elems)
 
 double sum(double a, double b)
 {
+    std::this_thread::sleep_for(1ms);
     return a + b;
 }
 
-template <typename T, typename Func, typename... Args> std::vector<T> map(Func &&func, const std::vector<T> &v)
+template <typename T, typename Func, typename... Args>
+std::vector<T> map(Func &&func, const std::vector<T> &v)
 {
     std::vector<T> res;
     res.reserve(v.size());
@@ -36,7 +40,7 @@ template <typename T, typename Func, typename... Args> std::vector<T> map(Func &
 
 int main(int argc, const char **argv)
 {
-    size_t n = 10000;
+    size_t n = 1000;
     if (argc >= 2)
         n = std::atol(argv[1]);
 
@@ -53,15 +57,13 @@ int main(int argc, const char **argv)
 
     thread_pool pool;
     t.start();
-    auto f = pool.map_async(partial_sum, v, n / pool.size());
-    auto v2 = f.get();
+    auto v2 = pool.map(partial_sum, v, v.size() / pool.size());
 
     double ptime = t.stop();
     std::cout << "parallel time: " << ptime << " seconds" << std::endl;
+    std::cout << "speed up: " << stime / ptime << std::endl;
 
     assert(std::equal(v1.begin(), v1.end(), v2.begin()));
-
-    std::cout << "speed up: " << stime / ptime << std::endl;
 
     return 0;
 }

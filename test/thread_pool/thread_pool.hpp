@@ -35,10 +35,7 @@ public:
             {
                 func = m_tasks.pop();
                 if (!func.has_value())
-                {
-                    std::cout << "closing" << std::endl;
                     return;
-                }
 
                 func.value()();
             }
@@ -80,62 +77,25 @@ public:
               typename Ret = typename std::result_of<Func(Args...)>::type>
     std::future<Ret> submit(Func &&func, Args &&...args)
     {
-        return std::move(m_tasks.push(std::forward<Func>(func),
-                                      std::forward<Args>(args)...));
+        return m_tasks.push(std::forward<Func>(func),
+                            std::forward<Args>(args)...);
     }
 
     /**
-     * @brief Submits a task a return a future to handle the result later.
+     * @brief Submits a task a return a future to handle the result later. If
+     * the task queue is full throws a `std::runtime_exception`
      *
      * @param func the callable to execute
      * @param args arguments for the callable
      * @return `std::future`
      */
-    // template <typename Func, typename... Args,
-    //           typename Ret = typename std::result_of<Func(Args...)>::type>
-    // std::future<Ret> submit_async(Func &&func, Args &&...args)
-    // {
-    //     return m_tasks.push_async(std::forward<Func>(func),
-    //                               std::forward<Args>(args)...);
-    // }
-
-    /**
-     * @brief Apply `func` to all elements of `v`. Every worker handle
-     * `chunksize` elements at a time.
-     *
-     * @param func the function to apply
-     * @param v the input vector
-     * @param chunksize the number of elements handled by a worker
-     * @return a new `std::vector<T>` containing the result
-     */
-    // template <typename Func, typename T>
-    // std::vector<T> map(Func &&func, const std::vector<T> &v,
-    //                    size_t chunksize = 1)
-    // {
-    //     size_t chunks = (v.size() + chunksize - 1) / chunksize;
-
-    //     std::vector<T> buffer(v.size());
-
-    //     auto chunked_func = [&v, &buffer, &func](size_t start,
-    //                                              size_t stop) mutable {
-    //         stop = stop <= v.size() ? stop : v.size();
-    //         for (size_t i = start; i < stop; i++)
-    //             buffer[i] = func(v[i]);
-
-    //         return 0;
-    //     };
-
-    //     std::vector<std::future<int>> futures;
-    //     futures.reserve(chunks);
-    //     for (size_t i = 0; i < chunks; i++)
-    //         futures.push_back(submit_async(chunked_func, i * chunksize,
-    //                                        i * chunksize + chunksize));
-
-    //     for (auto &f : futures)
-    //         f.get();
-
-    //     return buffer;
-    // }
+    template <typename Func, typename... Args,
+              typename Ret = typename std::result_of<Func(Args...)>::type>
+    std::future<Ret> submit_async(Func &&func, Args &&...args)
+    {
+        return m_tasks.push_async(std::forward<Func>(func),
+                                  std::forward<Args>(args)...);
+    }
 
     /**
      * @brief Apply `func` to all elements of `v` and returns a future
@@ -147,53 +107,75 @@ public:
      * @param chunksize the number of elements handled by a worker
      * @return a `std::future` containing the result vector
      */
-    // template <typename Func, typename T>
-    // std::future<std::vector<T>> map_async(Func &&func, const std::vector<T>
-    // &v,
-    //                                       size_t chunksize = 1)
-    // {
-    //     size_t chunks = (v.size() + chunksize - 1) / chunksize;
-    //     auto result = std::make_shared<std::vector<T>>(v.size());
+    template <typename Func, typename T>
+    std::future<std::vector<T>> map_async(Func &&func, const std::vector<T> &v,
+                                          size_t chunksize = 1)
+    {
+        size_t chunks = (v.size() + chunksize - 1) / chunksize;
 
-    //     auto chunked_func = [&v, result, &func](size_t start,
-    //                                             size_t stop) mutable {
-    //         stop = stop <= v.size() ? stop : v.size();
-    //         for (size_t i = start; i < stop; i++)
-    //             (*result)[i] = func(v[i]);
+        // compute the function on the given chunk
+        auto chunked_func = [&v, &func](std::vector<T> *result, size_t chunk,
+                                        size_t chunksize) mutable {
+            size_t start = chunk * chunksize;
+            size_t stop = chunk * chunksize + chunksize;
+            stop = stop <= v.size() ? stop : v.size();
+            for (size_t i = start; i < stop; i++)
+                (*result)[i] = func(v[i]);
 
-    //         return 0;
-    //     };
+            return 0;
+        };
 
-    //     auto futures = std::make_shared<std::vector<std::future<int>>>();
-    //     futures->reserve(chunks);
-    //     for (size_t i = 0; i < chunks; i++)
-    //         futures->push_back(submit_async(chunked_func, i * chunksize,
-    //                                         i * chunksize + chunksize));
+        // task that submits chunk tasks
+        auto submission = [this, &v, &chunked_func, &chunks,
+                           &chunksize]() mutable {
+            std::vector<T> result(v.size());
+            std::vector<std::future<int>> futures;
+            futures.reserve(chunks);
+            for (size_t i = 0; i < chunks; i++)
+                futures.push_back(submit(chunked_func, &result, i, chunksize));
 
-    //     auto final_task = [result, futures]() mutable {
-    //         for (auto &f : *futures)
-    //             f.get();
+            for (auto &f : futures)
+                f.get();
 
-    //         return std::move(*result);
-    //     };
+            return result;
+        };
 
-    //     return submit_async(final_task);
-    // }
+        return submit(submission);
+    }
 
     /**
-     * @brief Shuts down the thread pool. If there are some tasks pending, it
-     * blocks the execution until done. If a task is submitted after shutting
-     * down an exception is raised.
+     * @brief Apply `func` to all elements of `v` and blocks until done.
+     * Every worker handle `chunksize` elements at a time.
+     *
+     * @param func the function to apply. The only argument must be one
+     * element of the vector.
+     * @param v the input vector
+     * @param chunksize the number of elements handled by a worker
+     * @return a new `std::vector<T>` containing the result
+     */
+    template <typename Func, typename T>
+    std::vector<T> map(Func &&func, const std::vector<T> &v,
+                       size_t chunksize = 1)
+    {
+        auto future = map_async(std::forward<Func>(func), v, chunksize);
+        return future.get();
+    }
+
+    /**
+     * @brief Shuts down the thread pool. If there are some tasks pending,
+     * it blocks the execution until done. If a task is submitted after
+     * shutting down an exception is raised.
      *
      */
     void shutdown()
     {
+        m_running = false;
+        m_tasks.join();
     }
 
     void join()
     {
-        m_running = false;
-        m_tasks.join();
+        shutdown();
         for (auto &w : m_workers)
             w.join();
     }
