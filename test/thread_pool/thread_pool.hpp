@@ -173,6 +173,10 @@ public:
         m_tasks.join();
     }
 
+    /**
+     * @brief Calls shutdown method and wait for the threads to join
+     *
+     */
     void join()
     {
         shutdown();
