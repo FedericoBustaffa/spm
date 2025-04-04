@@ -46,9 +46,6 @@ public:
               typename Ret = typename std::result_of<Func(Args...)>::type>
     std::future<Ret> push(Func &&func, Args &&...args)
     {
-        if (m_joined.load())
-            throw std::runtime_error("JOINED_QUEUE: can't submit more tasks");
-
         // push task into the queue
         std ::function<Ret(void)> aux_func =
             std::bind(std::forward<Func>(func), std::forward<Args>(args)...);
@@ -59,6 +56,9 @@ public:
         auto task = [promise, aux_func]() mutable {
             promise->set_value(aux_func());
         };
+
+        if (m_joined.load())
+            throw std::runtime_error("JOINED_QUEUE: can't submit more tasks");
 
         std::unique_lock<std::mutex> lock(m_mutex);
         while (this->full())

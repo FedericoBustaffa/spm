@@ -22,7 +22,7 @@ std::vector<double> generate_vector(size_t n_elems)
 
 double sum(double a, double b)
 {
-    std::this_thread::sleep_for(1ms);
+    std::this_thread::sleep_for(0.5ms);
     return a + b;
 }
 
@@ -41,11 +41,14 @@ std::vector<T> map(Func &&func, const std::vector<T> &v)
 int main(int argc, const char **argv)
 {
     size_t n = 1000;
+    size_t chunksize = n / std::thread::hardware_concurrency();
     if (argc >= 2)
         n = std::atol(argv[1]);
 
-    timer t;
+    if (argc >= 3)
+        chunksize = std::atol(argv[2]);
 
+    timer t;
     std::vector<double> v = generate_vector(n);
 
     auto partial_sum = std::bind(sum, 10.0, std::placeholders::_1);
@@ -57,7 +60,7 @@ int main(int argc, const char **argv)
 
     thread_pool pool;
     t.start();
-    auto v2 = pool.map(partial_sum, v, v.size() / pool.size());
+    auto v2 = pool.map(partial_sum, v, chunksize);
 
     double ptime = t.stop();
     std::cout << "parallel time: " << ptime << " seconds" << std::endl;
