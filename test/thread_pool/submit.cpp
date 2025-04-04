@@ -27,15 +27,26 @@ void sequential_generation(size_t n, size_t m)
 
 void parallel_generation(size_t n, size_t m)
 {
-    thread_pool pool;
+    thread_pool pool(4, 0);
     std::vector<std::future<std::vector<double>>> results;
     results.reserve(n);
 
     for (size_t i = 0; i < n; i++)
         results.push_back(pool.submit(generate_vector, m));
 
-    for (auto &r : results)
-        auto v = r.get();
+    pool.join();
+
+    try
+    {
+        pool.submit(generate_vector, m);
+    }
+    catch (std::runtime_error &e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+
+    for (size_t i = 0; i < results.size(); i++)
+        auto v = results[i].get();
 }
 
 // void parallel_generation_async(size_t n, size_t m)

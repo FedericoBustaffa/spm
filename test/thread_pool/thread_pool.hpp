@@ -5,6 +5,7 @@
 #include <functional>
 #include <future>
 #include <mutex>
+#include <optional>
 #include <queue>
 #include <thread>
 #include <vector>
@@ -29,11 +30,17 @@ public:
 
         // lambda executed by every worker
         auto work = [this]() {
-            std::function<void(void)> func;
+            std::optional<std::function<void(void)>> func;
             while (true)
             {
                 func = m_tasks.pop();
-                func();
+                if (!func.has_value())
+                {
+                    std::cout << "closing" << std::endl;
+                    return;
+                }
+
+                func.value()();
             }
         };
 
@@ -73,15 +80,8 @@ public:
               typename Ret = typename std::result_of<Func(Args...)>::type>
     std::future<Ret> submit(Func &&func, Args &&...args)
     {
-        try
-        {
-            return std::move(m_tasks.push(std::forward<Func>(func),
-                                          std::forward<Args>(args)...));
-        }
-        catch (std::runtime_error e)
-        {
-            std::cerr << e.what() << std::endl;
-        }
+        return std::move(m_tasks.push(std::forward<Func>(func),
+                                      std::forward<Args>(args)...));
     }
 
     /**
@@ -188,6 +188,10 @@ public:
      */
     void shutdown()
     {
+    }
+
+    void join()
+    {
         m_running = false;
         m_tasks.join();
         for (auto &w : m_workers)
@@ -202,7 +206,7 @@ public:
     ~thread_pool()
     {
         if (m_running)
-            this->shutdown();
+            this->join();
     }
 
 private:
