@@ -79,29 +79,13 @@ public:
     std::future<Ret> push(Func &&func, Args &&...args)
     {
         std::unique_lock<std::mutex> lock(m_mutex);
-        while (m_capacity == 0 ? false : m_tasks.size() >= m_capacity)
-            m_full.wait(lock);
-
         if (m_joined.load())
             throw std::runtime_error("JOINED_QUEUE: can't submit more tasks");
 
-        // push task into the queue
-        std ::function<Ret(void)> aux_func =
-            std::bind(std::forward<Func>(func), std::forward<Args>(args)...);
+        while (m_capacity == 0 ? false : m_tasks.size() >= m_capacity)
+            m_full.wait(lock);
 
-        auto promise = std::make_shared<std::promise<Ret>>();
-
-        // make a void(void) function and store the result in a promise
-        auto task = [promise, aux_func]() mutable {
-            promise->set_value(aux_func());
-        };
-
-        m_tasks.push(task);
-
-        m_empty.notify_one();
-        lock.unlock();
-
-        return promise->get_future();
+        return make_task(std::forward<Func>(func), std::forward<Args>(args)...);
     }
 
     /**
@@ -120,25 +104,10 @@ public:
         if (m_joined.load())
             throw std::runtime_error("JOINED_QUEUE: can't submit more tasks");
 
-        while (m_capacity == 0 ? false : m_tasks.size() >= m_capacity)
+        if (m_capacity == 0 ? false : m_tasks.size() >= m_capacity)
             throw std::runtime_error("FULL_QUEUE: submission failed");
 
-        // push task into the queue
-        std ::function<Ret(void)> aux_func =
-            std::bind(std::forward<Func>(func), std::forward<Args>(args)...);
-
-        auto promise = std::make_shared<std::promise<Ret>>();
-
-        // make a void(void) function and store the result in a promise
-        auto task = [promise, aux_func]() mutable {
-            promise->set_value(aux_func());
-        };
-
-        m_tasks.push(task);
-        m_empty.notify_one();
-        lock.unlock();
-
-        return promise->get_future();
+        return make_task(std::forward<Func>(func), std::forward<Args>(args)...);
     }
 
     /**
@@ -197,6 +166,36 @@ public:
     ~task_queue()
     {
         join();
+    }
+
+private:
+    template <typename Func, typename... Args,
+              typename Ret = typename std::invoke_result<Func, Args...>::type>
+    std::future<Ret> make_task(Func &&func, Args &&...args)
+    {
+        // push task into the queue
+        std ::function<Ret(void)> aux_func =
+            std::bind(std::forward<Func>(func), std::forward<Args>(args)...);
+
+        auto promise = std::make_shared<std::promise<Ret>>();
+
+        // make a void(void) function and store the result in a promise
+        auto task = [promise, aux_func]() mutable {
+            try
+            {
+                promise->set_value(aux_func());
+            }
+            catch (...)
+            {
+                promise->set_exception(std::current_exception());
+            }
+        };
+
+        m_tasks.push(task);
+
+        m_empty.notify_one();
+
+        return promise->get_future();
     }
 
 private:
