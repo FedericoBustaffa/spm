@@ -1,12 +1,9 @@
 #ifndef THREAD_POOL_HPP
 #define THREAD_POOL_HPP
 
-#include <condition_variable>
 #include <functional>
 #include <future>
-#include <mutex>
 #include <optional>
-#include <queue>
 #include <thread>
 #include <vector>
 
