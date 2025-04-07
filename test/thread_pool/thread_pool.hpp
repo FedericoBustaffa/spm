@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "task_queue.hpp"
+
 class thread_pool
 {
 public:
