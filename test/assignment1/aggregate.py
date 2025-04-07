@@ -33,4 +33,5 @@ if __name__ == "__main__":
     for k in dfs.keys():
         df = pd.DataFrame(dfs[k])
         df.sort_values(by="elements", inplace=True)
-        df.to_csv(f"results/{k}.csv", index=False, header=True, float_format="%g")
+        df.to_csv(f"results/{k}.csv", index=False,
+                  header=True, float_format="%g")
