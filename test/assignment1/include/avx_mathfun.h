@@ -40,7 +40,9 @@ typedef __m256 v8sf;  // vector of 8 float (avx)
 typedef __m256i v8si; // vector of 8 int   (avx)
 typedef __m128i v4si; // vector of 8 int   (avx)
 
-#define _PI32AVX_CONST(Name, Val) static const ALIGN32_BEG int _pi32avx_##Name[4] ALIGN32_END = {Val, Val, Val, Val}
+#define _PI32AVX_CONST(Name, Val)                                              \
+    static const ALIGN32_BEG int _pi32avx_##Name[4] ALIGN32_END = {Val, Val,   \
+                                                                   Val, Val}
 
 _PI32AVX_CONST(1, 1);
 _PI32AVX_CONST(inv1, ~1);
@@ -48,12 +50,15 @@ _PI32AVX_CONST(2, 2);
 _PI32AVX_CONST(4, 4);
 
 /* declare some AVX constants -- why can't I figure a better way to do that? */
-#define _PS256_CONST(Name, Val)                                                                                        \
-    static const ALIGN32_BEG float _ps256_##Name[8] ALIGN32_END = {Val, Val, Val, Val, Val, Val, Val, Val}
-#define _PI32_CONST256(Name, Val)                                                                                      \
-    static const ALIGN32_BEG int _pi32_256_##Name[8] ALIGN32_END = {Val, Val, Val, Val, Val, Val, Val, Val}
-#define _PS256_CONST_TYPE(Name, Type, Val)                                                                             \
-    static const ALIGN32_BEG Type _ps256_##Name[8] ALIGN32_END = {Val, Val, Val, Val, Val, Val, Val, Val}
+#define _PS256_CONST(Name, Val)                                                \
+    static const ALIGN32_BEG float _ps256_##Name[8] ALIGN32_END = {            \
+        Val, Val, Val, Val, Val, Val, Val, Val}
+#define _PI32_CONST256(Name, Val)                                              \
+    static const ALIGN32_BEG int _pi32_256_##Name[8] ALIGN32_END = {           \
+        Val, Val, Val, Val, Val, Val, Val, Val}
+#define _PS256_CONST_TYPE(Name, Type, Val)                                     \
+    static const ALIGN32_BEG Type _ps256_##Name[8] ALIGN32_END = {             \
+        Val, Val, Val, Val, Val, Val, Val, Val}
 
 _PS256_CONST(1, 1.0f);
 _PS256_CONST(0p5, 0.5f);
@@ -92,52 +97,52 @@ typedef union imm_xmm_union {
     v4si xmm[2];
 } imm_xmm_union;
 
-#define COPY_IMM_TO_XMM(imm_, xmm0_, xmm1_)                                                                            \
-    {                                                                                                                  \
-        imm_xmm_union u __attribute__((aligned(32)));                                                                  \
-        u.imm = imm_;                                                                                                  \
-        xmm0_ = u.xmm[0];                                                                                              \
-        xmm1_ = u.xmm[1];                                                                                              \
+#define COPY_IMM_TO_XMM(imm_, xmm0_, xmm1_)                                    \
+    {                                                                          \
+        imm_xmm_union u __attribute__((aligned(32)));                          \
+        u.imm = imm_;                                                          \
+        xmm0_ = u.xmm[0];                                                      \
+        xmm1_ = u.xmm[1];                                                      \
     }
 
-#define COPY_XMM_TO_IMM(xmm0_, xmm1_, imm_)                                                                            \
-    {                                                                                                                  \
-        imm_xmm_union u __attribute__((aligned(32)));                                                                  \
-        u.xmm[0] = xmm0_;                                                                                              \
-        u.xmm[1] = xmm1_;                                                                                              \
-        imm_ = u.imm;                                                                                                  \
+#define COPY_XMM_TO_IMM(xmm0_, xmm1_, imm_)                                    \
+    {                                                                          \
+        imm_xmm_union u __attribute__((aligned(32)));                          \
+        u.xmm[0] = xmm0_;                                                      \
+        u.xmm[1] = xmm1_;                                                      \
+        imm_ = u.imm;                                                          \
     }
 
-#define AVX2_BITOP_USING_SSE2(fn)                                                                                      \
-    static inline v8si avx2_mm256_##fn(v8si x, int a)                                                                  \
-    {                                                                                                                  \
-        /* use SSE2 instruction to perform the bitop AVX2 */                                                           \
-        v4si x1, x2;                                                                                                   \
-        v8si ret;                                                                                                      \
-        COPY_IMM_TO_XMM(x, x1, x2);                                                                                    \
-        x1 = _mm_##fn(x1, a);                                                                                          \
-        x2 = _mm_##fn(x2, a);                                                                                          \
-        COPY_XMM_TO_IMM(x1, x2, ret);                                                                                  \
-        return (ret);                                                                                                  \
+#define AVX2_BITOP_USING_SSE2(fn)                                              \
+    static inline v8si avx2_mm256_##fn(v8si x, int a)                          \
+    {                                                                          \
+        /* use SSE2 instruction to perform the bitop AVX2 */                   \
+        v4si x1, x2;                                                           \
+        v8si ret;                                                              \
+        COPY_IMM_TO_XMM(x, x1, x2);                                            \
+        x1 = _mm_##fn(x1, a);                                                  \
+        x2 = _mm_##fn(x2, a);                                                  \
+        COPY_XMM_TO_IMM(x1, x2, ret);                                          \
+        return (ret);                                                          \
     }
 
 // #warning "Using SSE2 to perform AVX2 bitshift ops"
 AVX2_BITOP_USING_SSE2(slli_epi32)
 AVX2_BITOP_USING_SSE2(srli_epi32)
 
-#define AVX2_INTOP_USING_SSE2(fn)                                                                                      \
-    static inline v8si avx2_mm256_##fn(v8si x, v8si y)                                                                 \
-    {                                                                                                                  \
-        /* use SSE2 instructions to perform the AVX2 integer operation */                                              \
-        v4si x1, x2;                                                                                                   \
-        v4si y1, y2;                                                                                                   \
-        v8si ret;                                                                                                      \
-        COPY_IMM_TO_XMM(x, x1, x2);                                                                                    \
-        COPY_IMM_TO_XMM(y, y1, y2);                                                                                    \
-        x1 = _mm_##fn(x1, y1);                                                                                         \
-        x2 = _mm_##fn(x2, y2);                                                                                         \
-        COPY_XMM_TO_IMM(x1, x2, ret);                                                                                  \
-        return (ret);                                                                                                  \
+#define AVX2_INTOP_USING_SSE2(fn)                                              \
+    static inline v8si avx2_mm256_##fn(v8si x, v8si y)                         \
+    {                                                                          \
+        /* use SSE2 instructions to perform the AVX2 integer operation */      \
+        v4si x1, x2;                                                           \
+        v4si y1, y2;                                                           \
+        v8si ret;                                                              \
+        COPY_IMM_TO_XMM(x, x1, x2);                                            \
+        COPY_IMM_TO_XMM(y, y1, y2);                                            \
+        x1 = _mm_##fn(x1, y1);                                                 \
+        x2 = _mm_##fn(x2, y2);                                                 \
+        COPY_XMM_TO_IMM(x1, x2, ret);                                          \
+        return (ret);                                                          \
     }
 
 // #warning "Using SSE2 to perform AVX2 integer ops"
@@ -169,7 +174,8 @@ v8sf log256_ps(v8sf x)
     // v8sf invalid_mask = _mm256_cmple_ps(x, _mm256_setzero_ps());
     v8sf invalid_mask = _mm256_cmp_ps(x, _mm256_setzero_ps(), _CMP_LE_OS);
 
-    x = _mm256_max_ps(x, *(v8sf *)_ps256_min_norm_pos); /* cut off denormalized stuff */
+    x = _mm256_max_ps(
+        x, *(v8sf *)_ps256_min_norm_pos); /* cut off denormalized stuff */
 
     // can be done with AVX2
     imm0 = avx2_mm256_srli_epi32(_mm256_castps_si256(x), 23);
@@ -571,8 +577,9 @@ v8sf cos256_ps(v8sf x)
     return y;
 }
 
-/* since sin256_ps and cos256_ps are almost identical, sincos256_ps could replace both of them..
-   it is almost as fast, and gives you a free cosine with your sine */
+/* since sin256_ps and cos256_ps are almost identical, sincos256_ps could
+   replace both of them.. it is almost as fast, and gives you a free cosine with
+   your sine */
 void sincos256_ps(v8sf x, v8sf *s, v8sf *c)
 {
     v8sf xmm1, xmm2, xmm3 = _mm256_setzero_ps(), sign_bit_sin, y;

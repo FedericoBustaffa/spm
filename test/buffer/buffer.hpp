@@ -4,7 +4,8 @@
 #include <condition_variable>
 #include <mutex>
 
-template <typename T> class buffer
+template <typename T>
+class buffer
 {
 public:
     buffer(size_t capacity) : m_size(0), m_capacity(capacity)

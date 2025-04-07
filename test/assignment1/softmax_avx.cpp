@@ -118,7 +118,8 @@ void softmax_avx(const float *input, float *output, size_t K)
     div_avx(output, K, sum);
 }
 
-std::vector<float> generate_random_input(size_t K, float min = -1.0f, float max = 1.0f)
+std::vector<float> generate_random_input(size_t K, float min = -1.0f,
+                                         float max = 1.0f)
 {
     std::vector<float> input(K);
     // std::random_device rd;

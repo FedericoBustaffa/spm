@@ -10,7 +10,8 @@ void produce(buffer<int> *b)
 {
     for (int i = 0; i < N; i++)
     {
-        std::cout << "produced: " << i << " from " << std::this_thread::get_id() << std::endl;
+        std::cout << "produced: " << i << " from " << std::this_thread::get_id()
+                  << std::endl;
         b->push(i);
     }
 }
@@ -19,7 +20,8 @@ void consume(buffer<int> *b)
 {
     for (int i = 0; i < N; i++)
     {
-        std::cout << "consumed: " << i << " from " << std::this_thread::get_id() << std::endl;
+        std::cout << "consumed: " << i << " from " << std::this_thread::get_id()
+                  << std::endl;
         b->pop();
     }
 }

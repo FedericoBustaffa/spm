@@ -95,8 +95,10 @@ int main(int argc, const char **argv)
     std::chrono::duration<double> avx_aligned = end - start;
     std::printf("avx aligned elapsed time: %f seconds\n", avx_aligned.count());
 
-    std::printf("plain to avx unaligned speed-up: %f\n", plain.count() / avx.count());
-    std::printf("plain to avx aligned speed-up: %f\n", plain.count() / avx_aligned.count());
+    std::printf("plain to avx unaligned speed-up: %f\n",
+                plain.count() / avx.count());
+    std::printf("plain to avx aligned speed-up: %f\n",
+                plain.count() / avx_aligned.count());
 
     delete[] a;
     delete[] b;

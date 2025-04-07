@@ -9,52 +9,56 @@
 #endif
 
 #ifndef __CUDACC__
-#define TIMERSTART(label)                                                                                              \
-    std::chrono::time_point<std::chrono::system_clock> a##label, b##label;                                             \
+#define TIMERSTART(label)                                                      \
+    std::chrono::time_point<std::chrono::system_clock> a##label, b##label;     \
     a##label = std::chrono::system_clock::now();
 
 #else
-#define TIMERSTART(label)                                                                                              \
-    cudaEvent_t start##label, stop##label;                                                                             \
-    float time##label;                                                                                                 \
-    cudaEventCreate(&start##label);                                                                                    \
-    cudaEventCreate(&stop##label);                                                                                     \
+#define TIMERSTART(label)                                                      \
+    cudaEvent_t start##label, stop##label;                                     \
+    float time##label;                                                         \
+    cudaEventCreate(&start##label);                                            \
+    cudaEventCreate(&stop##label);                                             \
     cudaEventRecord(start##label, 0);
 #endif
 
 #ifndef __CUDACC__
-#define TIMERSTOP(label)                                                                                               \
-    b##label = std::chrono::system_clock::now();                                                                       \
-    std::chrono::duration<double> delta##label = b##label - a##label;                                                  \
-    std::cout << "# elapsed time (" << #label << "): " << delta##label.count() << "s" << std::endl;
+#define TIMERSTOP(label)                                                       \
+    b##label = std::chrono::system_clock::now();                               \
+    std::chrono::duration<double> delta##label = b##label - a##label;          \
+    std::cout << "# elapsed time (" << #label << "): " << delta##label.count() \
+              << "s" << std::endl;
 
-#define TIMERSUM(label1, label2)                                                                                       \
-    std::chrono::duration<double> s##label1##label2 = delta##label1 + delta##label2;                                   \
-    std::cout << "# elapsed time (" << #label1 << "+" << #label2 << "): " << s##label1##label2.count() << "s"          \
-              << std::endl;
+#define TIMERSUM(label1, label2)                                               \
+    std::chrono::duration<double> s##label1##label2 =                          \
+        delta##label1 + delta##label2;                                         \
+    std::cout << "# elapsed time (" << #label1 << "+" << #label2               \
+              << "): " << s##label1##label2.count() << "s" << std::endl;
 
 #else
-#define TIMERSTOP(label)                                                                                               \
-    cudaEventRecord(stop##label, 0);                                                                                   \
-    cudaEventSynchronize(stop##label);                                                                                 \
-    cudaEventElapsedTime(&time##label, start##label, stop##label);                                                     \
-    std::cout << "TIMING: " << time##label << " ms (" << #label << ")" << std::endl;
+#define TIMERSTOP(label)                                                       \
+    cudaEventRecord(stop##label, 0);                                           \
+    cudaEventSynchronize(stop##label);                                         \
+    cudaEventElapsedTime(&time##label, start##label, stop##label);             \
+    std::cout << "TIMING: " << time##label << " ms (" << #label << ")"         \
+              << std::endl;
 
-#define TIMERSUM(label1, label2)                                                                                       \
-    std::cout << "(" << #label1 << "+" << #label2 << "): " << (time##label1 + time##label2) << "s" << std::endl;
+#define TIMERSUM(label1, label2)                                               \
+    std::cout << "(" << #label1 << "+" << #label2                              \
+              << "): " << (time##label1 + time##label2) << "s" << std::endl;
 
 #endif
 
 #ifdef __CUDACC__
-#define CUERR                                                                                                          \
-    {                                                                                                                  \
-        cudaError_t err;                                                                                               \
-        if ((err = cudaGetLastError()) != cudaSuccess)                                                                 \
-        {                                                                                                              \
-            std::cout << "CUDA error: " << cudaGetErrorString(err) << " : " << __FILE__ << ", line " << __LINE__       \
-                      << std::endl;                                                                                    \
-            exit(1);                                                                                                   \
-        }                                                                                                              \
+#define CUERR                                                                  \
+    {                                                                          \
+        cudaError_t err;                                                       \
+        if ((err = cudaGetLastError()) != cudaSuccess)                         \
+        {                                                                      \
+            std::cout << "CUDA error: " << cudaGetErrorString(err) << " : "    \
+                      << __FILE__ << ", line " << __LINE__ << std::endl;       \
+            exit(1);                                                           \
+        }                                                                      \
     }
 
 // transfer constants
@@ -70,7 +74,8 @@
 // no_init_t
 #include <type_traits>
 
-template <class T> class no_init_t
+template <class T>
+class no_init_t
 {
 public:
     static_assert(std::is_fundamental<T>::value && std::is_arithmetic<T>::value,
