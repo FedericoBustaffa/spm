@@ -19,9 +19,7 @@ public:
      *
      * @param capacity the capacity of the queue.
      */
-    task_queue(size_t capacity) : m_joined(false), m_capacity(capacity)
-    {
-    }
+    task_queue(size_t capacity) : m_joined(false), m_capacity(capacity) {}
 
     /**
      * @brief Returns the number of tasks in the queue.
@@ -61,10 +59,7 @@ public:
      * @brief Returns the capacity of the queue.
      *
      */
-    inline size_t capacity() const
-    {
-        return m_capacity;
-    }
+    inline size_t capacity() const { return m_capacity; }
 
     /**
      * @brief Push a task into the queue and returns a future to handle the
@@ -76,7 +71,7 @@ public:
      */
     template <typename Func, typename... Args,
               typename Ret = typename std::invoke_result<Func, Args...>::type>
-    std::future<Ret> push(Func &&func, Args &&...args)
+    std::future<Ret> push(Func&& func, Args&&... args)
     {
         std::unique_lock<std::mutex> lock(m_mutex);
         if (m_joined.load())
@@ -98,7 +93,7 @@ public:
      */
     template <typename Func, typename... Args,
               typename Ret = typename std::invoke_result<Func, Args...>::type>
-    std::future<Ret> push_async(Func &&func, Args &&...args)
+    std::future<Ret> push_async(Func&& func, Args&&... args)
     {
         std::unique_lock<std::mutex> lock(m_mutex);
         if (m_joined.load())
@@ -140,10 +135,7 @@ public:
      * @return true if the queue has already joined.
      * @return false otherwise.
      */
-    inline bool is_joined() const
-    {
-        return m_joined.load();
-    }
+    inline bool is_joined() const { return m_joined.load(); }
 
     /**
      * @brief Join the queue and notifies all the other threads waiting on
@@ -163,15 +155,12 @@ public:
      * @brief Destroy the task queue object and calls `join` method.
      *
      */
-    ~task_queue()
-    {
-        join();
-    }
+    ~task_queue() { join(); }
 
 private:
     template <typename Func, typename... Args,
               typename Ret = typename std::invoke_result<Func, Args...>::type>
-    std::future<Ret> make_task(Func &&func, Args &&...args)
+    std::future<Ret> make_task(Func&& func, Args&&... args)
     {
         // push task into the queue
         std ::function<Ret(void)> aux_func =

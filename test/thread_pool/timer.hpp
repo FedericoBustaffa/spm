@@ -6,10 +6,7 @@
 class timer
 {
 public:
-    void start()
-    {
-        start_tp = std::chrono::high_resolution_clock::now();
-    }
+    void start() { start_tp = std::chrono::high_resolution_clock::now(); }
 
     double stop()
     {

@@ -26,18 +26,18 @@ double sum(double a, double b)
 }
 
 template <typename T, typename Func, typename... Args>
-std::vector<T> map(Func &&func, const std::vector<T> &v)
+std::vector<T> map(Func&& func, const std::vector<T>& v)
 {
     std::vector<T> res;
     res.reserve(v.size());
 
-    for (const auto &i : v)
+    for (const auto& i : v)
         res.push_back(func(i));
 
     return res;
 }
 
-int main(int argc, const char **argv)
+int main(int argc, const char** argv)
 {
     size_t vec_size = 1000;
     size_t chunksize = vec_size / std::thread::hardware_concurrency();

@@ -13,17 +13,11 @@ public:
         m_buffer = new T[capacity];
     }
 
-    inline size_t size() const
-    {
-        return m_size;
-    }
+    inline size_t size() const { return m_size; }
 
-    inline size_t capacity() const
-    {
-        return m_capacity;
-    }
+    inline size_t capacity() const { return m_capacity; }
 
-    void push(const T &element)
+    void push(const T& element)
     {
         std::unique_lock<std::mutex> lock(m_mtx);
         while (m_size >= m_capacity)
@@ -48,15 +42,12 @@ public:
         return element;
     }
 
-    ~buffer()
-    {
-        delete[] m_buffer;
-    }
+    ~buffer() { delete[] m_buffer; }
 
 private:
     size_t m_size;
     size_t m_capacity;
-    T *m_buffer;
+    T* m_buffer;
 
     // thread-safety
     std::mutex m_mtx;

@@ -35,7 +35,7 @@ void parallel_generation(size_t n, size_t m)
     for (size_t i = 0; i < n; i++)
         results.push_back(pool.submit(generate_vector, m));
 
-    for (auto &r : results)
+    for (auto& r : results)
         auto v = r.get();
 }
 
@@ -48,7 +48,7 @@ void parallel_generation_async(size_t n, size_t m)
     for (size_t i = 0; i < n; i++)
         results.push_back(pool.submit_async(generate_vector, m));
 
-    for (auto &r : results)
+    for (auto& r : results)
         auto v = r.get();
 }
 
@@ -71,7 +71,7 @@ void dummy_test(size_t n)
         results[i].get();
 }
 
-int main(int argc, const char **argv)
+int main(int argc, const char** argv)
 {
     size_t n = 10000;
     size_t m = 10000;

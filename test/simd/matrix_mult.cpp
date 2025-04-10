@@ -1,50 +1,43 @@
 #include <cassert>
 #include <immintrin.h>
-#include <iostream>
 #include <random>
 
 #include "matrix.hpp"
 #include "timer.hpp"
 
-void init(matrix &m)
+void init(matrix& m)
 {
     std::mt19937 engine(42);
     std::uniform_real_distribution<float> dist(0.0f, 10.0f);
+
     for (size_t i = 0; i < m.rows(); i++)
         for (size_t j = 0; j < m.cols(); j++)
             m(i, j) = dist(engine);
 }
 
-matrix naive_mm(const matrix &a, const matrix &b)
+matrix naive_mm(const matrix& a, const matrix& b)
 {
     assert(a.cols() == b.rows());
     matrix c(a.rows(), b.cols());
 
     for (size_t i = 0; i < a.rows(); ++i)
-    {
         for (size_t j = 0; j < b.cols(); ++j)
-        {
             for (size_t k = 0; k < a.cols(); ++k)
                 c(i, j) += a(i, k) * b(k, j);
-        }
-    }
 
     return c;
 }
 
-matrix transpose_mm(const matrix &a, const matrix &b)
+matrix transpose_mm(const matrix& a, const matrix& b)
 {
     assert(a.cols() == b.rows());
     matrix res(a.rows(), b.cols());
     matrix bt = b.transpose();
+
     for (size_t i = 0; i < a.rows(); i++)
-    {
         for (size_t j = 0; j < bt.rows(); j++)
-        {
             for (size_t k = 0; k < a.cols(); k++)
                 res(i, j) += a(i, k) * bt(j, k);
-        }
-    }
 
     return res;
 }
@@ -53,8 +46,9 @@ inline float hsum_sse3(__m128 v)
 {
     __m128 shuf = _mm_movehdup_ps(v);  // broadcast elements 3,1 to 2,0
     __m128 maxs = _mm_add_ps(v, shuf); // adds the four SP FP values
-    shuf = _mm_movehl_ps(shuf, maxs);  // moves the upper two SP FP values of shuf to the lower two
-                                       // SP FP values of the result.
+    shuf = _mm_movehl_ps(shuf,
+                         maxs); // moves the upper two SP FP values of shuf to
+                                // the lower two SP FP values of the result.
 
     // adds the lower SP FP values of maxs and shuf; the upper three
     // SP FP values are passed through from maxs
@@ -73,7 +67,7 @@ inline float hsum_avx(__m256 v)
     return hsum_sse3(lo); // and inline the sse3 version
 }
 
-matrix avx_mm(const matrix &a, const matrix &b)
+matrix avx_mm(const matrix& a, const matrix& b)
 {
     assert(a.cols() == b.rows());
     matrix c(a.rows(), b.cols());
@@ -97,7 +91,7 @@ matrix avx_mm(const matrix &a, const matrix &b)
     return c;
 }
 
-int main(int argc, const char **argv)
+int main(int argc, const char** argv)
 {
     size_t n = 512;
     if (argc == 2)

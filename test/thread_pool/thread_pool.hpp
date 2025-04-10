@@ -48,20 +48,14 @@ public:
      *
      * @return size_t
      */
-    inline size_t size() const
-    {
-        return m_workers.size();
-    }
+    inline size_t size() const { return m_workers.size(); }
 
     /**
      * @brief Returns the capacity of the task queue.
      *
      * @return size_t
      */
-    inline size_t queue_capacity() const
-    {
-        return m_tasks.capacity();
-    }
+    inline size_t queue_capacity() const { return m_tasks.capacity(); }
 
     /**
      * @brief Submits a task and returns a future to handle the result. If the
@@ -73,7 +67,7 @@ public:
      */
     template <typename Func, typename... Args,
               typename Ret = typename std::result_of<Func(Args...)>::type>
-    std::future<Ret> submit(Func &&func, Args &&...args)
+    std::future<Ret> submit(Func&& func, Args&&... args)
     {
         return m_tasks.push(std::forward<Func>(func),
                             std::forward<Args>(args)...);
@@ -89,7 +83,7 @@ public:
      */
     template <typename Func, typename... Args,
               typename Ret = typename std::result_of<Func(Args...)>::type>
-    std::future<Ret> submit_async(Func &&func, Args &&...args)
+    std::future<Ret> submit_async(Func&& func, Args&&... args)
     {
         return m_tasks.push_async(std::forward<Func>(func),
                                   std::forward<Args>(args)...);
@@ -106,13 +100,13 @@ public:
      * @return a `std::future` containing the result vector
      */
     template <typename Func, typename T>
-    std::future<std::vector<T>> map_async(Func &&func, const std::vector<T> &v,
+    std::future<std::vector<T>> map_async(Func&& func, const std::vector<T>& v,
                                           size_t chunksize = 1)
     {
         size_t chunks = (v.size() + chunksize - 1) / chunksize;
 
         // compute the function on the given chunk
-        auto chunked_func = [&v, &func](std::vector<T> *result, size_t chunk,
+        auto chunked_func = [&v, &func](std::vector<T>* result, size_t chunk,
                                         size_t chunksize) mutable {
             size_t start = chunk * chunksize;
             size_t stop = chunk * chunksize + chunksize;
@@ -132,7 +126,7 @@ public:
             for (size_t i = 0; i < chunks; i++)
                 futures.push_back(submit(chunked_func, &result, i, chunksize));
 
-            for (auto &f : futures)
+            for (auto& f : futures)
                 f.get();
 
             return result;
@@ -152,7 +146,7 @@ public:
      * @return a new `std::vector<T>` containing the result
      */
     template <typename Func, typename T>
-    std::vector<T> map(Func &&func, const std::vector<T> &v,
+    std::vector<T> map(Func&& func, const std::vector<T>& v,
                        size_t chunksize = 1)
     {
         auto future = map_async(std::forward<Func>(func), v, chunksize);
@@ -178,7 +172,7 @@ public:
     void join()
     {
         shutdown();
-        for (auto &w : m_workers)
+        for (auto& w : m_workers)
             w.join();
     }
 

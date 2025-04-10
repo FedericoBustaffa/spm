@@ -6,7 +6,7 @@
 
 #define N 100
 
-void produce(buffer<int> *b)
+void produce(buffer<int>* b)
 {
     for (int i = 0; i < N; i++)
     {
@@ -16,7 +16,7 @@ void produce(buffer<int> *b)
     }
 }
 
-void consume(buffer<int> *b)
+void consume(buffer<int>* b)
 {
     for (int i = 0; i < N; i++)
     {
@@ -26,7 +26,7 @@ void consume(buffer<int> *b)
     }
 }
 
-int main(int argc, const char **argv)
+int main(int argc, const char** argv)
 {
     std::vector<std::thread> producers, consumers;
     buffer<int> b(1);
