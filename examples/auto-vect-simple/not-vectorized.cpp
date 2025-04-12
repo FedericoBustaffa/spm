@@ -1,32 +1,38 @@
-#include <vector>
 #include <iostream>
+#include <vector>
 
 // Perform element-wise addition: A[i][j] += B[i][j]
-void inline matrix_add(float * __restrict__ A, float * __restrict__ B, int rows, int cols) {
+void inline matrix_add(float* __restrict__ A, float* __restrict__ B, int rows,
+                       int cols)
+{
 #if 1
-    for (int i = 0; i < rows; ++i) {
+    for (int i = 0; i < rows; ++i)
+    {
 #pragma GCC ivdep
-        for (int j = 0; j < cols; ++j) {
+        for (int j = 0; j < cols; ++j)
+        {
             int idx = i * cols + j;
             A[idx] += B[idx];
         }
     }
 #endif
-    int n= rows*cols;    
-    for (int i = 0; i < n; ++i) {
-      A[i] += B[i];
+    int n = rows * cols;
+    for (int i = 0; i < n; ++i)
+    {
+        A[i] += B[i];
     }
-    
 }
 
-int main() {
+int main()
+{
     const int rows = 100;
     const int cols = 50;
     // Allocate separate blocks for matrices A and B to remove aliasing.
-    std::vector<float> A(rows*cols);
-    std::vector<float> B(rows*cols);
+    std::vector<float> A(rows * cols);
+    std::vector<float> B(rows * cols);
 
-    for (int i = 0; i < rows * cols; ++i) {
+    for (int i = 0; i < rows * cols; ++i)
+    {
         A[i] = i * 0.1;
         B[i] = i * 0.2;
     }

@@ -1,5 +1,3 @@
 #include "f.hpp"
 
-int f(int x) {
-  return(x % 2);
-}
+int f(int x) { return (x % 2); }
