@@ -56,7 +56,7 @@ int main(int argc, const char** argv)
     if (argc >= 5)
         queue_capacity = std::atol(argv[4]);
 
-    timer t;
+    Timer t;
     std::vector<double> v = generate_vector(vec_size);
 
     auto partial_sum = std::bind(sum, 10.0, std::placeholders::_1);
