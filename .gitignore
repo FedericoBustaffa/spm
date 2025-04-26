@@ -23,7 +23,6 @@ build/
 *.cmake
 .cache/
 *.in
-compile_commands.json
 
 # Sistema operativo
 .DS_Store
