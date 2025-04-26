@@ -1,13 +1,10 @@
 #include <algorithm>
-#include <iostream>
-#include <limits>
 #include <random>
-#include <vector>
 
 #include "avx_mathfun.h"
 #include "hpc_helpers.hpp"
 
-float max_avx(const float *input, size_t K)
+float max_avx(const float* input, size_t K)
 {
     int8_t carry = K % 8;
 
@@ -16,28 +13,20 @@ float max_avx(const float *input, size_t K)
     for (size_t i = 8; i < K - carry; i += 8)
     {
         __m256 v = _mm256_loadu_ps(&input[i]);
-        // __m256 mask = _mm256_cmp_ps(v, vmax, _CMP_GT_OS);
-        // vmax = _mm256_blendv_ps(v, vmax, mask);
         vmax = _mm256_max_ps(v, vmax);
     }
 
     // reduce the vmax vector to 4 floats
     __m128 lo = _mm256_castps256_ps128(vmax);
     __m128 hi = _mm256_extractf128_ps(vmax, 1);
-    // __m128 mask = _mm_cmp_ps(lo, hi, _CMP_GT_OS);
-    // lo = _mm_blendv_ps(lo, hi, mask);
     lo = _mm_max_ps(lo, hi);
 
     // reduce the lo vector to 2 floats
     __m128 shuf = _mm_movehdup_ps(lo);
-    // mask = _mm_cmp_ps(lo, shuf, _CMP_GT_OS);
-    // lo = _mm_blendv_ps(lo, shuf, mask);
     lo = _mm_max_ps(lo, shuf);
 
     // extract the max from the last 2 elements
     shuf = _mm_movehl_ps(shuf, lo);
-    // mask = _mm_cmp_ps(lo, shuf, _CMP_GT_OS);
-    // lo = _mm_blendv_ps(lo, shuf, mask);
     lo = _mm_max_ps(lo, shuf);
     float max_val = _mm_cvtss_f32(lo);
 
@@ -63,7 +52,7 @@ float hsum256_ps(__m256 v)
     return _mm_cvtss_f32(maxs);
 }
 
-float expsum_avx(const float *input, float *output, size_t K, float max_val)
+float expsum_avx(const float* input, float* output, size_t K, float max_val)
 {
     __m256 vsum = _mm256_setzero_ps();
     __m256 vmax = _mm256_set1_ps(max_val);
@@ -90,7 +79,7 @@ float expsum_avx(const float *input, float *output, size_t K, float max_val)
     return sum;
 }
 
-void div_avx(float *output, size_t K, float sum)
+void div_avx(float* output, size_t K, float sum)
 {
     int8_t carry = K % 8;
     __m256 vsum = _mm256_set1_ps(sum);
@@ -106,7 +95,7 @@ void div_avx(float *output, size_t K, float sum)
         output[i] /= sum;
 }
 
-void softmax_avx(const float *input, float *output, size_t K)
+void softmax_avx(const float* input, float* output, size_t K)
 {
     // Find the maximum to stabilize the computation of the exponential
     float max_val = max_avx(input, K);
@@ -122,8 +111,6 @@ std::vector<float> generate_random_input(size_t K, float min = -1.0f,
                                          float max = 1.0f)
 {
     std::vector<float> input(K);
-    // std::random_device rd;
-    // std::mt19937 gen(rd());
     std::mt19937 gen(5489); // fixed seed for reproducible results
     std::uniform_real_distribution<float> dis(min, max);
     for (size_t i = 0; i < K; ++i)
@@ -133,7 +120,7 @@ std::vector<float> generate_random_input(size_t K, float min = -1.0f,
     return input;
 }
 
-void printResult(std::vector<float> &v, size_t K)
+void printResult(std::vector<float>& v, size_t K)
 {
     for (size_t i = 0; i < K; ++i)
     {
@@ -141,7 +128,7 @@ void printResult(std::vector<float> &v, size_t K)
     }
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     if (argc == 1)
     {
