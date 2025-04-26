@@ -1,0 +1,36 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Wall",
+      "-std=c++17",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "submit.out",
+      "submit.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/test/thread_pool",
+    "file": "/home/federico/dev/cpp/spm/test/thread_pool/submit.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/thread_pool/submit.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Wall",
+      "-std=c++17",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "map.out",
+      "map.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/test/thread_pool",
+    "file": "/home/federico/dev/cpp/spm/test/thread_pool/map.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/thread_pool/map.out"
+  }
+]

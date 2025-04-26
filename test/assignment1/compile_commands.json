@@ -1,0 +1,58 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I.",
+      "-I./include",
+      "-std=c++17",
+      "-Wall",
+      "-fopt-info-vec-missed",
+      "-O3",
+      "-march=native",
+      "-ffast-math",
+      "-o",
+      "softmax_auto.out",
+      "softmax_auto.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/test/assignment1",
+    "file": "/home/federico/dev/cpp/spm/test/assignment1/softmax_auto.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/assignment1/softmax_auto.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I.",
+      "-I./include",
+      "-std=c++17",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-mavx",
+      "-o",
+      "softmax_avx.out",
+      "softmax_avx.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/test/assignment1",
+    "file": "/home/federico/dev/cpp/spm/test/assignment1/softmax_avx.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/assignment1/softmax_avx.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I.",
+      "-I./include",
+      "-std=c++17",
+      "-Wall",
+      "-O2",
+      "-o",
+      "softmax_plain.out",
+      "softmax_plain.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/test/assignment1",
+    "file": "/home/federico/dev/cpp/spm/test/assignment1/softmax_plain.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/assignment1/softmax_plain.out"
+  }
+]

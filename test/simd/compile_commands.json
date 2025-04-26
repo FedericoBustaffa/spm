@@ -1,0 +1,107 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-std=c++14",
+      "-march=native",
+      "-mavx",
+      "-mavx2",
+      "-mfma",
+      "-O3",
+      "-o",
+      "fused_mult_add.out",
+      "fused_mult_add.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/test/simd",
+    "file": "/home/federico/dev/cpp/spm/test/simd/fused_mult_add.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/simd/fused_mult_add.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-std=c++14",
+      "-march=native",
+      "-mavx",
+      "-mavx2",
+      "-mfma",
+      "-O3",
+      "-o",
+      "matrix_mult.out",
+      "matrix_mult.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/test/simd",
+    "file": "/home/federico/dev/cpp/spm/test/simd/matrix_mult.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/simd/matrix_mult.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-std=c++14",
+      "-march=native",
+      "-mavx",
+      "-mavx2",
+      "-mfma",
+      "-O3",
+      "-o",
+      "vector_add_avx.out",
+      "vector_add_avx.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/test/simd",
+    "file": "/home/federico/dev/cpp/spm/test/simd/vector_add_avx.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/simd/vector_add_avx.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-std=c++14",
+      "-march=native",
+      "-mavx",
+      "-mavx2",
+      "-mfma",
+      "-O3",
+      "-o",
+      "predication.out",
+      "predication.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/test/simd",
+    "file": "/home/federico/dev/cpp/spm/test/simd/predication.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/simd/predication.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-std=c++14",
+      "-march=native",
+      "-mavx",
+      "-mavx2",
+      "-mfma",
+      "-O3",
+      "-o",
+      "vector_add_sse.out",
+      "vector_add_sse.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/test/simd",
+    "file": "/home/federico/dev/cpp/spm/test/simd/vector_add_sse.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/simd/vector_add_sse.out"
+  }
+]
