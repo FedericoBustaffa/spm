@@ -1,0 +1,19 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++17",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-o",
+      "matrix_mult_tiled.out",
+      "matrix_mult_tiled.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode1",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode1/matrix_mult_tiled.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode1/matrix_mult_tiled.out"
+  }
+]
