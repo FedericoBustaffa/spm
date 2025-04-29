@@ -11,12 +11,59 @@
       "-march=native",
       "-pthread",
       "-o",
+<<<<<<< HEAD
       "one_shot_alarm_clock.out",
       "one_shot_alarm_clock.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/examples/spmcode3",
     "file": "/home/federico/dev/cpp/spm/examples/spmcode3/one_shot_alarm_clock.cpp",
     "output": "/home/federico/dev/cpp/spm/examples/spmcode3/one_shot_alarm_clock.out"
+=======
+      "alarm_clock_wrong.out",
+      "alarm_clock_wrong.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode3",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode3/alarm_clock_wrong.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode3/alarm_clock_wrong.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++17",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "alarm_clock.out",
+      "alarm_clock.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode3",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode3/alarm_clock.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode3/alarm_clock.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++17",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "fibo.out",
+      "fibo.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode3",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode3/fibo.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode3/fibo.out"
+>>>>>>> refs/remotes/origin/master
   },
   {
     "arguments": [
@@ -49,12 +96,21 @@
       "-march=native",
       "-pthread",
       "-o",
+<<<<<<< HEAD
       "spawn-and-join.out",
       "spawn-and-join.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/examples/spmcode3",
     "file": "/home/federico/dev/cpp/spm/examples/spmcode3/spawn-and-join.cpp",
     "output": "/home/federico/dev/cpp/spm/examples/spmcode3/spawn-and-join.out"
+=======
+      "matrix_vector.out",
+      "matrix_vector.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode3",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode3/matrix_vector.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode3/matrix_vector.out"
+>>>>>>> refs/remotes/origin/master
   },
   {
     "arguments": [
@@ -106,6 +162,7 @@
       "-march=native",
       "-pthread",
       "-o",
+<<<<<<< HEAD
       "alarm_clock.out",
       "alarm_clock.cpp"
     ],
@@ -182,6 +239,8 @@
       "-march=native",
       "-pthread",
       "-o",
+=======
+>>>>>>> refs/remotes/origin/master
       "fiboasync.out",
       "fiboasync.cpp"
     ],
@@ -201,11 +260,58 @@
       "-march=native",
       "-pthread",
       "-o",
+<<<<<<< HEAD
       "fibo.out",
       "fibo.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/examples/spmcode3",
     "file": "/home/federico/dev/cpp/spm/examples/spmcode3/fibo.cpp",
     "output": "/home/federico/dev/cpp/spm/examples/spmcode3/fibo.out"
+=======
+      "one_shot_alarm_clock.out",
+      "one_shot_alarm_clock.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode3",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode3/one_shot_alarm_clock.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode3/one_shot_alarm_clock.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++17",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "spawn-and-join.out",
+      "spawn-and-join.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode3",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode3/spawn-and-join.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode3/spawn-and-join.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++17",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "some-cpp-features.out",
+      "some-cpp-features.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode3",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode3/some-cpp-features.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode3/some-cpp-features.out"
+>>>>>>> refs/remotes/origin/master
   }
 ]
