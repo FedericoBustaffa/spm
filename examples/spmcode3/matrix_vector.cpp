@@ -3,7 +3,7 @@
 #include <thread>
 #include <vector>
 
-#include "hpc_helpers.hpp"
+#include "include/hpc_helpers.hpp"
 
 template <typename value_t, typename index_t>
 void init(std::vector<value_t>& A, std::vector<value_t>& x, index_t m,
@@ -39,9 +39,8 @@ void cyclic_parallel_mult(std::vector<value_t>& A, // linear memory for A
                           std::vector<value_t>& b, // result vector
                           index_t m,               // number of rows
                           index_t n,               // number of cols
-                          index_t num_threads)
-{ // number of threads p
-
+                          index_t num_threads)     // number of threads p
+{
     auto cyclic = [&](const index_t& id) -> void {
         // indices are incremented with a stride of p
         for (index_t row = id; row < m; row += num_threads)
@@ -71,9 +70,8 @@ void cyclic_parallel_mult_falsesharing(
     std::vector<value_t>& b, // result vector
     index_t m,               // number of rows
     index_t n,               // number of cols
-    index_t num_threads)
-{ // number of threads p
-
+    index_t num_threads)     // number of threads p
+{
     // this  function  is  called  by the  threads
     auto cyclic = [&](const index_t& id) -> void {
         // indices are incremented with a stride of p
@@ -100,7 +98,6 @@ void block_parallel_mult(std::vector<value_t>& A, std::vector<value_t>& x,
                          std::vector<value_t>& b, index_t m, index_t n,
                          index_t num_threads = 32)
 {
-
     // this function is called by the threads
     auto block = [&](const index_t& id) -> void {
         // compute chunk size, lower and upper task id
