@@ -1,8 +1,8 @@
 /*
 A simple graphics library for CSE 20211 by Douglas Thain
 
-This work is licensed under a Creative Commons Attribution 4.0 International License.
-https://creativecommons.org/licenses/by/4.0/
+This work is licensed under a Creative Commons Attribution 4.0 International
+License. https://creativecommons.org/licenses/by/4.0/
 
 For course assignments, you should not change this file.
 For complete documentation, see:
@@ -15,7 +15,7 @@ Version 2, 9/23/2011 - Fixes a bug that could result in jerky animation.
 #define GFX_H
 
 /* Open a new graphics window. */
-void gfx_open(int width, int height, const char *title);
+void gfx_open(int width, int height, const char* title);
 
 /* Draw a point at (x,y) */
 void gfx_point(int x, int y);
@@ -54,6 +54,6 @@ void gfx_flush();
    'row' is an array of pixel values (each as a 24-bit integer),
    and 'width' is the number of pixels in the row.
 */
-void gfx_draw_row(int y, int *row, int width);
+void gfx_draw_row(int y, int* row, int width);
 
 #endif
