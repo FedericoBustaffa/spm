@@ -5,7 +5,7 @@
 #include "matrix.hpp"
 #include "timer.hpp"
 
-void init(matrix& m)
+void init(Matrix& m)
 {
     std::mt19937 engine(42);
     std::uniform_real_distribution<float> dist(0.0f, 10.0f);
@@ -15,10 +15,10 @@ void init(matrix& m)
             m(i, j) = dist(engine);
 }
 
-matrix naive_mm(const matrix& a, const matrix& b)
+Matrix naive_mm(const Matrix& a, const Matrix& b)
 {
     assert(a.cols() == b.rows());
-    matrix c(a.rows(), b.cols());
+    Matrix c(a.rows(), b.cols());
 
     for (size_t i = 0; i < a.rows(); ++i)
         for (size_t j = 0; j < b.cols(); ++j)
@@ -28,11 +28,11 @@ matrix naive_mm(const matrix& a, const matrix& b)
     return c;
 }
 
-matrix transpose_mm(const matrix& a, const matrix& b)
+Matrix transpose_mm(const Matrix& a, const Matrix& b)
 {
     assert(a.cols() == b.rows());
-    matrix res(a.rows(), b.cols());
-    matrix bt = b.transpose();
+    Matrix res(a.rows(), b.cols());
+    Matrix bt = b.transpose();
 
     for (size_t i = 0; i < a.rows(); i++)
         for (size_t j = 0; j < bt.rows(); j++)
@@ -67,11 +67,11 @@ inline float hsum_avx(__m256 v)
     return hsum_sse3(lo); // and inline the sse3 version
 }
 
-matrix avx_mm(const matrix& a, const matrix& b)
+Matrix avx_mm(const Matrix& a, const Matrix& b)
 {
     assert(a.cols() == b.rows());
-    matrix c(a.rows(), b.cols());
-    matrix bt = b.transpose();
+    Matrix c(a.rows(), b.cols());
+    Matrix bt = b.transpose();
 
     for (size_t i = 0; i < a.rows(); ++i)
     {
@@ -97,31 +97,32 @@ int main(int argc, const char** argv)
     if (argc == 2)
         n = std::atoi(argv[1]);
 
-    matrix a(n, n);
-    matrix b(n, n);
+    Matrix a(n, n);
+    Matrix b(n, n);
     init(a);
     init(b);
 
-    timer timer;
+    Timer timer;
+    timer.start();
     auto c = naive_mm(a, b);
-    double naive_time = timer.lap();
+    double naive_time = timer.stop();
     std::printf("naive time: %f\n", naive_time);
-    c.save("naive.txt");
+    // c.save("naive.txt");
 
-    timer.reset();
+    timer.start();
     auto c2 = transpose_mm(a, b);
-    double transpose_time = timer.lap();
+    double transpose_time = timer.stop();
     std::printf("-----\ntranspose time: %f\n", transpose_time);
     std::printf("speed_up over naive: %.2f\n", naive_time / transpose_time);
-    c2.save("transpose.txt");
+    // c2.save("transpose.txt");
 
-    timer.reset();
+    timer.start();
     auto c3 = avx_mm(a, b);
-    double avx_time = timer.lap();
+    double avx_time = timer.stop();
     std::printf("-----\navx time: %f\n", avx_time);
     std::printf("speed_up over naive: %.2f\n", naive_time / avx_time);
     std::printf("speed_up over transpose: %.2f\n", transpose_time / avx_time);
-    c3.save("avx.txt");
+    // c3.save("avx.txt");
 
     return 0;
 }

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <random>
 
-void init(float *a, float *b, float *c, uint64_t n)
+void init(float* a, float* b, float* c, uint64_t n)
 {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -19,13 +19,13 @@ void init(float *a, float *b, float *c, uint64_t n)
     }
 }
 
-void mult_add(float *a, float *b, float *c, float *res, size_t n)
+void mult_add(float* a, float* b, float* c, float* res, size_t n)
 {
     for (size_t i = 0; i < n; i++)
         res[i] = a[i] * b[i] + c[i];
 }
 
-void fuse_mult_add(float *a, float *b, float *c, float *res, size_t n)
+void fuse_mult_add(float* a, float* b, float* c, float* res, size_t n)
 {
     for (size_t i = 0; i < n; i += 8)
     {
@@ -37,7 +37,7 @@ void fuse_mult_add(float *a, float *b, float *c, float *res, size_t n)
     }
 }
 
-void compare(float *a, float *b)
+void compare(float* a, float* b)
 {
     uint32_t mismatch = 0;
     for (size_t i = 0; i < 8; i++)
@@ -54,17 +54,17 @@ void compare(float *a, float *b)
         std::cout << mismatch << " mismatches" << std::endl;
 }
 
-int main(int argc, const char **argv)
+int main(int argc, const char** argv)
 {
     size_t k = 1UL << 20;
     if (argc > 1)
         k = 1UL << std::atoi(argv[1]);
 
-    float *a = static_cast<float *>(_mm_malloc(k * sizeof(float), 32));
-    float *b = static_cast<float *>(_mm_malloc(k * sizeof(float), 32));
-    float *c = static_cast<float *>(_mm_malloc(k * sizeof(float), 32));
-    float *res1 = static_cast<float *>(_mm_malloc(k * sizeof(float), 32));
-    float *res2 = static_cast<float *>(_mm_malloc(k * sizeof(float), 32));
+    float* a = static_cast<float*>(_mm_malloc(k * sizeof(float), 32));
+    float* b = static_cast<float*>(_mm_malloc(k * sizeof(float), 32));
+    float* c = static_cast<float*>(_mm_malloc(k * sizeof(float), 32));
+    float* res1 = static_cast<float*>(_mm_malloc(k * sizeof(float), 32));
+    float* res2 = static_cast<float*>(_mm_malloc(k * sizeof(float), 32));
 
     init(a, b, c, k);
 

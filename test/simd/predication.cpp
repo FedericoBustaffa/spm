@@ -4,7 +4,7 @@
 
 #include "timer.hpp"
 
-void init(float *v, size_t n)
+void init(float* v, size_t n)
 {
     std::mt19937 engine(42);
     std::uniform_real_distribution<float> dist(0.0f, 10.0f);
@@ -12,7 +12,7 @@ void init(float *v, size_t n)
         v[i] = dist(engine);
 }
 
-void transform_scalar(float *in, float *out, size_t n)
+void transform_scalar(float* in, float* out, size_t n)
 {
     for (size_t i = 0; i < n; ++i)
     {
@@ -23,7 +23,7 @@ void transform_scalar(float *in, float *out, size_t n)
     }
 }
 
-void transform_scalar_avx(float *in, float *out, size_t n)
+void transform_scalar_avx(float* in, float* out, size_t n)
 {
     __m256 twos = _mm256_set1_ps(2.0f);
     __m256 zeros = _mm256_set1_ps(0.0f);
@@ -39,7 +39,7 @@ void transform_scalar_avx(float *in, float *out, size_t n)
     }
 }
 
-int main(int argc, const char **argv)
+int main(int argc, const char** argv)
 {
     size_t e = 20;
     if (argc > 1)
@@ -47,20 +47,20 @@ int main(int argc, const char **argv)
 
     size_t n = 1UL << e;
 
-    float *in = static_cast<float *>(_mm_malloc(n * sizeof(float), 32));
-    float *out = static_cast<float *>(_mm_malloc(n * sizeof(float), 32));
+    float* in = static_cast<float*>(_mm_malloc(n * sizeof(float), 32));
+    float* out = static_cast<float*>(_mm_malloc(n * sizeof(float), 32));
 
     init(in, n);
     std::fill(out, &out[n - 1], 0.0f);
 
-    timer timer;
+    Timer timer;
     transform_scalar(in, out, n);
-    double plain_time = timer.lap();
+    double plain_time = timer.stop();
     std::printf("plain time: %f\n", plain_time);
 
-    timer.reset();
+    timer.start();
     transform_scalar_avx(in, out, n);
-    double avx_time = timer.lap();
+    double avx_time = timer.stop();
     std::printf("avx time: %f\n", avx_time);
     std::printf("avx speed_up over plain: %f\n", plain_time / avx_time);
 

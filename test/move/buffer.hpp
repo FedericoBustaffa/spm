@@ -10,23 +10,23 @@ public:
     buffer(size_t capacity);
 
     // copy constructor
-    buffer(const buffer &other);
+    buffer(const buffer& other);
 
     // move constructor
-    buffer(buffer &&other) noexcept;
+    buffer(buffer&& other) noexcept;
 
     // copy assign operator
-    void operator=(const buffer &other);
+    void operator=(const buffer& other);
 
     // move assign operator
-    void operator=(buffer &&other) noexcept;
+    void operator=(buffer&& other) noexcept;
 
     ~buffer();
 
 private:
     size_t m_size;
     size_t m_capacity;
-    int *m_buffer;
+    int* m_buffer;
 };
 
 #endif

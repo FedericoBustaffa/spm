@@ -1,9 +1,8 @@
 #include <chrono>
 #include <immintrin.h>
-#include <iostream>
 #include <random>
 
-void init(float *a, float *b, uint64_t n)
+void init(float* a, float* b, uint64_t n)
 {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -16,19 +15,19 @@ void init(float *a, float *b, uint64_t n)
     }
 }
 
-void copy(float *a, float *b, uint64_t n)
+void copy(float* a, float* b, uint64_t n)
 {
     for (size_t i = 0; i < n; i++)
         a[i] = b[i];
 }
 
-void vadd(float *a, float *b, float *c, uint64_t n)
+void vadd(float* a, float* b, float* c, uint64_t n)
 {
     for (size_t i = 0; i < n; i++)
         c[i] = a[i] + b[i];
 }
 
-void vadd128(float *a, float *b, float *c, uint64_t n)
+void vadd128(float* a, float* b, float* c, uint64_t n)
 {
     for (uint64_t i = 0; i < n; i += 4)
     {
@@ -39,7 +38,7 @@ void vadd128(float *a, float *b, float *c, uint64_t n)
     }
 }
 
-void vadd128_aligned(float *a, float *b, float *c, uint64_t n)
+void vadd128_aligned(float* a, float* b, float* c, uint64_t n)
 {
     for (uint64_t i = 0; i < n; i += 4)
     {
@@ -50,16 +49,16 @@ void vadd128_aligned(float *a, float *b, float *c, uint64_t n)
     }
 }
 
-int main(int argc, const char **argv)
+int main(int argc, const char** argv)
 {
     uint64_t e = argc <= 1 ? 20UL : std::atoi(argv[1]);
     uint64_t n = 1 << e;
-    double size = (n * sizeof(float)) / (1024 * 1024);
+    double size = ((double)n * sizeof(float)) / (1024 * 1024);
     std::printf("array size: %lu -> %g MB\n", n, size);
 
-    float *a = new float[n];
-    float *b = new float[n];
-    float *c = new float[n];
+    float* a = new float[n];
+    float* b = new float[n];
+    float* c = new float[n];
 
     auto start = std::chrono::high_resolution_clock::now();
     init(a, b, n);
@@ -79,9 +78,9 @@ int main(int argc, const char **argv)
     std::chrono::duration<double> sse = end - start;
     std::printf("sse unaligned elapsed time: %f seconds\n", sse.count());
 
-    float *a2 = static_cast<float *>(_mm_malloc(n * sizeof(float), 16));
-    float *b2 = static_cast<float *>(_mm_malloc(n * sizeof(float), 16));
-    float *c2 = static_cast<float *>(_mm_malloc(n * sizeof(float), 16));
+    float* a2 = static_cast<float*>(_mm_malloc(n * sizeof(float), 16));
+    float* b2 = static_cast<float*>(_mm_malloc(n * sizeof(float), 16));
+    float* c2 = static_cast<float*>(_mm_malloc(n * sizeof(float), 16));
     init(a2, b2, n);
 
     start = std::chrono::high_resolution_clock::now();
@@ -97,7 +96,8 @@ int main(int argc, const char **argv)
     std::printf("sse aligned elapsed time: %f seconds\n", sse_aligned.count());
 
     std::printf("plain to sse speed-up: %f\n", plain.count() / sse.count());
-    std::printf("plain to sse aligned speed-up: %f\n", plain.count() / sse_aligned.count());
+    std::printf("plain to sse aligned speed-up: %f\n",
+                plain.count() / sse_aligned.count());
 
     delete[] a;
     delete[] b;

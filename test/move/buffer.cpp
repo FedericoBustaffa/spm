@@ -9,7 +9,8 @@ buffer::buffer(size_t capacity) : m_size(0), m_capacity(capacity)
 }
 
 // copy constructor
-buffer::buffer(const buffer &other) : m_size(other.m_size), m_capacity(other.m_capacity)
+buffer::buffer(const buffer& other)
+    : m_size(other.m_size), m_capacity(other.m_capacity)
 {
     m_buffer = new int[m_capacity];
     for (size_t i = 0; i < m_size; i++)
@@ -19,7 +20,8 @@ buffer::buffer(const buffer &other) : m_size(other.m_size), m_capacity(other.m_c
 }
 
 // move constructor
-buffer::buffer(buffer &&other) noexcept : m_size(other.m_size), m_capacity(other.m_capacity)
+buffer::buffer(buffer&& other) noexcept
+    : m_size(other.m_size), m_capacity(other.m_capacity)
 {
     m_buffer = other.m_buffer;
 
@@ -31,7 +33,7 @@ buffer::buffer(buffer &&other) noexcept : m_size(other.m_size), m_capacity(other
 }
 
 // copy assign operator
-void buffer::operator=(const buffer &other)
+void buffer::operator=(const buffer& other)
 {
     m_size = other.m_size;
     m_capacity = other.m_capacity;
@@ -46,7 +48,7 @@ void buffer::operator=(const buffer &other)
 }
 
 // move assign operator
-void buffer::operator=(buffer &&other) noexcept
+void buffer::operator=(buffer&& other) noexcept
 {
     m_size = other.m_size;
     m_capacity = other.m_capacity;
@@ -61,7 +63,4 @@ void buffer::operator=(buffer &&other) noexcept
 }
 
 // destructor
-buffer::~buffer()
-{
-    delete[] m_buffer;
-}
+buffer::~buffer() { delete[] m_buffer; }
