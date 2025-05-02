@@ -1,57 +1,64 @@
-#include <iostream>
-#include <cstdint>
-#include <vector>
-#include <thread>
-#include <atomic>
-#include <mutex>
 #include "hpc_helpers.hpp"
+#include <atomic>
+#include <cstdint>
+#include <iostream>
+#include <mutex>
+#include <thread>
+#include <vector>
 
+class spinLock
+{
+    std::atomic_flag flag;
 
-class spinLock {
-  std::atomic_flag flag;
 public:
-  spinLock(): flag(ATOMIC_FLAG_INIT) {}
-  void lock() {
-    while(flag.test_and_set(std::memory_order_acquire)) {
-      while(flag.test(std::memory_order_relaxed)) ; // spin
+    spinLock() : flag(ATOMIC_FLAG_INIT) {}
+    void lock()
+    {
+        while (flag.test_and_set(std::memory_order_acquire))
+        {
+            while (flag.test(std::memory_order_relaxed))
+                ; // spin
+        }
     }
-  }
-  void unlock() {
-    flag.clear(std::memory_order_release);
-  }
+    void unlock() { flag.clear(std::memory_order_release); }
 };
 
-
-int main( ) {
+int main()
+{
     std::vector<std::thread> threads;
     const uint64_t num_threads = 10;
     const uint64_t num_iters = 100'000'000;
 
-	std::mutex mtx;
-    auto max_lock = [&] (uint64_t &counter,
-						 const auto& id) -> void {
-        for (uint64_t i = id; i < num_iters; i += num_threads) {
-			std::lock_guard<std::mutex> lock(mtx);
-            if(i > counter) counter = i;
-		}
+    std::mutex mtx;
+    auto max_lock = [&](uint64_t& counter, const auto& id) -> void {
+        for (uint64_t i = id; i < num_iters; i += num_threads)
+        {
+            std::lock_guard<std::mutex> lock(mtx);
+            if (i > counter)
+                counter = i;
+        }
     };
 
-	spinLock SL;
-    auto max_spinlock = [&] (uint64_t &counter,
-						 const auto& id) -> void {
-        for (uint64_t i = id; i < num_iters; i += num_threads) {
-			SL.lock();
-            if(i > counter) counter = i;
-			SL.unlock();
-		}
+    spinLock SL;
+    auto max_spinlock = [&](uint64_t& counter, const auto& id) -> void {
+        for (uint64_t i = id; i < num_iters; i += num_threads)
+        {
+            SL.lock();
+            if (i > counter)
+                counter = i;
+            SL.unlock();
+        }
     };
 
-	auto max_atomic = [&] (std::atomic<uint64_t> &counter,
-						   const auto& id) -> void {
-        for (uint64_t i = id; i < num_iters; i += num_threads) {
-			auto previous = counter.load(std::memory_order_acquire);
-			while (previous < i &&
-				   !counter.compare_exchange_weak(previous, i, std::memory_order_release)) {}
+    auto max_atomic = [&](std::atomic<uint64_t>& counter,
+                          const auto& id) -> void {
+        for (uint64_t i = id; i < num_iters; i += num_threads)
+        {
+            auto previous = counter.load(std::memory_order_acquire);
+            while (previous < i && !counter.compare_exchange_weak(
+                                       previous, i, std::memory_order_release))
+            {
+            }
         }
     };
     TIMERSTART(max_with_lock);
@@ -72,7 +79,6 @@ int main( ) {
         thread.join();
     TIMERSTOP(max_with_spinlock);
 
-	
     TIMERSTART(max_with_atomic);
     std::atomic<uint64_t> counter_atomic(0);
     threads.clear();
@@ -82,9 +88,6 @@ int main( ) {
         thread.join();
     TIMERSTOP(max_with_atomic);
 
-    std::cout << counter_lock     << " "
-			  << counter_spinlock << " "
-			  << counter_atomic << std::endl;
+    std::cout << counter_lock << " " << counter_spinlock << " "
+              << counter_atomic << std::endl;
 }
-
-

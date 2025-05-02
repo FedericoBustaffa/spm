@@ -1,0 +1,325 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "acq-rel_ordering2",
+      "acq-rel_ordering2.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode5",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode5/acq-rel_ordering2.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode5/acq-rel_ordering2"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "acq-rel_ordering",
+      "acq-rel_ordering.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode5",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode5/acq-rel_ordering.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode5/acq-rel_ordering"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "all_pair-atomic",
+      "all_pair-atomic.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode5",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode5/all_pair-atomic.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode5/all_pair-atomic"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "fence_ordering2",
+      "fence_ordering2.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode5",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode5/fence_ordering2.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode5/fence_ordering2"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "atomic_counting",
+      "atomic_counting.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode5",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode5/atomic_counting.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode5/atomic_counting"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "relaxed_ordering",
+      "relaxed_ordering.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode5",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode5/relaxed_ordering.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode5/relaxed_ordering"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "query_atomics",
+      "query_atomics.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode5",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode5/query_atomics.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode5/query_atomics"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "tree-traversal",
+      "tree-traversal.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode5",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode5/tree-traversal.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode5/tree-traversal"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "knapsack",
+      "knapsack.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode5",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode5/knapsack.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode5/knapsack"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "bounded-mpmc",
+      "bounded-mpmc.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode5",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode5/bounded-mpmc.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode5/bounded-mpmc"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "knapsack-seq",
+      "knapsack-seq.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode5",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode5/knapsack-seq.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode5/knapsack-seq"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "atomic_max_v2",
+      "atomic_max_v2.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode5",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode5/atomic_max_v2.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode5/atomic_max_v2"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "atomic_max",
+      "atomic_max.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode5",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode5/atomic_max.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode5/atomic_max"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "fence_ordering",
+      "fence_ordering.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode5",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode5/fence_ordering.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode5/fence_ordering"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "sequential_ordering",
+      "sequential_ordering.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode5",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode5/sequential_ordering.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode5/sequential_ordering"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "spin-lock",
+      "spin-lock.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode5",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode5/spin-lock.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode5/spin-lock"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "spinbarrier-wait",
+      "spinbarrier-wait.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode5",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode5/spinbarrier-wait.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode5/spinbarrier-wait"
+  }
+]
