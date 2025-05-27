@@ -1,6 +1,7 @@
 #ifndef THREAD_POOL_HPP
 #define THREAD_POOL_HPP
 
+#include <atomic>
 #include <functional>
 #include <future>
 #include <optional>
@@ -35,13 +36,34 @@ public:
                 if (!func.has_value())
                     return;
 
-                func.value()();
+                func.value()(); // execute the task
             }
         };
 
+        m_workers.reserve(n);
         for (size_t i = 0; i < n; i++)
             m_workers.emplace_back(work);
     }
+
+    /**
+     * @brief This class should not be copyable (maybe yes I'm not sure)
+     *
+     */
+    thread_pool(const thread_pool& other) = delete;
+
+    /**
+     * @brief This class should not be movable (this time I'm pretty sure)
+     *
+     */
+    thread_pool(thread_pool&& other) = delete;
+
+    /**
+     * @brief Returns false if the `shutdown` method is already been invoked,
+     * true otherwise.
+     *
+     * @return bool
+     */
+    inline bool is_running() const { return m_running; }
 
     /**
      * @brief Returns the number of worker threads in the pool.
@@ -79,7 +101,7 @@ public:
      *
      * @param func the callable to execute
      * @param args arguments for the callable
-     * @return `std::future`
+     * @return std::future
      */
     template <typename Func, typename... Args,
               typename Ret = typename std::result_of<Func(Args...)>::type>
@@ -87,70 +109,6 @@ public:
     {
         return m_tasks.push_async(std::forward<Func>(func),
                                   std::forward<Args>(args)...);
-    }
-
-    /**
-     * @brief Apply `func` to all elements of `v` and returns a future
-     * containing the result vector. Every worker handle `chunksize` elements
-     * at a time.
-     *
-     * @param func the function to apply
-     * @param v the input vector
-     * @param chunksize the number of elements handled by a worker
-     * @return a `std::future` containing the result vector
-     */
-    template <typename Func, typename T>
-    std::future<std::vector<T>> map_async(Func&& func, const std::vector<T>& v,
-                                          size_t chunksize = 1)
-    {
-        size_t chunks = (v.size() + chunksize - 1) / chunksize;
-
-        // compute the function on the given chunk
-        auto chunked_func = [&v, &func](std::vector<T>* result, size_t chunk,
-                                        size_t chunksize) mutable {
-            size_t start = chunk * chunksize;
-            size_t stop = chunk * chunksize + chunksize;
-            stop = stop <= v.size() ? stop : v.size();
-            for (size_t i = start; i < stop; i++)
-                (*result)[i] = func(v[i]);
-
-            return 0;
-        };
-
-        // task that submits chunk tasks
-        auto submission = [this, &v, &chunked_func, &chunks,
-                           &chunksize]() mutable {
-            std::vector<T> result(v.size());
-            std::vector<std::future<int>> futures;
-            futures.reserve(chunks);
-            for (size_t i = 0; i < chunks; i++)
-                futures.push_back(submit(chunked_func, &result, i, chunksize));
-
-            for (auto& f : futures)
-                f.get();
-
-            return result;
-        };
-
-        return submit(submission);
-    }
-
-    /**
-     * @brief Apply `func` to all elements of `v` and blocks until done.
-     * Every worker handle `chunksize` elements at a time.
-     *
-     * @param func the function to apply. The only argument must be one
-     * element of the vector.
-     * @param v the input vector
-     * @param chunksize the number of elements handled by a worker
-     * @return a new `std::vector<T>` containing the result
-     */
-    template <typename Func, typename T>
-    std::vector<T> map(Func&& func, const std::vector<T>& v,
-                       size_t chunksize = 1)
-    {
-        auto future = map_async(std::forward<Func>(func), v, chunksize);
-        return future.get();
     }
 
     /**
@@ -166,7 +124,7 @@ public:
     }
 
     /**
-     * @brief Calls shutdown method and wait for the threads to join
+     * @brief Calls shutdown method and wait for the threads to join.
      *
      */
     void join()
@@ -188,7 +146,7 @@ public:
     }
 
 private:
-    bool m_running;
+    std::atomic<bool> m_running;
     std::vector<std::thread> m_workers;
     task_queue m_tasks;
 };

@@ -3,8 +3,10 @@
 #include <random>
 #include <vector>
 
+#include "submit.hpp"
 #include "thread_pool.hpp"
 #include "timer.hpp"
+// #include "map.hpp"
 
 using namespace std::chrono_literals;
 
@@ -41,7 +43,7 @@ void parallel_generation(size_t n, size_t m)
 
 void parallel_generation_async(size_t n, size_t m)
 {
-    thread_pool pool;
+    thread_pool pool(4, 1);
     std::vector<std::future<std::vector<double>>> results;
     results.reserve(n);
 
@@ -82,21 +84,21 @@ int main(int argc, const char** argv)
     if (argc >= 3)
         m = std::atol(argv[2]);
 
-    timer t;
+    Timer timer;
 
-    t.start();
+    timer.start();
     sequential_generation(n, m);
-    double stime = t.stop();
+    double stime = timer.stop();
     std::cout << "sequential time: " << stime << " seconds" << std::endl;
 
-    t.start();
+    timer.start();
     parallel_generation(n, m);
-    double ptime = t.stop();
+    double ptime = timer.stop();
     std::cout << "parallel time: " << ptime << " seconds" << std::endl;
 
-    t.start();
+    timer.start();
     parallel_generation_async(n, m);
-    double ptime_async = t.stop();
+    double ptime_async = timer.stop();
     std::cout << "parallel async time: " << ptime_async << " seconds"
               << std::endl;
 
