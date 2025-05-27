@@ -1,112 +1,47 @@
-#include <future>
 #include <iostream>
-#include <random>
 #include <vector>
 
-#include "submit.hpp"
-#include "thread_pool.hpp"
+#include "benchmarks.hpp"
 #include "timer.hpp"
-// #include "map.hpp"
-
-using namespace std::chrono_literals;
-
-std::vector<double> generate_vector(size_t n_elems)
-{
-    std::mt19937 rand_eng(42);
-    std::normal_distribution<double> dist;
-    std::vector<double> values;
-
-    for (size_t i = 0; i < n_elems; i++)
-        values.push_back(dist(rand_eng));
-
-    return values;
-}
-
-void sequential_generation(size_t n, size_t m)
-{
-    for (size_t i = 0; i < n; i++)
-        auto v = generate_vector(m);
-}
-
-void parallel_generation(size_t n, size_t m)
-{
-    thread_pool pool;
-    std::vector<std::future<std::vector<double>>> results;
-    results.reserve(n);
-
-    for (size_t i = 0; i < n; i++)
-        results.push_back(pool.submit(generate_vector, m));
-
-    for (auto& r : results)
-        auto v = r.get();
-}
-
-void parallel_generation_async(size_t n, size_t m)
-{
-    thread_pool pool(4, 1);
-    std::vector<std::future<std::vector<double>>> results;
-    results.reserve(n);
-
-    for (size_t i = 0; i < n; i++)
-        results.push_back(pool.submit_async(generate_vector, m));
-
-    for (auto& r : results)
-        auto v = r.get();
-}
-
-void dummy_test(size_t n)
-{
-    thread_pool pool(4, 1);
-    std::vector<std::future<int>> results;
-    results.reserve(n);
-
-    for (size_t i = 0; i < n; i++)
-    {
-        results.push_back(pool.submit([]() {
-            std::this_thread::sleep_for(3s);
-            return 0;
-        }));
-        std::cout << i << " submitted" << std::endl;
-    }
-
-    for (size_t i = 0; i < results.size(); i++)
-        results[i].get();
-}
 
 int main(int argc, const char** argv)
 {
-    size_t n = 10000;
-    size_t m = 10000;
+    int64_t e = 20;
 
     if (argc >= 2)
-        n = std::atol(argv[1]);
+        e = std::atol(argv[1]);
 
-    if (argc >= 3)
-        m = std::atol(argv[2]);
+    int64_t n = 1 << e;
+    std::cout << n << std::endl;
+
+    std::vector<int> numbers = generate_numbers(n);
 
     Timer timer;
-
     timer.start();
-    sequential_generation(n, m);
+    sequential(numbers);
     double stime = timer.stop();
     std::cout << "sequential time: " << stime << " seconds" << std::endl;
 
-    timer.start();
-    parallel_generation(n, m);
-    double ptime = timer.stop();
-    std::cout << "parallel time: " << ptime << " seconds" << std::endl;
+    // timer.start();
+    // block(numbers);
+    // double block_time = timer.stop();
+    // std::cout << "block time: " << block_time << " seconds" << std::endl;
+    //
+    // timer.start();
+    // cyclic(numbers);
+    // double cyclic_time = timer.stop();
+    // std::cout << "cyclic time: " << cyclic_time << " seconds" << std::endl;
+    //
+    // timer.start();
+    // cyclic(numbers, 16);
+    // double block_cyclic_time = timer.stop();
+    // std::cout << "block cyclic time: " << block_cyclic_time << " seconds"
+    //           << std::endl;
 
     timer.start();
-    parallel_generation_async(n, m);
-    double ptime_async = timer.stop();
-    std::cout << "parallel async time: " << ptime_async << " seconds"
-              << std::endl;
-
-    std::cout << "speed up: " << stime / ptime << std::endl;
-    std::cout << "speed up async: " << stime / ptime_async << std::endl;
-
-    // to test the correct submission of tasks for bounded queue
-    // dummy_test(n);
+    dynamic(numbers);
+    double dynamic_time = timer.stop();
+    std::cout << "dynamic time: " << dynamic_time << std::endl;
 
     return 0;
 }
