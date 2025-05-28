@@ -19,7 +19,10 @@ public:
      *
      * @param capacity the capacity of the queue.
      */
-    task_queue(size_t capacity) : m_joined(false), m_capacity(capacity) {}
+    task_queue(size_t capacity)
+        : m_joined(false), m_capacity(capacity), m_size(0)
+    {
+    }
 
     /**
      * @brief Returns the number of tasks in the queue.
@@ -28,7 +31,8 @@ public:
     inline size_t size() const
     {
         std::lock_guard<std::mutex> lock(m_mutex);
-        return m_tasks.size();
+        m_size.store(m_tasks.size());
+        return m_size.load();
     }
 
     /**
@@ -40,7 +44,7 @@ public:
     inline bool empty() const
     {
         std::lock_guard<std::mutex> lock(m_mutex);
-        return m_tasks.size() == 0;
+        return m_size.load() == 0;
     }
 
     /**
@@ -52,7 +56,7 @@ public:
     inline bool full() const
     {
         std::lock_guard<std::mutex> lock(m_mutex);
-        return m_capacity == 0 ? false : m_tasks.size() >= m_capacity;
+        return m_capacity == 0 ? false : m_size.load() >= m_capacity;
     }
 
     /**
@@ -77,7 +81,7 @@ public:
         if (m_joined.load())
             throw std::runtime_error("JOINED_QUEUE: can't submit more tasks");
 
-        while (m_capacity == 0 ? false : m_tasks.size() >= m_capacity)
+        while (m_capacity == 0 ? false : m_size.load() >= m_capacity)
             m_full.wait(lock);
 
         return make_task(std::forward<Func>(func), std::forward<Args>(args)...);
@@ -99,7 +103,7 @@ public:
         if (m_joined.load())
             throw std::runtime_error("JOINED_QUEUE: can't submit more tasks");
 
-        if (m_capacity == 0 ? false : m_tasks.size() >= m_capacity)
+        if (m_capacity == 0 ? false : m_size.load() >= m_capacity)
             throw std::runtime_error("FULL_QUEUE: submission failed");
 
         return make_task(std::forward<Func>(func), std::forward<Args>(args)...);
@@ -190,6 +194,7 @@ private:
 private:
     std::atomic<bool> m_joined;
     const size_t m_capacity;
+    mutable std::atomic<size_t> m_size;
     std::queue<std::function<void(void)>> m_tasks;
 
     mutable std::mutex m_mutex;

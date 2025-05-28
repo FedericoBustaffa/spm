@@ -7,41 +7,71 @@
 int main(int argc, const char** argv)
 {
     int64_t e = 20;
-
-    if (argc >= 2)
-        e = std::atol(argv[1]);
-
     int64_t n = 1 << e;
-    std::cout << n << std::endl;
+    if (argc >= 2)
+    {
+        e = std::atol(argv[1]);
+        n = 1 << e;
+    }
+
+    int64_t w = 0;
+    if (argc >= 3)
+        w = std::atol(argv[2]);
+
+    int64_t q = 0;
+    if (argc >= 4)
+        q = std::atol(argv[3]);
 
     std::vector<int> numbers = generate_numbers(n);
 
     Timer timer;
     timer.start();
-    sequential(numbers);
+    std::vector<int> s_res = sequential(numbers);
     double stime = timer.stop();
     std::cout << "sequential time: " << stime << " seconds" << std::endl;
 
-    // timer.start();
-    // block(numbers);
-    // double block_time = timer.stop();
-    // std::cout << "block time: " << block_time << " seconds" << std::endl;
-    //
-    // timer.start();
-    // cyclic(numbers);
-    // double cyclic_time = timer.stop();
-    // std::cout << "cyclic time: " << cyclic_time << " seconds" << std::endl;
-    //
-    // timer.start();
-    // cyclic(numbers, 16);
-    // double block_cyclic_time = timer.stop();
-    // std::cout << "block cyclic time: " << block_cyclic_time << " seconds"
-    //           << std::endl;
+    thread_pool pool(w, q);
+    std::cout << "thread pool with " << w << " workers and " << q
+              << " queue slots" << std::endl;
 
     timer.start();
-    dynamic(numbers);
-    double dynamic_time = timer.stop();
-    std::cout << "dynamic time: " << dynamic_time << std::endl;
+    std::vector<int> p_res = submit(numbers, pool);
+    double ptime = timer.stop();
+    std::cout << "submit time: " << ptime << std::endl;
+
+    timer.start();
+    std::vector<int> pa_res = submit_async(numbers, pool);
+    double patime = timer.stop();
+    std::cout << "submit async time: " << patime << std::endl;
+
+    std::cout << "submit speedup: " << (stime / ptime) << std::endl;
+    std::cout << "submit async speedup: " << (stime / patime) << std::endl;
+
+    auto compare = [](const std::vector<int>& a, const std::vector<int>& b) {
+        bool error = false;
+        for (size_t i = 0; i < a.size(); i++)
+        {
+            if (a[i] != b[i])
+            {
+                error = true;
+                std::cout << "a[" << i << "] = " << a[i] << " | b[" << i
+                          << "] = " << b[i] << std::endl;
+            }
+        }
+
+        return error;
+    };
+
+    std::cout << pool.queue_capacity() << std::endl;
+
+    if (!compare(s_res, p_res))
+        std::cout << "submit no errors" << std::endl;
+
+    if (s_res.size() == pa_res.size())
+    {
+        if (!compare(s_res, pa_res))
+            std::cout << "submit async no errors" << std::endl;
+    }
 
     return 0;
 }
