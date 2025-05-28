@@ -13,7 +13,9 @@ public:
     double stop()
     {
         m_End = std::chrono::high_resolution_clock::now();
-        return (m_End - m_Start).count();
+        std::chrono::duration<double> elapsed = m_End - m_Start;
+
+        return elapsed.count();
     }
 
 private:
