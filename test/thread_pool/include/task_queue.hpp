@@ -1,7 +1,6 @@
 #ifndef TASK_QUEUE_HPP
 #define TASK_QUEUE_HPP
 
-#include <atomic>
 #include <condition_variable>
 #include <functional>
 #include <future>
@@ -19,10 +18,7 @@ public:
      *
      * @param capacity the capacity of the queue.
      */
-    task_queue(size_t capacity)
-        : m_joined(false), m_capacity(capacity), m_size(0)
-    {
-    }
+    task_queue(size_t capacity) : m_closed(false), m_capacity(capacity) {}
 
     /**
      * @brief Returns the number of tasks in the queue.
@@ -31,8 +27,7 @@ public:
     inline size_t size() const
     {
         std::lock_guard<std::mutex> lock(m_mutex);
-        m_size.store(m_tasks.size());
-        return m_size.load();
+        return m_tasks.size();
     }
 
     /**
@@ -44,7 +39,7 @@ public:
     inline bool empty() const
     {
         std::lock_guard<std::mutex> lock(m_mutex);
-        return m_size.load() == 0;
+        return m_tasks.size() == 0;
     }
 
     /**
@@ -56,7 +51,7 @@ public:
     inline bool full() const
     {
         std::lock_guard<std::mutex> lock(m_mutex);
-        return m_capacity == 0 ? false : m_size.load() >= m_capacity;
+        return m_capacity == 0 ? false : m_tasks.size() >= m_capacity;
     }
 
     /**
@@ -78,10 +73,10 @@ public:
     std::future<Ret> push(Func&& func, Args&&... args)
     {
         std::unique_lock<std::mutex> lock(m_mutex);
-        if (m_joined.load())
-            throw std::runtime_error("JOINED_QUEUE: can't submit more tasks");
+        if (m_closed)
+            throw std::runtime_error("CLOSED_QUEUE: can't submit more tasks");
 
-        while (m_capacity == 0 ? false : m_size.load() >= m_capacity)
+        while (m_capacity == 0 ? false : m_tasks.size() >= m_capacity)
             m_full.wait(lock);
 
         return make_task(std::forward<Func>(func), std::forward<Args>(args)...);
@@ -100,10 +95,10 @@ public:
     std::future<Ret> push_async(Func&& func, Args&&... args)
     {
         std::unique_lock<std::mutex> lock(m_mutex);
-        if (m_joined.load())
-            throw std::runtime_error("JOINED_QUEUE: can't submit more tasks");
+        if (m_closed)
+            throw std::runtime_error("CLOSED_QUEUE: can't submit more tasks");
 
-        if (m_capacity == 0 ? false : m_size.load() >= m_capacity)
+        if (m_capacity == 0 ? false : m_tasks.size() >= m_capacity)
             throw std::runtime_error("FULL_QUEUE: submission failed");
 
         return make_task(std::forward<Func>(func), std::forward<Args>(args)...);
@@ -114,12 +109,12 @@ public:
      * until a new task is consumed.
      *
      * @return A void(void) function. It can be return nothing if the queue is
-     * joined and tasks are in the queue.
+     * closed and tasks are in the queue.
      */
     std::optional<std::function<void(void)>> pop()
     {
         std::unique_lock<std::mutex> lock(m_mutex);
-        while (m_tasks.empty() && !m_joined.load())
+        while (m_tasks.empty() && !m_closed)
             m_empty.wait(lock);
 
         if (m_tasks.empty())
@@ -134,32 +129,30 @@ public:
     }
 
     /**
-     * @brief Check if the queue is joined or not.
+     * @brief Check if the queue is closed or not.
      *
-     * @return true if the queue has already joined.
+     * @return true if the queue is already closed.
      * @return false otherwise.
      */
-    inline bool is_joined() const { return m_joined.load(); }
+    inline bool is_closed() const { return m_closed; }
 
     /**
-     * @brief Join the queue and notifies all the other threads waiting on
+     * @brief Close the queue and notifies all the other threads waiting on
      * `pop`.
      *
      */
-    void join()
+    void close()
     {
-        {
-            std::lock_guard<std::mutex> lock(m_mutex);
-            m_joined.store(true);
-        }
+        std::lock_guard<std::mutex> lock(m_mutex);
+        m_closed = true;
         m_empty.notify_all();
     }
 
     /**
-     * @brief Destroy the task queue object and calls `join` method.
+     * @brief Destroy the task queue object and calls `close` method.
      *
      */
-    ~task_queue() { join(); }
+    ~task_queue() { close(); }
 
 private:
     template <typename Func, typename... Args,
@@ -191,9 +184,8 @@ private:
     }
 
 private:
-    std::atomic<bool> m_joined;
+    bool m_closed;
     const size_t m_capacity;
-    mutable std::atomic<size_t> m_size;
     std::queue<std::function<void(void)>> m_tasks;
 
     mutable std::mutex m_mutex;

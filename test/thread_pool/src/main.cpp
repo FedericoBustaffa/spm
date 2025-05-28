@@ -6,15 +6,7 @@
 
 int main(int argc, const char** argv)
 {
-<<<<<<< HEAD
     int64_t e = 20;
-=======
-    int64_t e = 15;
-
-    if (argc >= 2)
-        e = std::atol(argv[1]);
-
->>>>>>> refs/remotes/origin/master
     int64_t n = 1 << e;
     if (argc >= 2)
     {
@@ -32,15 +24,15 @@ int main(int argc, const char** argv)
 
     std::vector<int> numbers = generate_numbers(n);
 
+    thread_pool pool(w, q);
+    std::cout << "thread pool with " << w << " workers and " << q
+              << " queue slots" << std::endl;
+
     Timer timer;
     timer.start();
     std::vector<int> s_res = sequential(numbers);
     double stime = timer.stop();
     std::cout << "sequential time: " << stime << " seconds" << std::endl;
-
-    thread_pool pool(w, q);
-    std::cout << "thread pool with " << w << " workers and " << q
-              << " queue slots" << std::endl;
 
     timer.start();
     std::vector<int> p_res = submit(numbers, pool);
@@ -52,17 +44,20 @@ int main(int argc, const char** argv)
     double patime = timer.stop();
     std::cout << "submit async time: " << patime << std::endl;
 
-    std::cout << "submit speedup: " << (stime / ptime) << std::endl;
-    std::cout << "submit async speedup: " << (stime / patime) << std::endl;
-
     auto compare = [](const std::vector<int>& a, const std::vector<int>& b) {
         bool error = false;
+        if (a.size() != b.size())
+        {
+            std::cout << " vectors with different sizes" << std::endl;
+            return true;
+        }
+
         for (size_t i = 0; i < a.size(); i++)
         {
             if (a[i] != b[i])
             {
                 error = true;
-                std::cout << "a[" << i << "] = " << a[i] << " | b[" << i
+                std::cout << " a[" << i << "] = " << a[i] << " | b[" << i
                           << "] = " << b[i] << std::endl;
             }
         }
@@ -70,18 +65,13 @@ int main(int argc, const char** argv)
         return error;
     };
 
-    std::cout << pool.queue_capacity() << std::endl;
-
+    std::cout << "submit speedup: " << (stime / ptime) << std::flush;
     if (!compare(s_res, p_res))
-        std::cout << "submit no errors" << std::endl;
+        std::cout << " no errors" << std::endl;
 
-    if (s_res.size() == pa_res.size())
-    {
-        if (!compare(s_res, pa_res))
-            std::cout << "submit async no errors" << std::endl;
-    }
-
-    std::cout << "dynamic speed up: " << (stime / dynamic_time) << std::endl;
+    std::cout << "submit async speedup: " << (stime / patime) << std::flush;
+    if (!compare(s_res, pa_res))
+        std::cout << " no errors" << std::endl;
 
     return 0;
 }

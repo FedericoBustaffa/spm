@@ -1,6 +1,8 @@
 #include "benchmarks.hpp"
 
+#include <iostream>
 #include <random>
+#include <stdexcept>
 
 std::vector<int> generate_numbers(size_t n, int min, int max)
 {
@@ -62,7 +64,16 @@ std::vector<int> submit_async(const std::vector<int>& numbers,
     out.reserve(numbers.size());
 
     for (const int& n : numbers)
-        futures.push_back(pool.submit_async(fibonacci, n));
+    {
+        try
+        {
+            futures.push_back(pool.submit_async(fibonacci, n));
+        }
+        catch (std::runtime_error& e)
+        {
+            std::cout << e.what() << std::endl;
+        }
+    }
 
     for (std::future<int>& f : futures)
         out.emplace_back(f.get());

@@ -1,7 +1,6 @@
 #ifndef THREAD_POOL_HPP
 #define THREAD_POOL_HPP
 
-#include <atomic>
 #include <functional>
 #include <future>
 #include <optional>
@@ -63,7 +62,7 @@ public:
      *
      * @return bool
      */
-    inline bool is_running() const { return m_running.load(); }
+    inline bool is_running() const { return m_running; }
 
     /**
      * @brief Returns the number of worker threads in the pool.
@@ -119,8 +118,8 @@ public:
      */
     void shutdown()
     {
-        m_running.store(false);
-        m_tasks.join();
+        m_running = false;
+        m_tasks.close();
     }
 
     /**
@@ -141,12 +140,12 @@ public:
      */
     ~thread_pool()
     {
-        if (m_running.load())
+        if (m_running)
             this->join();
     }
 
 private:
-    std::atomic<bool> m_running;
+    bool m_running;
     std::vector<std::thread> m_workers;
     task_queue m_tasks;
 };
