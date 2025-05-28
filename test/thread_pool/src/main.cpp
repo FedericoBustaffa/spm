@@ -6,7 +6,15 @@
 
 int main(int argc, const char** argv)
 {
+<<<<<<< HEAD
     int64_t e = 20;
+=======
+    int64_t e = 15;
+
+    if (argc >= 2)
+        e = std::atol(argv[1]);
+
+>>>>>>> refs/remotes/origin/master
     int64_t n = 1 << e;
     if (argc >= 2)
     {
@@ -72,6 +80,8 @@ int main(int argc, const char** argv)
         if (!compare(s_res, pa_res))
             std::cout << "submit async no errors" << std::endl;
     }
+
+    std::cout << "dynamic speed up: " << (stime / dynamic_time) << std::endl;
 
     return 0;
 }
