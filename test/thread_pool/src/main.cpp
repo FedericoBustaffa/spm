@@ -6,7 +6,7 @@
 
 int main(int argc, const char** argv)
 {
-    int64_t e = 20;
+    int64_t e = 15;
 
     if (argc >= 2)
         e = std::atol(argv[1]);
@@ -42,6 +42,8 @@ int main(int argc, const char** argv)
     dynamic(numbers);
     double dynamic_time = timer.stop();
     std::cout << "dynamic time: " << dynamic_time << std::endl;
+
+    std::cout << "dynamic speed up: " << (stime / dynamic_time) << std::endl;
 
     return 0;
 }

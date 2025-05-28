@@ -181,7 +181,6 @@ private:
         };
 
         m_tasks.push(task);
-
         m_empty.notify_one();
 
         return promise->get_future();

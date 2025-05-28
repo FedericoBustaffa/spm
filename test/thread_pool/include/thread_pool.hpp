@@ -63,7 +63,7 @@ public:
      *
      * @return bool
      */
-    inline bool is_running() const { return m_running; }
+    inline bool is_running() const { return m_running.load(); }
 
     /**
      * @brief Returns the number of worker threads in the pool.
@@ -119,7 +119,7 @@ public:
      */
     void shutdown()
     {
-        m_running = false;
+        m_running.store(false);
         m_tasks.join();
     }
 
@@ -141,7 +141,7 @@ public:
      */
     ~thread_pool()
     {
-        if (m_running)
+        if (m_running.load())
             this->join();
     }
 
