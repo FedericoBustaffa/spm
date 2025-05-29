@@ -11,7 +11,8 @@ public:
     void lock()
     {
         while (acquired.test_and_set(std::memory_order_acquire))
-            ;
+            while (acquired.test())
+                ;
     }
 
     void unlock() { acquired.clear(std::memory_order_release); }
