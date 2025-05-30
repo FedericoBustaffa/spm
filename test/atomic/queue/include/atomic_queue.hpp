@@ -12,6 +12,7 @@ public:
     atomic_queue(size_t size)
         : m_data(nullptr), m_size(size), m_head(0), m_tail(0)
     {
+        m_data = new T[size];
     }
 
     inline size_t size() const { return m_size; }
@@ -24,7 +25,7 @@ public:
 
     std::optional<T> pop() {}
 
-    ~atomic_queue() {}
+    ~atomic_queue() { delete[] m_data; }
 
 private:
     T* m_data;

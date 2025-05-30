@@ -13,8 +13,8 @@
       "build/main.o",
       "src/main.cpp"
     ],
-    "directory": "/home/federico/dev/cpp/spm/test/atomic/spsc_queue",
-    "file": "/home/federico/dev/cpp/spm/test/atomic/spsc_queue/src/main.cpp",
-    "output": "/home/federico/dev/cpp/spm/test/atomic/spsc_queue/build/main.o"
+    "directory": "/home/federico/dev/cpp/spm/test/atomic/queue",
+    "file": "/home/federico/dev/cpp/spm/test/atomic/queue/src/main.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/atomic/queue/build/main.o"
   }
 ]
