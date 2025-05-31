@@ -8,16 +8,22 @@
 int main(int argc, char** argv)
 {
     LockQueue<int> bq;
+    AtomicQueue<int> aq;
 
     auto produce = [&](int id) {
         for (int i = 0; i < 100; i++)
+        {
             bq.push(id);
+            aq.push(id);
+        }
     };
 
     auto consume = [&]() {
-        std::optional<int> value;
         for (int i = 0; i < 100; i++)
-            value = bq.pop();
+        {
+            bq.pop();
+            aq.pop();
+        }
     };
 
     std::vector<std::thread> workers;
@@ -30,8 +36,11 @@ int main(int argc, char** argv)
     for (auto& w : workers)
         w.join();
 
-    std::printf("queue capacity: %zu\n", bq.capacity());
-    std::printf("queue size: %zu\n", bq.size());
+    std::printf("lock queue capacity: %zu\n", bq.capacity());
+    std::printf("lock queue size: %zu\n", bq.size());
+
+    std::printf("atomic queue capacity: %zu\n", aq.capacity());
+    std::printf("atomic queue size: %zu\n", aq.size());
 
     return 0;
 }
