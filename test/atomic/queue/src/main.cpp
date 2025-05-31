@@ -1,28 +1,37 @@
 #include <cstdio>
+#include <thread>
+#include <vector>
 
-#include "atomic_queue.hpp"
-#include "thread_pool.hpp"
+#include "AtomicQueue.hpp"
+#include "LockQueue.hpp"
 
 int main(int argc, char** argv)
 {
-    thread_pool tp(8);
+    LockQueue<int> bq;
 
-    atomic_queue<int> queue(10);
-    auto produce = [&]() {
-        for (size_t i = 0; i < (1 << 15); i++)
-            queue.push(i);
+    auto produce = [&](int id) {
+        for (int i = 0; i < 100; i++)
+            bq.push(id);
     };
 
     auto consume = [&]() {
-        for (size_t i = 0; i < (1 << 15); i++)
-            queue.pop();
+        std::optional<int> value;
+        for (int i = 0; i < 100; i++)
+            value = bq.pop();
     };
 
-    for (size_t i = 0; i < 20; i++)
-        tp.submit(produce);
+    std::vector<std::thread> workers;
+    for (int i = 0; i < 20; i++)
+    {
+        workers.emplace_back(produce, i);
+        workers.emplace_back(consume);
+    }
 
-    for (size_t i = 0; i < 20; i++)
-        tp.submit(consume);
+    for (auto& w : workers)
+        w.join();
+
+    std::printf("queue capacity: %zu\n", bq.capacity());
+    std::printf("queue size: %zu\n", bq.size());
 
     return 0;
 }
