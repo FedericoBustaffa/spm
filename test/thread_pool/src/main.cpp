@@ -6,27 +6,36 @@
 
 int main(int argc, const char** argv)
 {
-    int64_t e = 20;
-    int64_t n = 1 << e;
+    int64_t e = 10;
+    int64_t n = 1 << e; // # of numbers
     if (argc >= 2)
     {
         e = std::atol(argv[1]);
         n = 1 << e;
     }
 
-    int64_t w = 0;
+    int64_t w = 0; // # of workers
     if (argc >= 3)
         w = std::atol(argv[2]);
 
-    int64_t q = 0;
+    int64_t q = 0; // # task queue slots
     if (argc >= 4)
         q = std::atol(argv[3]);
 
+    /*
+     * Every test compute the fibonacci number of all the n numbers contained
+     * in the std::vector "numbers"
+     */
     std::vector<int> numbers = generate_numbers(n);
 
     thread_pool pool(w, q);
-    std::cout << "thread pool with " << w << " workers and " << q
-              << " queue slots" << std::endl;
+
+    std::cout << "simulation on " << n << " numbers and a ";
+    std::cout << "thread pool with " << pool.size() << " workers and ";
+    if (q > 0)
+        std::cout << q << " queue slots" << std::endl;
+    else
+        std::cout << "unbounded queue" << std::endl;
 
     Timer timer;
     timer.start();
