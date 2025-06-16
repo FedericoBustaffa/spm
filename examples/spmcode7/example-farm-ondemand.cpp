@@ -35,6 +35,7 @@ struct Source : ff_node_t<task_t>
 
     const size_t length;
 };
+
 struct Emitter : ff_monode_t<task_t, float>
 {
     int svc_init()
@@ -121,6 +122,7 @@ struct Emitter : ff_monode_t<task_t, float>
     std::vector<bool> ready;   // ready flags
     std::vector<task_t*> data; // tasks' buffer
 };
+
 struct dotProd : ff_monode_t<task_t, float>
 { // <--- must be multi-output
     float* svc(task_t* task)
@@ -160,6 +162,7 @@ struct dotProd : ff_monode_t<task_t, float>
     std::vector<float> V1;
     std::vector<float> V2;
 };
+
 struct Sink : ff_minode_t<float>
 {
     float* svc(float* f)
@@ -224,5 +227,6 @@ int main(int argc, char* argv[])
         return -1;
     }
     std::cout << "Time: " << pipe.ffTime() << "\n";
+
     return 0;
 }

@@ -35,6 +35,7 @@ struct Source : ff_monode_t<task_t>
 
     const size_t length;
 };
+
 struct dotProd : ff_minode_t<task_t, float>
 { // it must be multi-input
     float* svc(task_t* task)
@@ -73,6 +74,7 @@ struct dotProd : ff_minode_t<task_t, float>
     std::vector<float> V1;
     std::vector<float> V2;
 };
+
 struct Sink : ff_minode_t<float>
 {
     float* svc(float* f)
@@ -98,6 +100,7 @@ int main(int argc, char* argv[])
         return -1;
     }
     long length = std::stol(argv[1]);
+
     if (length <= 0)
     {
         std::cerr << "stream-length should be greater than 0\n";
@@ -132,5 +135,6 @@ int main(int argc, char* argv[])
         return -1;
     }
     std::cout << "Time: " << pipe.ffTime() << "\n";
+
     return 0;
 }

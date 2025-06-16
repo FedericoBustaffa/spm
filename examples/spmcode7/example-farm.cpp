@@ -35,6 +35,7 @@ struct Source : ff_node_t<task_t>
 
     const size_t length;
 };
+
 struct dotProd : ff_node_t<task_t, float>
 {
     float* svc(task_t* task)
@@ -73,6 +74,7 @@ struct dotProd : ff_node_t<task_t, float>
     std::vector<float> V1;
     std::vector<float> V2;
 };
+
 struct Sink : ff_node_t<float>
 {
     float* svc(float* f)
@@ -134,5 +136,6 @@ int main(int argc, char* argv[])
     }
     std::cout << "Time: " << pipe.ffTime() << "\n";
     // pipe.ffStats(std::cout);
+
     return 0;
 }
