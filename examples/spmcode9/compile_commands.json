@@ -1,0 +1,183 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I",
+      "/home/federico/fastflow",
+      "-std=c++20",
+      "-Wall",
+      "-O3",
+      "-ffast-math",
+      "-DNDEBUG",
+      "-pthread",
+      "-o",
+      "ff_pi",
+      "ff_pi.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode9",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode9/ff_pi.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode9/ff_pi"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I",
+      "/home/federico/fastflow",
+      "-std=c++20",
+      "-Wall",
+      "-DDO_NOTHING",
+      "-O3",
+      "-ffast-math",
+      "-DNDEBUG",
+      "-pthread",
+      "-o",
+      "ff_chol_mdf",
+      "ff_chol_mdf.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode9",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode9/ff_chol_mdf.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode9/ff_chol_mdf"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I",
+      "/home/federico/fastflow",
+      "-std=c++20",
+      "-Wall",
+      "-O3",
+      "-ffast-math",
+      "-DNDEBUG",
+      "-pthread",
+      "-o",
+      "fib_dac",
+      "fib_dac.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode9",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode9/fib_dac.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode9/fib_dac"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I",
+      "/home/federico/fastflow",
+      "-std=c++20",
+      "-Wall",
+      "-O3",
+      "-ffast-math",
+      "-DNDEBUG",
+      "-pthread",
+      "-o",
+      "mergesort_dac_ptr",
+      "mergesort_dac_ptr.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode9",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode9/mergesort_dac_ptr.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode9/mergesort_dac_ptr"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I",
+      "/home/federico/fastflow",
+      "-std=c++20",
+      "-Wall",
+      "-O3",
+      "-ffast-math",
+      "-DNDEBUG",
+      "-pthread",
+      "-o",
+      "farm_pinning",
+      "farm_pinning.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode9",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode9/farm_pinning.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode9/farm_pinning"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I",
+      "/home/federico/fastflow",
+      "-std=c++20",
+      "-Wall",
+      "-O3",
+      "-ffast-math",
+      "-DNDEBUG",
+      "-pthread",
+      "-o",
+      "strassen_dac",
+      "strassen_dac.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode9",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode9/strassen_dac.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode9/strassen_dac"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I",
+      "/home/federico/fastflow",
+      "-std=c++20",
+      "-Wall",
+      "-O3",
+      "-ffast-math",
+      "-DNDEBUG",
+      "-pthread",
+      "-o",
+      "mdf_example",
+      "mdf_example.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode9",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode9/mdf_example.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode9/mdf_example"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I",
+      "/home/federico/fastflow",
+      "-std=c++20",
+      "-Wall",
+      "-O3",
+      "-ffast-math",
+      "-DNDEBUG",
+      "-pthread",
+      "-o",
+      "WF-ff-pf",
+      "WF-ff-pf.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode9",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode9/WF-ff-pf.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode9/WF-ff-pf"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I",
+      "/home/federico/fastflow",
+      "-std=c++20",
+      "-Wall",
+      "-O3",
+      "-ffast-math",
+      "-DNDEBUG",
+      "-pthread",
+      "-o",
+      "strassen_mdf",
+      "strassen_mdf.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode9",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode9/strassen_mdf.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode9/strassen_mdf"
+  }
+]

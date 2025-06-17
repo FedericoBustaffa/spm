@@ -1,0 +1,46 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++17",
+      "-I.",
+      "-I../include",
+      "-I/home/federico/fastflow",
+      "-Wall",
+      "-DNO_DEFAULT_MAPPING",
+      "-DBLOCKING_MODE",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "mandel_ff",
+      "mandel_ff.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode8/mandelbrot-ff",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode8/mandelbrot-ff/mandel_ff.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode8/mandelbrot-ff/mandel_ff"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++17",
+      "-I.",
+      "-I../include",
+      "-I/home/federico/fastflow",
+      "-Wall",
+      "-DNO_DEFAULT_MAPPING",
+      "-DBLOCKING_MODE",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "mandel_ff",
+      "gfx.c"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode8/mandelbrot-ff",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode8/mandelbrot-ff/gfx.c",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode8/mandelbrot-ff/mandel_ff"
+  }
+]

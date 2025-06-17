@@ -1,0 +1,113 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-I",
+      "/home/federico/fastflow",
+      "-Wall",
+      "-O3",
+      "-DNDEBUG",
+      "-ffast-math",
+      "-pthread",
+      "-o",
+      "primes_master-worker",
+      "primes_master-worker.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode8/primes",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode8/primes/primes_master-worker.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode8/primes/primes_master-worker"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-I",
+      "/home/federico/fastflow",
+      "-Wall",
+      "-O3",
+      "-DNDEBUG",
+      "-ffast-math",
+      "-pthread",
+      "-o",
+      "primes_a2a",
+      "primes_a2a.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode8/primes",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode8/primes/primes_a2a.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode8/primes/primes_a2a"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-I",
+      "/home/federico/fastflow",
+      "-Wall",
+      "-O3",
+      "-DNDEBUG",
+      "-ffast-math",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "primes_omp",
+      "primes_omp.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode8/primes",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode8/primes/primes_omp.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode8/primes/primes_omp"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-I",
+      "/home/federico/fastflow",
+      "-Wall",
+      "-O3",
+      "-DNDEBUG",
+      "-ffast-math",
+      "-pthread",
+      "-o",
+      "primes",
+      "primes.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode8/primes",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode8/primes/primes.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode8/primes/primes"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-I",
+      "/home/federico/fastflow",
+      "-Wall",
+      "-O3",
+      "-DNDEBUG",
+      "-ffast-math",
+      "-pthread",
+      "-o",
+      "primes_parallelfor",
+      "primes_parallelfor.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode8/primes",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode8/primes/primes_parallelfor.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode8/primes/primes_parallelfor"
+  }
+]
