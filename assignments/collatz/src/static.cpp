@@ -25,19 +25,20 @@ double static_schedule(size_t workers_num,
     {
         workers.emplace_back(
             [&](size_t id) {
-                size_t chunksize;
-                for (size_t i = 0; i < ranges.size(); i++)
+                for (size_t j = 0; j < ranges.size(); j++)
                 {
-                    chunksize = std::floor(
-                        (ranges[i].second - ranges[i].first) / workers_num);
+                    size_t length = ranges[j].second - ranges[j].first + 1;
+                    size_t start =
+                        (id * length) / workers_num + ranges[j].first;
+                    size_t end =
+                        ((id + 1) * length) / workers_num + ranges[j].first;
 
-                    uint64_t start = id * chunksize + ranges[i].first;
-                    for (uint64_t j = start;
-                         j < std::min(start + chunksize, ranges[i].second); j++)
-                    {
-                        std::lock_guard<std::mutex> lock(steps_mtx);
-                        steps[i] += collatz_steps(j);
-                    }
+                    size_t counter = 0;
+                    for (size_t k = start; k < end; k++)
+                        counter += collatz_steps(k);
+
+                    std::lock_guard<std::mutex> lock(steps_mtx);
+                    steps[j] += counter;
                 }
             },
             i);
