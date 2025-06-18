@@ -53,7 +53,7 @@ OBJECTS = $(patsubst $(SOURCE_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SOURCES))
 
 .PHONY: all clean-fast clean recompile
 
-TARGET = run.out
+TARGET = collatz.out
 
 all: $(BUILD_DIR) $(TARGET)
 
