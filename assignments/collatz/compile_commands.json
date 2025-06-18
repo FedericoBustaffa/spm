@@ -9,46 +9,29 @@
       "-march=native",
       "-c",
       "-o",
-      "build/dynamic.o",
-      "src/dynamic.cpp"
-    ],
-    "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
-    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/dynamic.cpp",
-    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/dynamic.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/g++",
-      "-Wall",
-      "-std=c++20",
-      "-I./include/",
-      "-O3",
-      "-march=native",
-      "-c",
-      "-o",
-      "build/main.o",
-      "src/main.cpp"
-    ],
-    "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
-    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/main.cpp",
-    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/main.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/g++",
-      "-Wall",
-      "-std=c++20",
-      "-I./include/",
-      "-O3",
-      "-march=native",
-      "-c",
-      "-o",
       "build/collatz.o",
       "src/collatz.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
     "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/collatz.cpp",
     "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/collatz.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-std=c++20",
+      "-I./include/",
+      "-O3",
+      "-march=native",
+      "-c",
+      "-o",
+      "build/sequential.o",
+      "src/sequential.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
+    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/sequential.cpp",
+    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/sequential.o"
   },
   {
     "arguments": [
@@ -77,11 +60,28 @@
       "-march=native",
       "-c",
       "-o",
-      "build/sequential.o",
-      "src/sequential.cpp"
+      "build/dynamic.o",
+      "src/dynamic.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
-    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/sequential.cpp",
-    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/sequential.o"
+    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/dynamic.cpp",
+    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/dynamic.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-std=c++20",
+      "-I./include/",
+      "-O3",
+      "-march=native",
+      "-c",
+      "-o",
+      "build/main.o",
+      "src/main.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
+    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/main.cpp",
+    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/main.o"
   }
 ]
