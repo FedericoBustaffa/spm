@@ -33,7 +33,7 @@ double dynamic(size_t workers_num,
                     while (buffer.size() == 0)
                         empty.wait(lock);
 
-                    idx_value = buffer.front();
+                    idx_value = std::move(buffer.front());
                     buffer.pop();
                     lock.unlock();
 
@@ -50,14 +50,18 @@ double dynamic(size_t workers_num,
     {
         for (uint64_t j = ranges[i].first; j <= ranges[i].second; j++)
         {
+            std::unique_lock<std::mutex> lock(mtx);
             buffer.push({i, j});
+            lock.unlock();
             empty.notify_one();
         }
     }
 
     for (size_t i = 0; i < workers_num; i++)
     {
+        std::unique_lock<std::mutex> lock(mtx);
         buffer.push({0, 0}); // termination value
+        lock.unlock();
         empty.notify_one();
     }
 
