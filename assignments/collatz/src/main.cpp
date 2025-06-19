@@ -67,10 +67,14 @@ int main(int argc, const char** argv)
     double dynamic_time = dynamic(p, ranges);
     std::printf("dynamic time: %.4f s\n\n", dynamic_time);
 
+    double threadpool_time = dynamic_threadpool(p, ranges);
+    std::printf("threadpool time: %.4f s\n\n", threadpool_time);
+
     std::printf("- - - - - - - - -\n");
     std::printf("block speedup: %.2f\n", (stime / block_time));
     std::printf("cyclic speedup: %.2f\n", (stime / cyclic_time));
     std::printf("dynamic speedup: %.2f\n", (stime / dynamic_time));
+    std::printf("threadpool speedup: %.2f\n", (stime / threadpool_time));
 
     return 0;
 }
