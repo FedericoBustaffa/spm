@@ -56,17 +56,21 @@ int main(int argc, const char** argv)
         parse_ranges(argc, argv);
 
     double stime = sequential(ranges);
-    std::printf("sequential time: %.4f ns\n\n", stime);
+    std::printf("sequential time: %.4f s\n\n", stime);
 
-    double static_time = static_schedule(p, ranges);
-    std::printf("static time: %.4f ns\n\n", static_time);
+    double block_time = block(p, ranges);
+    std::printf("block time: %.4f s\n\n", block_time);
 
-    double dynamic_time = dynamic_schedule(p, ranges);
-    std::printf("dynamic time: %.4f ns\n\n", dynamic_time);
+    double cyclic_time = cyclic(p, ranges);
+    std::printf("cyclic time: %.4f s\n\n", cyclic_time);
+
+    double dynamic_time = dynamic(p, ranges);
+    std::printf("dynamic time: %.4f s\n\n", dynamic_time);
 
     std::printf("- - - - - - - - -\n");
-    std::printf("static schedule speedup: %.2f\n", (stime / static_time));
-    std::printf("dynamic schedule speedup: %.2f\n", (stime / dynamic_time));
+    std::printf("block speedup: %.2f\n", (stime / block_time));
+    std::printf("cyclic speedup: %.2f\n", (stime / cyclic_time));
+    std::printf("dynamic speedup: %.2f\n", (stime / dynamic_time));
 
     return 0;
 }

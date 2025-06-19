@@ -11,7 +11,7 @@ double sequential(const std::vector<std::pair<uint64_t, uint64_t>>& ranges)
     auto start = std::chrono::high_resolution_clock::now();
     for (const auto& r : ranges)
     {
-        for (uint64_t i = r.first; i < r.second; i++)
+        for (uint64_t i = r.first; i <= r.second; i++)
             counter += collatz_steps(i);
 
         steps.emplace_back(counter);
