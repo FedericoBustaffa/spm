@@ -2,13 +2,13 @@
 #include <thread>
 #include <vector>
 
-#include "AtomicQueue.hpp"
-#include "LockQueue.hpp"
+#include "atomic_queue.hpp"
+#include "lock_queue.hpp"
 
 int main(int argc, char** argv)
 {
-    LockQueue<int> lq;
-    AtomicQueue<int> aq;
+    spm::lock_queue<int> lq;
+    spm::atomic_queue<int> aq;
 
     auto produce = [&](int id) {
         for (int i = 0; i < 100; i++)

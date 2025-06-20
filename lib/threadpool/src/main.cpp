@@ -37,7 +37,7 @@ int main(int argc, const char** argv)
     else
         std::cout << "unbounded queue" << std::endl;
 
-    Timer timer;
+    spm::timer timer;
     timer.start();
     std::vector<int> s_res = sequential(numbers);
     double stime = timer.stop();

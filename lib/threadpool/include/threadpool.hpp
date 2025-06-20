@@ -7,7 +7,7 @@
 #include <thread>
 #include <vector>
 
-#include "queue.hpp"
+#include "lock_queue.hpp"
 
 namespace spm
 {
