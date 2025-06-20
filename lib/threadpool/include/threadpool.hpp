@@ -1,5 +1,5 @@
-#ifndef THREAD_POOL_HPP
-#define THREAD_POOL_HPP
+#ifndef THREADPOOL_HPP
+#define THREADPOOL_HPP
 
 #include <functional>
 #include <future>
@@ -7,9 +7,12 @@
 #include <thread>
 #include <vector>
 
-#include "task_queue.hpp"
+#include "queue.hpp"
 
-class thread_pool
+namespace spm
+{
+
+class threadpool
 {
 public:
     /**
@@ -18,11 +21,11 @@ public:
      *
      * @param workers the number of thread workers. If not specified it will be
      * used the `std::thread::hardware_concurrency()` value.
-     * @param queue_capacity the size of the task queue. If not specified the
+     * @param capacity the size of the task queue. If not specified the
      * queue is unbounded.
      */
-    thread_pool(size_t workers = 0, size_t queue_capacity = 0)
-        : m_running(true), m_tasks(queue_capacity)
+    threadpool(size_t workers = 0, size_t capacity = 0)
+        : m_running(true), m_tasks(capacity)
     {
         size_t n = workers == 0 ? std::thread::hardware_concurrency() : workers;
 
@@ -48,13 +51,13 @@ public:
      * @brief This class should not be copyable (maybe yes I'm not sure)
      *
      */
-    thread_pool(const thread_pool& other) = delete;
+    threadpool(const threadpool& other) = delete;
 
     /**
      * @brief This class should not be movable (this time I'm pretty sure)
      *
      */
-    thread_pool(thread_pool&& other) = delete;
+    threadpool(threadpool&& other) = delete;
 
     /**
      * @brief Returns false if the `shutdown` method is already been invoked,
@@ -76,7 +79,7 @@ public:
      *
      * @return size_t
      */
-    inline size_t queue_capacity() const { return m_tasks.capacity(); }
+    inline size_t capacity() const { return m_tasks.capacity(); }
 
     /**
      * @brief Submits a task and returns a future to handle the result. If the
@@ -90,24 +93,21 @@ public:
               typename Ret = typename std::result_of<Func(Args...)>::type>
     std::future<Ret> submit(Func&& func, Args&&... args)
     {
-        return m_tasks.push(std::forward<Func>(func),
-                            std::forward<Args>(args)...);
-    }
+        // create the task
+        std::packaged_task<Ret(void)> task = make_task(func, args...);
 
-    /**
-     * @brief Submits a task a return a future to handle the result later. If
-     * the task queue is full throws a `std::runtime_exception`
-     *
-     * @param func the callable to execute
-     * @param args arguments for the callable
-     * @return std::future
-     */
-    template <typename Func, typename... Args,
-              typename Ret = typename std::result_of<Func(Args...)>::type>
-    std::future<Ret> submit_async(Func&& func, Args&&... args)
-    {
-        return m_tasks.push_async(std::forward<Func>(func),
-                                  std::forward<Args>(args)...);
+        // extract the future
+        std::future<Ret> future = task.get_future();
+
+        auto task_ptr = std::make_shared<decltype(task)>(std::move(task));
+
+        std::function<void(void)> payload = [task_ptr]() -> void {
+            task_ptr->operator()();
+        };
+
+        m_tasks.push(std::move(payload));
+
+        return future;
     }
 
     /**
@@ -138,16 +138,29 @@ public:
      * `shutdown` method.
      *
      */
-    ~thread_pool()
+    ~threadpool()
     {
         if (m_running)
             this->join();
     }
 
 private:
+    template <typename Func, typename... Args,
+              typename Ret = typename std::result_of<Func(Args...)>::type>
+    std::packaged_task<Ret(void)> make_task(Func&& func, Args&&... args)
+    {
+        std::function<Ret(void)> aux =
+            std::bind(std::forward<Func>(func), std::forward<Args>(args)...);
+
+        return std::packaged_task<Ret(void)>(aux);
+    }
+
+private:
     bool m_running;
+    lock_queue<std::function<void(void)>> m_tasks;
     std::vector<std::thread> m_workers;
-    task_queue m_tasks;
 };
+
+} // namespace spm
 
 #endif

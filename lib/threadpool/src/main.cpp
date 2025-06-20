@@ -28,7 +28,7 @@ int main(int argc, const char** argv)
      */
     std::vector<int> numbers = generate_numbers(n);
 
-    thread_pool pool(w, q);
+    spm::threadpool pool(w, q);
 
     std::cout << "simulation on " << n << " numbers and a ";
     std::cout << "thread pool with " << pool.size() << " workers and ";
@@ -47,11 +47,6 @@ int main(int argc, const char** argv)
     std::vector<int> p_res = submit(numbers, pool);
     double ptime = timer.stop();
     std::cout << "submit time: " << ptime << std::endl;
-
-    timer.start();
-    std::vector<int> pa_res = submit_async(numbers, pool);
-    double patime = timer.stop();
-    std::cout << "submit async time: " << patime << std::endl;
 
     auto compare = [](const std::vector<int>& a, const std::vector<int>& b) {
         bool error = false;
@@ -76,10 +71,6 @@ int main(int argc, const char** argv)
 
     std::cout << "submit speedup: " << (stime / ptime) << std::flush;
     if (!compare(s_res, p_res))
-        std::cout << " no errors" << std::endl;
-
-    std::cout << "submit async speedup: " << (stime / patime) << std::flush;
-    if (!compare(s_res, pa_res))
         std::cout << " no errors" << std::endl;
 
     return 0;

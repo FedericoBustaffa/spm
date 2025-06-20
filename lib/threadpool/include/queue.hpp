@@ -1,15 +1,16 @@
-#ifndef TASK_QUEUE_HPP
-#define TASK_QUEUE_HPP
+#ifndef QUEUE_HPP
+#define QUEUE_HPP
 
 #include <condition_variable>
-#include <functional>
-#include <future>
-#include <memory>
 #include <mutex>
 #include <optional>
 #include <queue>
 
-class task_queue
+namespace spm
+{
+
+template <typename T>
+class lock_queue
 {
 public:
     /**
@@ -18,7 +19,7 @@ public:
      *
      * @param capacity the capacity of the queue.
      */
-    task_queue(size_t capacity) : m_closed(false), m_capacity(capacity) {}
+    lock_queue(size_t capacity) : m_closed(false), m_capacity(capacity) {}
 
     /**
      * @brief Returns the number of tasks in the queue.
@@ -27,7 +28,7 @@ public:
     inline size_t size() const
     {
         std::lock_guard<std::mutex> lock(m_mutex);
-        return m_tasks.size();
+        return m_buffer.size();
     }
 
     /**
@@ -39,7 +40,7 @@ public:
     inline bool empty() const
     {
         std::lock_guard<std::mutex> lock(m_mutex);
-        return m_tasks.size() == 0;
+        return m_buffer.size() == 0;
     }
 
     /**
@@ -51,7 +52,7 @@ public:
     inline bool full() const
     {
         std::lock_guard<std::mutex> lock(m_mutex);
-        return m_capacity == 0 ? false : m_tasks.size() >= m_capacity;
+        return m_capacity == 0 ? false : m_buffer.size() >= m_capacity;
     }
 
     /**
@@ -68,64 +69,62 @@ public:
      * @param args its arguments.
      * @return a future with the return value of the passed function.
      */
-    template <typename Func, typename... Args,
-              typename Ret = typename std::invoke_result<Func, Args...>::type>
-    std::future<Ret> push(Func&& func, Args&&... args)
+    void push(const T& value)
     {
         std::unique_lock<std::mutex> lock(m_mutex);
         if (m_closed)
-            throw std::runtime_error("CLOSED_QUEUE: can't submit more tasks");
+            throw std::runtime_error("CLOSED QUEUE");
 
-        while (m_capacity == 0 ? false : m_tasks.size() >= m_capacity)
+        while (m_capacity == 0 ? false : m_buffer.size() >= m_capacity)
             m_full.wait(lock);
 
-        return make_task(std::forward<Func>(func), std::forward<Args>(args)...);
+        m_buffer.emplace(value);
+        m_empty.notify_one();
     }
 
     /**
      * @brief Push a task into the queue and returns a future to handle the
-     * result. If the queue is full it throw an exception.
+     * result. If the queue is full it blocks until the task is enqueued.
      *
      * @param func the function to execute.
      * @param args its arguments.
      * @return a future with the return value of the passed function.
      */
-    template <typename Func, typename... Args,
-              typename Ret = typename std::invoke_result<Func, Args...>::type>
-    std::future<Ret> push_async(Func&& func, Args&&... args)
+    void push(T&& value)
     {
         std::unique_lock<std::mutex> lock(m_mutex);
         if (m_closed)
-            throw std::runtime_error("CLOSED_QUEUE: can't submit more tasks");
+            throw std::runtime_error("CLOSED QUEUE");
 
-        if (m_capacity == 0 ? false : m_tasks.size() >= m_capacity)
-            throw std::runtime_error("FULL_QUEUE: submission failed");
+        while (m_capacity == 0 ? false : m_buffer.size() >= m_capacity)
+            m_full.wait(lock);
 
-        return make_task(std::forward<Func>(func), std::forward<Args>(args)...);
+        m_buffer.emplace(value);
+        m_empty.notify_one();
     }
 
     /**
      * @brief Extract a task from the queue. If the queue is empty it blocks
      * until a new task is consumed.
      *
-     * @return A void(void) function. It can be return nothing if the queue is
-     * closed and tasks are in the queue.
+     * @return A void(void) function. It can be return nothing if the queue
+     * is closed and tasks are in the queue.
      */
-    std::optional<std::function<void(void)>> pop()
+    std::optional<T> pop()
     {
         std::unique_lock<std::mutex> lock(m_mutex);
-        while (m_tasks.empty() && !m_closed)
+        while (m_buffer.empty() && !m_closed)
             m_empty.wait(lock);
 
-        if (m_tasks.empty())
+        if (m_buffer.empty())
             return std::nullopt;
 
-        std::function<void(void)> task = std::move(m_tasks.front());
-        m_tasks.pop();
+        T value = std::move(m_buffer.front());
+        m_buffer.pop();
 
         m_full.notify_one();
 
-        return task;
+        return value;
     }
 
     /**
@@ -152,44 +151,17 @@ public:
      * @brief Destroy the task queue object and calls `close` method.
      *
      */
-    ~task_queue() { close(); }
-
-private:
-    template <typename Func, typename... Args,
-              typename Ret = typename std::invoke_result<Func, Args...>::type>
-    std::future<Ret> make_task(Func&& func, Args&&... args)
-    {
-        // push task into the queue
-        std ::function<Ret(void)> aux_func =
-            std::bind(std::forward<Func>(func), std::forward<Args>(args)...);
-
-        auto promise = std::make_shared<std::promise<Ret>>();
-
-        // make a void(void) function and store the result in a promise
-        auto task = [promise, aux_func]() mutable {
-            try
-            {
-                promise->set_value(aux_func());
-            }
-            catch (...)
-            {
-                promise->set_exception(std::current_exception());
-            }
-        };
-
-        m_tasks.push(task);
-        m_empty.notify_one();
-
-        return promise->get_future();
-    }
+    ~lock_queue() { close(); }
 
 private:
     bool m_closed;
     const size_t m_capacity;
-    std::queue<std::function<void(void)>> m_tasks;
+    std::queue<T> m_buffer;
 
     mutable std::mutex m_mutex;
     std::condition_variable m_empty, m_full;
 };
+
+} // namespace spm
 
 #endif

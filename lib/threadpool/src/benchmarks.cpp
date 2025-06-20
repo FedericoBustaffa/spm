@@ -1,8 +1,6 @@
 #include "benchmarks.hpp"
 
-#include <iostream>
 #include <random>
-#include <stdexcept>
 
 std::vector<int> generate_numbers(size_t n, int min, int max)
 {
@@ -36,9 +34,8 @@ std::vector<int> sequential(const std::vector<int>& numbers)
     return out;
 }
 
-std::vector<int> submit(const std::vector<int>& numbers, thread_pool& pool)
+std::vector<int> submit(const std::vector<int>& numbers, spm::threadpool& pool)
 {
-
     std::vector<std::future<int>> futures;
     futures.reserve(numbers.size());
 
@@ -49,34 +46,7 @@ std::vector<int> submit(const std::vector<int>& numbers, thread_pool& pool)
         futures.push_back(pool.submit(fibonacci, n));
 
     for (std::future<int>& f : futures)
-        out.emplace_back(f.get());
-
-    return out;
-}
-
-std::vector<int> submit_async(const std::vector<int>& numbers,
-                              thread_pool& pool)
-{
-    std::vector<std::future<int>> futures;
-    futures.reserve(numbers.size());
-
-    std::vector<int> out;
-    out.reserve(numbers.size());
-
-    for (const int& n : numbers)
-    {
-        try
-        {
-            futures.push_back(pool.submit_async(fibonacci, n));
-        }
-        catch (std::runtime_error& e)
-        {
-            std::cout << e.what() << std::endl;
-        }
-    }
-
-    for (std::future<int>& f : futures)
-        out.emplace_back(f.get());
+        out.push_back(std::move(f.get()));
 
     return out;
 }
