@@ -18,29 +18,27 @@ public:
         m_data = new T[capacity];
     }
 
-    inline size_t capacity() const { return m_capacity.load(); }
-
-    inline size_t size() const { return m_size.load(); }
+    inline size_t capacity() const { return m_capacity; }
 
     void push(const T& value)
     {
-        m_data[m_tail.load()] = value;
-        m_tail.store((m_tail.load() + 1) % m_capacity);
-        m_size.fetch_add(1);
+        // 1. book the index
+        // 2. CAS loop
+
+        size_t index = m_tail.fetch_add(1);
+        m_data[index % m_capacity] = value;
     }
 
     void push(T&& value)
     {
-        m_data[m_tail.load()] = std::move(value);
-        m_tail.store((m_tail.load() + 1) % m_capacity);
-        m_size.fetch_add(1);
+        size_t index = m_tail.fetch_add(1);
+        m_data[index % m_capacity] = std::move(value);
     }
 
     std::optional<T> pop()
     {
         const T& value = m_data[m_head.load()];
         m_head.store((m_head.load() + 1) % m_capacity);
-        m_size.fetch_sub(1);
 
         return value;
     }
@@ -58,7 +56,7 @@ public:
 private:
     T* m_data;
     std::atomic<size_t> m_size;
-    std::atomic<size_t> m_capacity;
+    const size_t m_capacity;
 
     std::atomic<size_t> m_head;
     std::atomic<size_t> m_tail;
