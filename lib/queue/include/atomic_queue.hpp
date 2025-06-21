@@ -20,6 +20,8 @@ public:
 
     inline size_t capacity() const { return m_capacity; }
 
+    inline size_t size() const { return m_size; }
+
     void push(const T& value)
     {
         // 1. book the index
@@ -27,18 +29,21 @@ public:
 
         size_t index = m_tail.fetch_add(1);
         m_data[index % m_capacity] = value;
+        m_size.fetch_add(1);
     }
 
     void push(T&& value)
     {
         size_t index = m_tail.fetch_add(1);
         m_data[index % m_capacity] = std::move(value);
+        m_size.fetch_add(1);
     }
 
     std::optional<T> pop()
     {
         const T& value = m_data[m_head.load()];
         m_head.store((m_head.load() + 1) % m_capacity);
+        m_size.fetch_sub(1);
 
         return value;
     }
