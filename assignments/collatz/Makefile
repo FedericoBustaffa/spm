@@ -14,7 +14,7 @@ OPTFLAGS = -O3 -march=native
 DEPSFLAGS = -MMD -MP
 
 # specify include directories with -I<dir>
-INCLUDES = -I./include/ -I../../test/threadpool/include/ -I../../lib/queue/include/ -I../../lib/timer/include/
+INCLUDES = -I./include/ -I../../test/threadpool/include/ -I../../lib/queue/include/
 
 # specify preprocessor definitions
 DEFINES = 
