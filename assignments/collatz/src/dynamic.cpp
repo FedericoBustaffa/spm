@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "collatz.hpp"
-#include "lock_queue.hpp"
+#include "mpmc_queue.hpp"
 
 double dynamic(size_t workers_num,
                const std::vector<std::pair<uint64_t, uint64_t>>& ranges)
@@ -15,7 +15,7 @@ double dynamic(size_t workers_num,
     std::vector<std::thread> workers;
     workers.reserve(workers_num);
 
-    spm::lock_queue<std::pair<size_t, uint64_t>> buffer;
+    spm::mpmc_queue<std::pair<size_t, uint64_t>> buffer;
 
     auto start = std::chrono::high_resolution_clock::now();
     for (size_t i = 0; i < workers_num; i++)

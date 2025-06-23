@@ -1,8 +1,12 @@
 #include <iostream>
 #include <vector>
 
-#include "benchmarks.hpp"
+#include "threadpool.hpp"
 #include "timer.hpp"
+
+std::vector<int> generate_numbers(size_t n, int min = 0, int max = 30);
+std::vector<int> sequential(const std::vector<int>& numbers);
+std::vector<int> submit(const std::vector<int>& numbers, spm::threadpool& pool);
 
 int main(int argc, const char** argv)
 {
@@ -18,7 +22,7 @@ int main(int argc, const char** argv)
     if (argc >= 3)
         w = std::atol(argv[2]);
 
-    int64_t q = 0; // # task queue slots
+    int64_t q = 1024; // # task queue slots
     if (argc >= 4)
         q = std::atol(argv[3]);
 

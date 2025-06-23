@@ -1,0 +1,114 @@
+#ifndef MPMC_QUEUE_HPP
+#define MPMC_QUEUE_HPP
+
+#include <atomic>
+#include <cassert>
+#include <cstddef>
+#include <optional>
+#include <stdexcept>
+#include <thread>
+
+namespace spm
+{
+
+template <typename T>
+class mpmc_queue
+{
+public:
+    mpmc_queue(size_t capacity = 1024)
+        : m_capacity(capacity), m_head(0), m_tail(0), m_closed(false)
+    {
+        assert(capacity > 0);
+        m_data = new T[capacity];
+        m_versions = new std::atomic<size_t>[capacity];
+        for (size_t i = 0; i < capacity; i++)
+            m_versions[i].store(i, std::memory_order_relaxed);
+    }
+
+    inline size_t capacity() const { return m_capacity; }
+
+    inline size_t size() const
+    {
+        return (m_tail.load(std::memory_order_relaxed) -
+                m_head.load(std::memory_order_relaxed)) %
+               m_capacity;
+    }
+
+    void push(const T& value)
+    {
+        if (m_closed.load(std::memory_order_acquire))
+            throw std::runtime_error("CLOSED QUEUE");
+
+        // book an index
+        size_t tail = m_tail.fetch_add(1, std::memory_order_relaxed);
+        size_t index = tail % m_capacity;
+
+        // loop until the slot is available
+        while (m_versions[index].load(std::memory_order_acquire) != tail)
+            std::this_thread::yield();
+
+        // write the new value
+        m_data[index] = value;
+
+        // publish the result
+        m_versions[index].store(tail + 1, std::memory_order_release);
+    }
+
+    std::optional<T> pop()
+    {
+        // book an index
+        size_t head = m_head.fetch_add(1, std::memory_order_relaxed);
+        size_t index = head % m_capacity;
+        size_t version;
+
+        // loop until the slot is readable or the queue is closed
+        while (true)
+        {
+            version = m_versions[index].load(std::memory_order_acquire);
+            if (version == head + 1)
+                break;
+
+            if (m_closed.load(std::memory_order_acquire))
+                return std::nullopt;
+
+            std::this_thread::yield();
+        }
+
+        // read the value
+        T value = m_data[index];
+
+        // make the slot available again
+        m_versions[index].store(head + m_capacity, std::memory_order_release);
+
+        return value;
+    }
+
+    inline bool is_closed() const
+    {
+        return m_closed.load(std::memory_order_relaxed);
+    }
+
+    void close() { m_closed.store(true, std::memory_order_relaxed); }
+
+    ~mpmc_queue()
+    {
+        close();
+        delete[] m_data;
+        delete[] m_versions;
+    }
+
+private:
+    const size_t m_capacity;
+
+    T* m_data;
+    std::atomic<size_t>* m_versions;
+
+    std::atomic<size_t> m_head;
+    std::atomic<size_t> m_tail;
+
+    std::atomic<bool> m_closed;
+};
+
+} // namespace spm
+
+#endif

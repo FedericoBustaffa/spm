@@ -1,6 +1,8 @@
-#include "benchmarks.hpp"
-
+#include <future>
 #include <random>
+#include <vector>
+
+#include "threadpool.hpp"
 
 std::vector<int> generate_numbers(size_t n, int min, int max)
 {
@@ -17,10 +19,15 @@ std::vector<int> generate_numbers(size_t n, int min, int max)
 
 int fibonacci(int n)
 {
-    if (n == 0 || n == 1)
-        return n;
+    int prev_prev, prev = 0, curr = 1;
+    for (int i = 1; i < n; i++)
+    {
+        prev_prev = prev;
+        prev = curr;
+        curr = prev_prev + prev;
+    }
 
-    return fibonacci(n - 1) + fibonacci(n - 2);
+    return curr;
 }
 
 std::vector<int> sequential(const std::vector<int>& numbers)
@@ -46,7 +53,7 @@ std::vector<int> submit(const std::vector<int>& numbers, spm::threadpool& pool)
         futures.push_back(pool.submit(fibonacci, n));
 
     for (std::future<int>& f : futures)
-        out.push_back(std::move(f.get()));
+        out.emplace_back(std::move(f.get()));
 
     return out;
 }

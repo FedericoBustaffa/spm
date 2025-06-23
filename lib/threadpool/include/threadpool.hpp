@@ -7,7 +7,7 @@
 #include <thread>
 #include <vector>
 
-#include "lock_queue.hpp"
+#include "mpmc_queue.hpp"
 
 namespace spm
 {
@@ -157,7 +157,7 @@ private:
 
 private:
     bool m_running;
-    lock_queue<std::function<void(void)>> m_tasks;
+    mpmc_queue<std::function<void(void)>> m_tasks;
     std::vector<std::thread> m_workers;
 };
 
