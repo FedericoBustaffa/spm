@@ -1,5 +1,6 @@
 #include <atomic>
 #include <cstdint>
+#include <cstdio>
 #include <thread>
 #include <vector>
 
@@ -24,7 +25,7 @@ uint64_t dynamic(size_t workers_num, const range& range)
                 {
                     value = buffer.pop();
                     if (!value.has_value())
-                        return;
+                        break;
                     else
                         local_counter += collatz_steps(value.value());
                 }
