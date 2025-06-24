@@ -1,5 +1,5 @@
 # compiler
-CXX = g++
+CXX = ar
 
 # general flags
 CXXFLAGS = -Wall -std=c++20
@@ -14,7 +14,7 @@ OPTFLAGS = -O3 -march=native
 DEPSFLAGS = -MMD -MP
 
 # specify include directories with -I<dir>
-INCLUDES = -I./include/ -I../../lib/include/
+INCLUDES = -I./include/
 
 # specify preprocessor definitions
 DEFINES = 
@@ -53,7 +53,7 @@ OBJECTS = $(patsubst $(SOURCE_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SOURCES))
 
 .PHONY: all clean-fast clean recompile
 
-TARGET = collatz.out
+TARGET = spm.a
 
 all: $(BUILD_DIR) $(TARGET)
 
@@ -68,10 +68,10 @@ $(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.cpp
 
 -include $(DEPS)
 
-clean:
+clean-fast:
 	-rm -rf $(BUILD_DIR)
 
-cleanall: clean
+clean: clean-fast
 	-rm -rf $(TARGET)
 
-recompile: cleanall all
+recompile: clean all

@@ -5,14 +5,14 @@
       "-Wall",
       "-std=c++20",
       "-I./include/",
-      "-I../../test/threadpool/include/",
-      "-I../../lib/queue/include/",
+      "-I../../lib/include/",
       "-O3",
       "-march=native",
       "-c",
       "-o",
       "build/sequential.o",
       "src/sequential.cpp"
+<<<<<<< HEAD
     ],
     "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
     "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/sequential.cpp",
@@ -32,10 +32,12 @@
       "-o",
       "build/collatz.o",
       "src/collatz.cpp"
+=======
+>>>>>>> refs/remotes/origin/master
     ],
     "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
-    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/collatz.cpp",
-    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/collatz.o"
+    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/sequential.cpp",
+    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/sequential.o"
   },
   {
     "arguments": [
@@ -43,27 +45,11 @@
       "-Wall",
       "-std=c++20",
       "-I./include/",
+<<<<<<< HEAD
       "-I../../test/threadpool/include/",
       "-I../../lib/queue/include/",
-      "-O3",
-      "-march=native",
-      "-c",
-      "-o",
-      "build/static.o",
-      "src/static.cpp"
-    ],
-    "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
-    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/static.cpp",
-    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/static.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/g++",
-      "-Wall",
-      "-std=c++20",
-      "-I./include/",
-      "-I../../test/threadpool/include/",
-      "-I../../lib/queue/include/",
+=======
+      "-I../../lib/include/",
       "-O3",
       "-march=native",
       "-c",
@@ -81,17 +67,76 @@
       "-Wall",
       "-std=c++20",
       "-I./include/",
-      "-I../../test/threadpool/include/",
-      "-I../../lib/queue/include/",
+      "-I../../lib/include/",
+>>>>>>> refs/remotes/origin/master
       "-O3",
       "-march=native",
       "-c",
       "-o",
+      "build/static.o",
+      "src/static.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
+    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/static.cpp",
+    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/static.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-std=c++20",
+      "-I./include/",
+      "-I../../lib/include/",
+      "-O3",
+      "-march=native",
+      "-c",
+      "-o",
+<<<<<<< HEAD
+      "build/main.o",
+      "src/main.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
+    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/main.cpp",
+    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/main.o"
+=======
       "build/dynamic.o",
       "src/dynamic.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
     "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/dynamic.cpp",
     "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/dynamic.o"
+>>>>>>> refs/remotes/origin/master
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-std=c++20",
+      "-I./include/",
+<<<<<<< HEAD
+      "-I../../test/threadpool/include/",
+      "-I../../lib/queue/include/",
+=======
+      "-I../../lib/include/",
+>>>>>>> refs/remotes/origin/master
+      "-O3",
+      "-march=native",
+      "-c",
+      "-o",
+<<<<<<< HEAD
+      "build/dynamic.o",
+      "src/dynamic.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
+    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/dynamic.cpp",
+    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/dynamic.o"
+=======
+      "build/collatz.o",
+      "src/collatz.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
+    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/collatz.cpp",
+    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/collatz.o"
+>>>>>>> refs/remotes/origin/master
   }
 ]
