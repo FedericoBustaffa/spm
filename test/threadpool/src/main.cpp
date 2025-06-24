@@ -4,42 +4,41 @@
 #include "threadpool.hpp"
 #include "timer.hpp"
 
-std::vector<int> generate_numbers(size_t n, int min = 0, int max = 30);
+std::vector<int> generate_numbers(size_t n, int min = 25, int max = 30);
 std::vector<int> sequential(const std::vector<int>& numbers);
 std::vector<int> submit(const std::vector<int>& numbers, spm::threadpool& pool);
 
 int main(int argc, const char** argv)
 {
+    // # of numbers
     int64_t e = 10;
-    int64_t n = 1 << e; // # of numbers
+    int64_t n = 1 << e;
     if (argc >= 2)
     {
         e = std::atol(argv[1]);
         n = 1 << e;
     }
 
-    int64_t w = 0; // # of workers
+    // # of workers
+    int64_t w = 0;
     if (argc >= 3)
         w = std::atol(argv[2]);
 
-    int64_t q = 1024; // # task queue slots
+    // # task queue slots
+    int64_t q = 1 << 10UL;
     if (argc >= 4)
-        q = std::atol(argv[3]);
+        q = 1 << std::atol(argv[3]);
 
-    /*
-     * Every test compute the fibonacci number of all the n numbers contained
-     * in the std::vector "numbers"
-     */
+    // Every test compute the fibonacci number of all the n numbers contained
+    // in the std::vector "numbers"
     std::vector<int> numbers = generate_numbers(n);
-
     spm::threadpool pool(w, q);
 
-    std::cout << "simulation on " << n << " numbers and a ";
-    std::cout << "thread pool with " << pool.size() << " workers and ";
-    if (q > 0)
-        std::cout << q << " queue slots" << std::endl;
-    else
-        std::cout << "unbounded queue" << std::endl;
+    std::cout << "simulation stats" << std::endl;
+    std::cout << n << " fibonacci numbers" << std::endl;
+    std::cout << pool.size() << " workers" << std::endl;
+    std::cout << q << " queue slots" << std::endl;
+    std::cout << "**********************" << std::endl;
 
     spm::timer timer;
     timer.start();
@@ -52,30 +51,27 @@ int main(int argc, const char** argv)
     double ptime = timer.stop();
     std::cout << "submit time: " << ptime << std::endl;
 
-    auto compare = [](const std::vector<int>& a, const std::vector<int>& b) {
-        bool error = false;
-        if (a.size() != b.size())
+    std::cout << "submit speedup: " << (stime / ptime) << std::endl;
+
+    bool error = false;
+    if (s_res.size() != p_res.size())
+    {
+        std::cout << " vectors with different sizes" << std::endl;
+        error = true;
+    }
+
+    for (size_t i = 0; i < s_res.size(); i++)
+    {
+        if (s_res[i] != p_res[i])
         {
-            std::cout << " vectors with different sizes" << std::endl;
-            return true;
+            error = true;
+            std::cout << " a[" << i << "] = " << s_res[i] << " | b[" << i
+                      << "] = " << p_res[i] << std::endl;
         }
+    }
 
-        for (size_t i = 0; i < a.size(); i++)
-        {
-            if (a[i] != b[i])
-            {
-                error = true;
-                std::cout << " a[" << i << "] = " << a[i] << " | b[" << i
-                          << "] = " << b[i] << std::endl;
-            }
-        }
-
-        return error;
-    };
-
-    std::cout << "submit speedup: " << (stime / ptime) << std::flush;
-    if (!compare(s_res, p_res))
-        std::cout << " no errors" << std::endl;
+    if (!error)
+        std::cout << "no errors occurred" << std::endl;
 
     return 0;
 }

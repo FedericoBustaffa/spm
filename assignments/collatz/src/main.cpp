@@ -1,11 +1,13 @@
+#include <cmath>
+#include <iostream>
 #include <regex>
 
 #include "collatz.hpp"
+#include "timer.hpp"
 
-std::vector<std::pair<uint64_t, uint64_t>> parse_ranges(int argc,
-                                                        const char** argv)
+std::vector<range> parse_ranges(int argc, const char** argv)
 {
-    std::vector<std::pair<uint64_t, uint64_t>> ranges;
+    std::vector<range> ranges;
     std::regex regex(R"(^(\d+)-(\d+)$)");
     std::smatch match;
 
@@ -51,25 +53,73 @@ int main(int argc, const char** argv)
         return 1;
     }
 
-    std::vector<std::pair<uint64_t, uint64_t>> ranges =
-        parse_ranges(argc, argv);
+    std::vector<range> ranges = parse_ranges(argc, argv);
 
-    double stime = sequential(ranges);
+    spm::timer timer;
+
+    // sequential
+    double stime = 0.0;
+    uint64_t counter = 0;
+    for (const auto& r : ranges)
+    {
+        timer.start();
+        counter += sequential(r);
+        stime += timer.stop();
+    }
+    std::printf("sequential steps: %lu\n", counter);
     std::printf("sequential time: %.4f s\n\n", stime);
 
-    double block_time = block(p, ranges);
-    std::printf("block time: %.4f s\n\n", block_time);
+    // block
+    double btime = 0.0;
+    counter = 0;
+    for (const auto& r : ranges)
+    {
+        timer.start();
+        counter += block_cyclic(p, std::ceil(r.length() / p), r);
+        btime += timer.stop();
+    }
+    std::printf("block steps: %lu\n", counter);
+    std::printf("block time: %.4f s\n", btime);
+    std::printf("block speedup: %.2f\n\n", (stime / btime));
 
-    double cyclic_time = cyclic(p, ranges);
-    std::printf("cyclic time: %.4f s\n\n", cyclic_time);
+    // cyclic time
+    double ctime = 0.0;
+    counter = 0;
+    for (const auto& r : ranges)
+    {
+        timer.start();
+        counter += block_cyclic(p, 1, r);
+        ctime += timer.stop();
+    }
+    std::printf("cyclic steps: %lu\n", counter);
+    std::printf("cyclic time: %.4f s\n", ctime);
+    std::printf("cyclic speedup: %.2f\n\n", (stime / ctime));
 
-    double dynamic_time = dynamic(p, ranges);
-    std::printf("dynamic time: %.4f s\n\n", dynamic_time);
+    // block-cyclic time
+    double bctime = 0.0;
+    counter = 0;
+    for (const auto& r : ranges)
+    {
+        timer.start();
+        counter += block_cyclic(p, std::ceil(std::ceil(r.length() / p) / 2), r);
+        bctime += timer.stop();
+    }
+    std::printf("block-cyclic steps: %lu\n", counter);
+    std::printf("block-cyclic time: %.4f s\n", bctime);
+    std::printf("block-cyclic speedup: %.2f\n\n", (stime / bctime));
 
-    std::printf("- - - - - - - - -\n");
-    std::printf("block speedup: %.2f\n", (stime / block_time));
-    std::printf("cyclic speedup: %.2f\n", (stime / cyclic_time));
-    std::printf("dynamic speedup: %.2f\n", (stime / dynamic_time));
+    // dynamic
+    double dtime = 0.0;
+    counter = 0;
+    for (const auto& r : ranges)
+    {
+        timer.start();
+        counter += dynamic(p, r);
+        dtime += timer.stop();
+    }
+    std::printf("dynamic steps: %lu\n", counter);
+    std::printf("dynamic time: %.4f s\n", dtime);
+    std::printf("dynamic speedup: %.2f\n\n", (stime / dtime));
 
     return 0;
 }

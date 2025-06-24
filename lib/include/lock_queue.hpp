@@ -1,6 +1,7 @@
 #ifndef LOCK_QUEUE_HPP
 #define LOCK_QUEUE_HPP
 
+#include <cassert>
 #include <condition_variable>
 #include <cstddef>
 #include <mutex>
@@ -17,6 +18,7 @@ public:
     lock_queue(size_t capacity = 1024)
         : m_size(0), m_capacity(capacity), m_head(0), m_tail(0), m_closed(false)
     {
+        assert(capacity > 0);
         m_data = new T[capacity];
     }
 

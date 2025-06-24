@@ -19,15 +19,10 @@ std::vector<int> generate_numbers(size_t n, int min, int max)
 
 int fibonacci(int n)
 {
-    int prev_prev, prev = 0, curr = 1;
-    for (int i = 1; i < n; i++)
-    {
-        prev_prev = prev;
-        prev = curr;
-        curr = prev_prev + prev;
-    }
+    if (n == 0 || n == 1)
+        return n;
 
-    return curr;
+    return fibonacci(n - 1) + fibonacci(n - 2);
 }
 
 std::vector<int> sequential(const std::vector<int>& numbers)
