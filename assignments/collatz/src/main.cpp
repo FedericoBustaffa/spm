@@ -1,5 +1,4 @@
 #include <cmath>
-#include <iostream>
 #include <regex>
 
 #include "collatz.hpp"
@@ -119,7 +118,7 @@ int main(int argc, const char** argv)
     }
     std::printf("dynamic steps: %lu\n", counter);
     std::printf("dynamic time: %.4f s\n", dtime);
-    std::printf("dynamic speedup: %.2f\n\n", (stime / dtime));
+    std::printf("dynamic speedup: %.2f\n", (stime / dtime));
 
     return 0;
 }

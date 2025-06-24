@@ -18,10 +18,11 @@ uint64_t block_cyclic(size_t workers_num, size_t chunksize, const range& range)
         workers.emplace_back(
             [&](size_t id) {
                 uint64_t local_counter = 0;
-                for (uint64_t i = range.a + id * chunksize; i <= range.b;
+                for (uint64_t i = range.a + id * chunksize; i < range.b;
                      i += workers_num * chunksize)
                 {
-                    for (uint64_t j = i; j < i + chunksize; j++)
+                    for (uint64_t j = i; j < std::min(i + chunksize, range.b);
+                         j++)
                         local_counter += collatz_steps(j);
                 }
 
