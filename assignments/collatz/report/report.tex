@@ -1,0 +1,60 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{mathtools, amsmath, amssymb, amsthm}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tabularx}
+\usepackage{svg}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{booktabs}
+
+\usepackage{minted}
+\definecolor{minted_bg}{rgb}{0.9, 0.9, 0.9}
+\usemintedstyle{colorful}
+
+\setminted[cpp]{
+	tabsize=4,
+	% linenos=true,
+	bgcolor=minted_bg,
+	fontsize=\small,
+	mathescape=true
+}
+
+\title{Assignment 2\\Collatz Steps}
+\author{Federico Bustaffa}
+\date{12/03/2025}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\clearpage
+
+\section{Introduction}
+
+The aim of the assignment was to implement, through C++ threads two parallel
+versions of an algorithm the computes the \verb|collatz_steps| function on each
+value of one or more given ranges.
+
+\begin{minted}{cpp}
+  uint64_t collatz_steps(uint64_t n) {
+    uint64_t steps = 0;
+    while (n != 1) {
+      n = (n % 2 == 0) ? n / 2 : 3 * n + 1;
+      steps++;
+    }
+
+    return steps;
+  }
+\end{minted}
+
+One implementation has to dispatch the workload through a static policy, in
+particular a \emph{block-cyclic} policy, while the other method implement a
+dynamic policy like a shared threadpool queue.
+
+In the end a theoretical analysis is performed using the \emph{work-span} model
+to estimate the thoretical speedup for both implementations.
+
+\end{document}

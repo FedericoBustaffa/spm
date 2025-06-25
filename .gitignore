@@ -51,6 +51,8 @@ Thumbs.db
 *.pygstyle
 *.Identifier
 
+_minted/
+
 .vscode/
 svg-inkscape/
 
