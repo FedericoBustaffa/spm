@@ -6,15 +6,18 @@
 
 #include "collatz.hpp"
 #include "mpmc_queue.hpp"
+#include "timer.hpp"
 
-uint64_t dynamic(size_t workers_num, const range& range)
+double dynamic(size_t workers_num, const range& range)
 {
     std::vector<std::thread> workers;
     workers.reserve(workers_num);
-    spm::mpmc_queue<uint64_t> buffer;
+    spm::mpmc_queue<uint64_t> buffer(range.length() * 2);
 
     std::atomic<uint64_t> counter(0);
 
+    spm::timer timer;
+    timer.start();
     for (size_t i = 0; i < workers_num; i++)
     {
         workers.emplace_back(
@@ -42,6 +45,9 @@ uint64_t dynamic(size_t workers_num, const range& range)
 
     for (auto& w : workers)
         w.join();
+    double time = timer.stop();
 
-    return counter.load();
+    std::printf("dynamic steps: %lu\n", counter.load());
+
+    return time;
 }

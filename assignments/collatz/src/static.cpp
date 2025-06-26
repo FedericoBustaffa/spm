@@ -3,8 +3,9 @@
 #include <vector>
 
 #include "collatz.hpp"
+#include "timer.hpp"
 
-uint64_t block_cyclic(size_t workers_num, size_t chunksize, const range& range)
+double block_cyclic(size_t workers_num, size_t chunksize, const range& range)
 {
     // pool of workers
     std::vector<std::thread> workers;
@@ -13,6 +14,8 @@ uint64_t block_cyclic(size_t workers_num, size_t chunksize, const range& range)
     // global steps counter
     std::atomic<uint64_t> counter(0);
 
+    spm::timer timer;
+    timer.start();
     for (size_t w = 0; w < workers_num; w++)
     {
         workers.emplace_back(
@@ -36,6 +39,9 @@ uint64_t block_cyclic(size_t workers_num, size_t chunksize, const range& range)
 
     for (auto& w : workers)
         w.join();
+    double time = timer.stop();
 
-    return counter.load();
+    std::printf("static (%zu) steps: %lu\n", chunksize, counter.load());
+
+    return time;
 }

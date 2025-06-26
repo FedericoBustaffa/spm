@@ -15,10 +15,10 @@ struct range
 
 uint64_t collatz_steps(uint64_t n);
 
-uint64_t sequential(const range& range);
+double sequential(const range& range);
 
-uint64_t block_cyclic(size_t workers_num, size_t chunksize, const range& range);
+double block_cyclic(size_t workers_num, size_t chunksize, const range& range);
 
-uint64_t dynamic(size_t workers_num, const range& range);
+double dynamic(size_t workers_num, const range& range);
 
 #endif

@@ -10,12 +10,12 @@
       "-march=native",
       "-c",
       "-o",
-      "build/main.o",
-      "src/main.cpp"
+      "build/static.o",
+      "src/static.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
-    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/main.cpp",
-    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/main.o"
+    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/static.cpp",
+    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/static.o"
   },
   {
     "arguments": [
@@ -46,12 +46,12 @@
       "-march=native",
       "-c",
       "-o",
-      "build/static.o",
-      "src/static.cpp"
+      "build/sequential.o",
+      "src/sequential.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
-    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/static.cpp",
-    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/static.o"
+    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/sequential.cpp",
+    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/sequential.o"
   },
   {
     "arguments": [
@@ -64,12 +64,12 @@
       "-march=native",
       "-c",
       "-o",
-      "build/sequential.o",
-      "src/sequential.cpp"
+      "build/main.o",
+      "src/main.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
-    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/sequential.cpp",
-    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/sequential.o"
+    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/main.cpp",
+    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/main.o"
   },
   {
     "arguments": [
