@@ -1,6 +1,6 @@
 #include <cstdio>
 
-#include "pipeline.hpp"
+#include "node.hpp"
 
 double f(double x) { return x * 2; }
 
@@ -8,14 +8,10 @@ double g(double x) { return x + 3; }
 
 int main(int argc, const char** argv)
 {
-    spm::pipeline pl;
+    spm::node<double, double> n1(f);
+    spm::node<double, double> n2(g);
 
-    pl.add_stage(f);
-    pl.add_stage(g);
-
-    double values[5] = {0, 1, 2, 3, 4};
-
-    double* result = pl.run(values);
+    std::printf("%.2f\n", n1(n2(n1(10))));
 
     return 0;
 }

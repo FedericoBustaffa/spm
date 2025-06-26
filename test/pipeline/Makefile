@@ -36,7 +36,7 @@ else
 endif
 
 # link libraries
-LIBS = 
+LIBS = -pthread
 
 # specify source directory
 SOURCE_DIR = ./src
