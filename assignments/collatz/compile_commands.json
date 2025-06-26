@@ -10,12 +10,12 @@
       "-march=native",
       "-c",
       "-o",
-      "build/dynamic.o",
-      "src/dynamic.cpp"
+      "build/main.o",
+      "src/main.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
-    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/dynamic.cpp",
-    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/dynamic.o"
+    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/main.cpp",
+    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/main.o"
   },
   {
     "arguments": [
@@ -34,24 +34,6 @@
     "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
     "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/collatz.cpp",
     "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/collatz.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/g++",
-      "-Wall",
-      "-std=c++20",
-      "-I./include/",
-      "-I../../lib/include/",
-      "-O3",
-      "-march=native",
-      "-c",
-      "-o",
-      "build/main.o",
-      "src/main.cpp"
-    ],
-    "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
-    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/main.cpp",
-    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/main.o"
   },
   {
     "arguments": [
@@ -88,5 +70,23 @@
     "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
     "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/sequential.cpp",
     "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/sequential.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-std=c++20",
+      "-I./include/",
+      "-I../../lib/include/",
+      "-O3",
+      "-march=native",
+      "-c",
+      "-o",
+      "build/dynamic.o",
+      "src/dynamic.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/assignments/collatz",
+    "file": "/home/federico/dev/cpp/spm/assignments/collatz/src/dynamic.cpp",
+    "output": "/home/federico/dev/cpp/spm/assignments/collatz/build/dynamic.o"
   }
 ]

@@ -100,7 +100,7 @@ int main(int argc, const char** argv)
     for (const auto& r : ranges)
     {
         timer.start();
-        counter += block_cyclic(p, std::ceil(std::ceil(r.length() / p) / 2), r);
+        counter += block_cyclic(p, std::ceil(std::ceil(r.length() / p) / 4), r);
         bctime += timer.stop();
     }
     std::printf("block-cyclic steps: %lu\n", counter);
