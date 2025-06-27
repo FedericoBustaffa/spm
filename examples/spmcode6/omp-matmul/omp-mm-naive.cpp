@@ -5,8 +5,8 @@
 #endif
 #include "hpc_helpers.hpp"
 
-
-void init(float * data, uint64_t length) {
+void init(float* data, uint64_t length)
+{
     std::mt19937 engine(42);
     std::uniform_real_distribution<float> density(-1, 1);
 
@@ -14,28 +14,32 @@ void init(float * data, uint64_t length) {
         data[i] = density(engine);
 }
 
-int main() {
-	// assume square matrices for simplicity
-	constexpr int N=4096;
+int main()
+{
+    // assume square matrices for simplicity
+    constexpr int N = 4096;
     static float A[N * N];
     static float B[N * N];
     static float C[N * N];
 
-	init(A, N*N);
-	init(B, N*N);
+    init(A, N * N);
+    init(B, N * N);
 
     TIMERSTART(mm_naive1_openmp);
     // Offload the matrix multiplication to the GPU
 #pragma omp target teams distribute parallel for collapse(2)
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < N; j++) {
-			double sum = 0.0;
-			for (int k = 0; k < N; k++) {
-				sum += A[i * N + k] * B[k * N + j];
-			}
-			C[i * N + j] = sum;
-		}
-	}
+    for (int i = 0; i < N; i++)
+    {
+        for (int j = 0; j < N; j++)
+        {
+            double sum = 0.0;
+            for (int k = 0; k < N; k++)
+            {
+                sum += A[i * N + k] * B[k * N + j];
+            }
+            C[i * N + j] = sum;
+        }
+    }
 
     TIMERSTOP(mm_naive1_openmp);
 
@@ -55,6 +59,6 @@ int main() {
     std::cout << "Result is ok!" << std::endl;
     delete [] check;
 #else
-	(void)C;
+    (void)C;
 #endif
 }

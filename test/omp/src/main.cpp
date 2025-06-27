@@ -1,13 +1,23 @@
 #include <cstdio>
-
 #include <omp.h>
+#include <thread>
+
+#include "timer.hpp"
+
+using namespace std::chrono_literals;
 
 int main()
 {
-#pragma omp parallel
-    { // <- spawning of threads
-        int i = omp_get_thread_num();
-        int n = omp_get_num_threads();
-        std::printf("Hello from thread %d of %d\n", i, n);
-    } // <- joining of threads
+    spm::timer timer;
+    timer.start();
+    for (int i = 0; i < 5; i++)
+        std::this_thread::sleep_for(1s);
+    std::printf("%.6f\n", timer.stop());
+
+    timer.start();
+#pragma omp parallel for
+    for (int i = 0; i < 5; i++)
+        std::this_thread::sleep_for(1s);
+
+    std::printf("%.6f\n", timer.stop());
 }

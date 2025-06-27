@@ -1,0 +1,423 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_hello",
+      "omp_hello.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_hello.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_hello"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_affinity",
+      "omp_affinity.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_affinity.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_affinity"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_reduction",
+      "omp_reduction.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_reduction.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_reduction"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_pi",
+      "omp_pi.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_pi.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_pi"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_scope2",
+      "omp_scope2.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_scope2.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_scope2"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_ordered",
+      "omp_ordered.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_ordered.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_ordered"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_pi-taskloop",
+      "omp_pi-taskloop.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_pi-taskloop.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_pi-taskloop"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_nested",
+      "omp_nested.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_nested.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_nested"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_schedule",
+      "omp_schedule.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_schedule.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_schedule"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_reduction2",
+      "omp_reduction2.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_reduction2.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_reduction2"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_fibo",
+      "omp_fibo.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_fibo.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_fibo"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_hello2",
+      "omp_hello2.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_hello2.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_hello2"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_pi-tasks-lambda",
+      "omp_pi-tasks-lambda.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_pi-tasks-lambda.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_pi-tasks-lambda"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_collapse",
+      "omp_collapse.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_collapse.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_collapse"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_pi-noreduction",
+      "omp_pi-noreduction.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_pi-noreduction.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_pi-noreduction"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_hello3",
+      "omp_hello3.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_hello3.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_hello3"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_sections",
+      "omp_sections.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_sections.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_sections"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_pi-tasks",
+      "omp_pi-tasks.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_pi-tasks.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_pi-tasks"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-march=native",
+      "-ffast-math",
+      "-mavx2",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_all_pair",
+      "omp_all_pair.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_all_pair.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_all_pair"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_wc",
+      "omp_wc.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_wc.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_wc"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_simd",
+      "omp_simd.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_simd.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_simd"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "omp_scope",
+      "omp_scope.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode6",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_scope.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode6/omp_scope"
+  }
+]
