@@ -13,8 +13,8 @@
       "build/main.o",
       "src/main.cpp"
     ],
-    "directory": "/home/federico/dev/cpp/spm/test/structured",
-    "file": "/home/federico/dev/cpp/spm/test/structured/src/main.cpp",
-    "output": "/home/federico/dev/cpp/spm/test/structured/build/main.o"
+    "directory": "/home/federico/dev/cpp/spm/test/node",
+    "file": "/home/federico/dev/cpp/spm/test/node/src/main.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/node/build/main.o"
   }
 ]

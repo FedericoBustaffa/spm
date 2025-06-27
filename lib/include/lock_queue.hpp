@@ -26,6 +26,10 @@ public:
 
     inline size_t size() const { return m_size; }
 
+    inline bool empty() const { return m_size == 0; }
+
+    inline bool full() const { return m_size == m_capacity; }
+
     void push(T&& value)
     {
         std::unique_lock<std::mutex> lock(m_mutex);
