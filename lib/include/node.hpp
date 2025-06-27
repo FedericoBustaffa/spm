@@ -2,9 +2,10 @@
 #define PIPELINE_HPP
 
 #include <functional>
+#include <memory>
 #include <thread>
 
-#include "spsc_queue.hpp"
+#include "mpmc_queue.hpp"
 
 namespace spm
 {
@@ -15,8 +16,8 @@ class node
 public:
     node(std::function<Out(In)>&& func) : m_func(std::move(func))
     {
-        m_in = new spsc_queue<In>();
-        m_out = new spsc_queue<Out>();
+        m_in = std::make_shared<mpmc_queue<In>>();
+        m_out = std::make_shared<mpmc_queue<Out>>();
 
         m_worker = new std::thread([this]() {
             std::optional<In> input;
@@ -24,7 +25,10 @@ public:
             {
                 input = m_in->pop();
                 if (!input.has_value())
+                {
+                    m_out->close();
                     return;
+                }
 
                 m_out->push(m_func(input.value()));
             }
@@ -38,22 +42,9 @@ public:
     Out recv() { return m_out->pop().value(); }
 
     template <typename Out2>
-    void connect_to(node<Out, Out2>& other)
+    void connect_to(const node<Out, Out2>& other)
     {
-        delete m_out;
         m_out = other.m_in;
-    }
-
-    Out operator()(const In& input)
-    {
-        m_in->push(input);
-        return m_out->pop().value();
-    }
-
-    Out operator()(In&& input)
-    {
-        m_in->push(std::move(input));
-        return m_out->pop().value();
     }
 
     ~node()
@@ -62,14 +53,12 @@ public:
         m_worker->join();
 
         delete m_worker;
-        delete m_in;
-        delete m_out;
     }
 
 private:
     std::thread* m_worker;
-    spsc_queue<In>* m_in;
-    spsc_queue<Out>* m_out;
+    std::shared_ptr<mpmc_queue<In>> m_in;
+    std::shared_ptr<mpmc_queue<Out>> m_out;
     std::function<Out(In)> m_func;
 };
 

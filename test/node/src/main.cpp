@@ -1,22 +1,40 @@
 #include <cstdio>
 
 #include "node.hpp"
+#include "timer.hpp"
 
-double f(double x) { return x * 2; }
+double f(double x) { return x * 2.0; }
 
-double g(double x) { return x + 3; }
+double g(double x) { return x + 3.5; }
+
+double h(double x) { return x - 5.0; }
 
 int main(int argc, const char** argv)
 {
-    std::printf("correct result %.2f\n", f(g(10.0)));
+    spm::timer timer;
+    timer.start();
+    for (int i = 0; i < 100000; i++)
+        f(g(h(10.0)));
+    std::printf("seq time: %.6f\n", timer.stop());
 
-    spm::node<double, double> n1(f);
-    spm::node<double, double> n2(g);
+    // independent nodes
+    spm::node<double, double> source(h);
+    spm::node<double, double> mid(g);
+    spm::node<double, double> sink(f);
 
-    // from now on n2 output will be redirected to n1
-    n2.connect_to<double>(n1);
-    n2.send(10);
-    std::printf("node connection: %.2f\n", n1.recv());
+    // connect two nodes with a single queue
+    source.connect_to(mid);
+    mid.connect_to(sink);
+
+    // start a computation
+    timer.start();
+    for (int i = 0; i < 1000; i++)
+        source.send(10.0);
+
+    // fetch the result
+    for (int i = 0; i < 1000; i++)
+        sink.recv();
+    std::printf("seq time: %.6f\n", timer.stop());
 
     return 0;
 }
