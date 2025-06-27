@@ -15,8 +15,8 @@ int main(int argc, const char** argv)
 
     // from now on n2 output will be redirected to n1
     n2.connect_to<double>(n1);
-
-    std::printf("node connection: %.2f\n", n1(n2(10)));
+    n2.send(10);
+    std::printf("node connection: %.2f\n", n1.recv());
 
     return 0;
 }

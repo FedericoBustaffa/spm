@@ -24,12 +24,18 @@ public:
             {
                 input = m_in->pop();
                 if (!input.has_value())
-                    break;
+                    return;
 
                 m_out->push(m_func(input.value()));
             }
         });
     }
+
+    void send(In&& input) { m_in->push(std::move(input)); }
+
+    void send(const In& input) { m_in->push(input); }
+
+    Out recv() { return m_out->pop().value(); }
 
     template <typename Out2>
     void connect_to(node<Out, Out2>& other)
@@ -53,7 +59,6 @@ public:
     ~node()
     {
         m_in->close();
-        m_out->close();
         m_worker->join();
 
         delete m_worker;
