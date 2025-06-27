@@ -18,9 +18,9 @@ int main(int argc, const char** argv)
     std::printf("seq time: %.6f\n", timer.stop());
 
     // independent nodes
-    spm::node<double, double> source(h);
+    spm::sink_node<double, double> sink(f);
     spm::node<double, double> mid(g);
-    spm::node<double, double> sink(f);
+    spm::source_node<double, double> source(h);
 
     // connect two nodes with a single queue
     source.connect_to(mid);
