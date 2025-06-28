@@ -19,4 +19,6 @@ int main()
                     b, c, d);
     }
     std::printf("Final values: a=%d b=%d c=%d d=%d\n", a, b, c, d);
+
+    return 0;
 }

@@ -61,4 +61,6 @@ int main(int argc, char* argv[])
 
     // Print the final total word count.
     std::cout << total_words.load() << " " << filename << "\n";
+
+    return 0;
 }

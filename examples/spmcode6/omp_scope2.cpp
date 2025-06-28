@@ -12,4 +12,6 @@ int main()
         std::printf("Hi %d i=%d\n", omp_get_thread_num(), i);
     }
     std::printf("Final value: i=%d\n", i);
+
+    return 0;
 }

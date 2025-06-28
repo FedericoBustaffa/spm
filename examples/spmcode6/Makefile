@@ -15,7 +15,7 @@ TARGET             = $(SOURCES:.cpp=)
 all: $(TARGET)
 
 omp_all_pair:omp_all_pair.cpp
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $(AUTOFLAGS) $(OPTFLAGS) -o $@ $< $(LIBS)
+	$(CXX) $(INCLUDES) $(CXXFLAGS) $(AUTOFLAGS) $(OPTFLAGS) -o $@.out $< $(LIBS)
 
 clean: 
 	-rm -fr *.o *~
