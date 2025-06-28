@@ -10,11 +10,11 @@ TARGET             = $(SOURCES:.cpp=)
 .PHONY: all clean cleanall 
 
 %: %.cpp
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) -o $@ $< $(LIBS)
+	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) -o $@.out $< $(LIBS)
 
 all: $(TARGET)
 
 clean: 
 	-rm -fr *.o *~
 cleanall: clean
-	-rm -fr $(TARGET)
+	-rm -fr *.out
