@@ -43,22 +43,28 @@ int main()
 
     TIMERSTOP(mm_naive1_openmp);
 
-#if 0
-    float *check = new float[N*N];
-    for (int i=0; i<N; i++) {
-        for (int j=0; j<N; j++) {
-            check[i*N + j] = 0;
-            for (int k=0; k<N; k++)
-                check[i*N + j] += A[i*N + k] * B[k*N + j];
-            if (std::abs(C[i*N+j] - check[i*N+j]) > 1e-3f) {
-                std::cout << "Result error: " << C[i*N + j] << " expected" << check[i*N + j] << std::endl;
+#if 1
+    float* check = new float[N * N];
+    for (int i = 0; i < N; i++)
+    {
+        for (int j = 0; j < N; j++)
+        {
+            check[i * N + j] = 0;
+            for (int k = 0; k < N; k++)
+                check[i * N + j] += A[i * N + k] * B[k * N + j];
+            if (std::abs(C[i * N + j] - check[i * N + j]) > 1e-3f)
+            {
+                std::cout << "Result error: " << C[i * N + j] << " expected"
+                          << check[i * N + j] << std::endl;
                 abort();
             }
         }
     }
     std::cout << "Result is ok!" << std::endl;
-    delete [] check;
+    delete[] check;
 #else
     (void)C;
 #endif
+
+    return 0;
 }
