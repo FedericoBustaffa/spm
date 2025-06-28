@@ -38,5 +38,6 @@ int main(int argc, char* argv[])
               << pi << "\n";
     std::cout << "Pi = 3.141592653589793238 (first 18 decimal digits)\n";
     std::printf("Time %f (ms)\n", elapsed * 1000.0);
-    return (0);
+
+    return 0;
 }
