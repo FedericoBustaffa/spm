@@ -10,12 +10,12 @@
       "-march=native",
       "-c",
       "-o",
-      "build/benchmarks.o",
-      "src/benchmarks.cpp"
+      "build/main.o",
+      "src/main.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/test/threadpool",
-    "file": "/home/federico/dev/cpp/spm/test/threadpool/src/benchmarks.cpp",
-    "output": "/home/federico/dev/cpp/spm/test/threadpool/build/benchmarks.o"
+    "file": "/home/federico/dev/cpp/spm/test/threadpool/src/main.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/threadpool/build/main.o"
   },
   {
     "arguments": [
@@ -28,11 +28,11 @@
       "-march=native",
       "-c",
       "-o",
-      "build/main.o",
-      "src/main.cpp"
+      "build/benchmarks.o",
+      "src/benchmarks.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/test/threadpool",
-    "file": "/home/federico/dev/cpp/spm/test/threadpool/src/main.cpp",
-    "output": "/home/federico/dev/cpp/spm/test/threadpool/build/main.o"
+    "file": "/home/federico/dev/cpp/spm/test/threadpool/src/benchmarks.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/threadpool/build/benchmarks.o"
   }
 ]
