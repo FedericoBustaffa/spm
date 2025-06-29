@@ -12,6 +12,7 @@ const size_t maxVsize = 8192;
 struct Source : ff_node_t<task_t>
 {
     Source(const size_t length) : length(length) {}
+
     task_t* svc(task_t*)
     {
         auto random01 = []() {
@@ -31,6 +32,7 @@ struct Source : ff_node_t<task_t>
             size_t size = random(minVsize, maxVsize);
             ff_send_out(new task_t(x, size));
         }
+
         return EOS;
     }
 
@@ -45,6 +47,7 @@ struct dotProd : ff_node_t<task_t, float>
             float r;
             float* ptr;
         } U;
+
         float x = task->first;
         size_t size = task->second;
 
@@ -58,9 +61,11 @@ struct dotProd : ff_node_t<task_t, float>
 
         U.r = dotprod(V1, V2);
         ff_send_out(U.ptr); // r
+
         V1.clear();
         V2.clear();
         delete task;
+
         return GO_ON;
     }
 
@@ -69,6 +74,7 @@ struct dotProd : ff_node_t<task_t, float>
         float sum = 0.0;
         for (size_t i = 0; i < V1.size(); ++i)
             sum += V1[i] * V2[i];
+
         return sum;
     }
 
@@ -90,7 +96,8 @@ struct Sink : ff_node_t<float>
     }
 
     void svc_end() { std::printf("sum= %.4f\n", std::sqrt(sum)); }
-    float sum{0.0};
+
+    float sum = 0.0f;
 };
 
 int main(int argc, char* argv[])
