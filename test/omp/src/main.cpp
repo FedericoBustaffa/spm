@@ -5,8 +5,6 @@
 
 #include "timer.hpp"
 
-using namespace std::chrono_literals;
-
 std::vector<uint64_t> vec_add(const std::vector<uint64_t>& a,
                               const std::vector<uint64_t>& b)
 {
@@ -40,12 +38,12 @@ int main(int argc, const char** argv)
 
     size_t n = 1ULL << std::stoul(argv[1]);
 
-    std::vector<uint64_t> a;
-    std::vector<uint64_t> b;
+    std::vector<uint64_t> a(n);
+    std::vector<uint64_t> b(n);
     for (size_t i = 0; i < n; i++)
     {
-        a.push_back(i);
-        b.push_back(i * 2);
+        a[i] = i;
+        b[i] = i * 2;
     }
 
     spm::timer timer;
