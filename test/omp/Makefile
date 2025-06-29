@@ -2,7 +2,7 @@
 CXX = g++
 
 # general flags
-CXXFLAGS = -Wall -std=c++20 -fopenmp -pthread
+CXXFLAGS = -Wall -std=c++20 -pthread -fopenmp
 
 # flags for debug compilation - enabled if run "make -DBUILD_TYPE=DEBUG"
 DBGFLAGS = -g
