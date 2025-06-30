@@ -1,0 +1,22 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-std=c++20",
+      "-pthread",
+      "-fopenmp",
+      "-I./include/",
+      "-I../../../lib/include/",
+      "-O3",
+      "-march=native",
+      "-c",
+      "-o",
+      "build/utility.o",
+      "src/utility.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/test/omp/mat_vec_mult",
+    "file": "/home/federico/dev/cpp/spm/test/omp/mat_vec_mult/src/utility.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/omp/mat_vec_mult/build/utility.o"
+  }
+]
