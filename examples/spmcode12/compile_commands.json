@@ -1,0 +1,244 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-I/usr/include",
+      "-o",
+      "struct",
+      "struct.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode12",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode12/struct.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode12/struct"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-I/usr/include",
+      "-o",
+      "rowcol",
+      "rowcol.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode12",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode12/rowcol.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode12/rowcol"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-I/usr/include",
+      "-o",
+      "jacobi_1d_nblk",
+      "jacobi_1d_nblk.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode12",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode12/jacobi_1d_nblk.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode12/jacobi_1d_nblk"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-I/usr/include",
+      "-o",
+      "split",
+      "split.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode12",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode12/split.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode12/split"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-I/usr/include",
+      "-o",
+      "jacobi_seq",
+      "jacobi_seq.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode12",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode12/jacobi_seq.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode12/jacobi_seq"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-fopenmp",
+      "-I/usr/include",
+      "-o",
+      "trapezoid_mpi+omp",
+      "trapezoid_mpi+omp.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode12",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode12/trapezoid_mpi+omp.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode12/trapezoid_mpi+omp"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-fopenmp",
+      "-I/usr/include",
+      "-o",
+      "summa_omp",
+      "summa_omp.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode12",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode12/summa_omp.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode12/summa_omp"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-I/usr/include",
+      "-o",
+      "mm_2d",
+      "mm_2d.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode12",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode12/mm_2d.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode12/mm_2d"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-I/usr/include",
+      "-o",
+      "jacobi_1d_blk",
+      "jacobi_1d_blk.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode12",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode12/jacobi_1d_blk.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode12/jacobi_1d_blk"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-I/usr/include",
+      "-o",
+      "group",
+      "group.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode12",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode12/group.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode12/group"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-I/usr/include",
+      "-o",
+      "summa",
+      "summa.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode12",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode12/summa.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode12/summa"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-I",
+      "/home/federico/fastflow",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-I/usr/include",
+      "-o",
+      "trapezoid_mpi+ff",
+      "trapezoid_mpi+ff.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode12",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode12/trapezoid_mpi+ff.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode12/trapezoid_mpi+ff"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-I",
+      "/home/federico/fastflow",
+      "-Wall",
+      "-O3",
+      "-pthread",
+      "-I/usr/include",
+      "-o",
+      "Farm+ff_farm",
+      "Farm+ff_farm.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode12",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode12/Farm+ff_farm.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode12/Farm+ff_farm"
+  }
+]
