@@ -36,7 +36,7 @@ int main(int argc, const char** argv)
         primes += is_prime(i);
 
     double time = timer.stop();
-    std::printf("%d workers time: %.2f\n", omp_get_max_threads(), time);
+    std::printf("%d workers time: %.6f\n", omp_get_max_threads(), time);
 
     // std::printf("primes: %lu\n", primes);
 
