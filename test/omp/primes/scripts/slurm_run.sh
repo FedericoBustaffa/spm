@@ -9,7 +9,7 @@ for t in ${threads[@]}; do
     export OMP_NUM_THREADS=$t
     for i in {1..10}; do
         echo "repetition $i with $t threads"
-        ./run.out $1 > ./logs/output_t${t}_r${i}.log
+        srun ./run.out $1 > ./logs/output_t${t}_r${i}.log
     done
 done
 
