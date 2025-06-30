@@ -3,6 +3,8 @@
 
 #include <random>
 
+#include "vector.hpp"
+
 double* generate_matrix(size_t rows, size_t cols, float sparsity)
 {
     std::random_device rd;
@@ -24,22 +26,17 @@ double* generate_matrix(size_t rows, size_t cols, float sparsity)
     return data;
 }
 
-double* generate_vector(size_t length, float sparsity)
+vector generate_vector(size_t length, float sparsity)
 {
     std::random_device rd;
     std::mt19937 engine(rd());
     std::uniform_real_distribution<double> dist(0, 1);
 
-    double* data = new double[length];
+    vector v(length);
     for (size_t i = 0; i < length; i++)
-    {
-        if (dist(engine) <= sparsity)
-            data[i] = 0.0;
-        else
-            data[i] = dist(engine);
-    }
+        v[i] = dist(engine) <= sparsity ? 0.0 : dist(engine);
 
-    return data;
+    return v;
 }
 
 #endif

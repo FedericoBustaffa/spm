@@ -19,7 +19,7 @@ public:
             {
                 if (raw[i * rows + j] != 0.0)
                 {
-                    m_values.push_back(raw[i * rows * j]);
+                    m_values.push_back(raw[i * rows + j]);
                     m_rows.push_back(i);
                     m_cols.push_back(j);
                 }
@@ -32,6 +32,14 @@ public:
 
         delete[] raw;
     }
+
+    inline size_t size() const { return m_values.size(); }
+
+    inline size_t row(size_t i) const { return m_rows[i]; }
+
+    inline size_t col(size_t i) const { return m_cols[i]; }
+
+    inline double operator[](size_t i) const { return m_values[i]; }
 
     ~matrix() {}
 

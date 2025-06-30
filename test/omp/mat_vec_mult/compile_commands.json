@@ -12,11 +12,11 @@
       "-march=native",
       "-c",
       "-o",
-      "build/utility.o",
-      "src/utility.cpp"
+      "build/main.o",
+      "src/main.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/test/omp/mat_vec_mult",
-    "file": "/home/federico/dev/cpp/spm/test/omp/mat_vec_mult/src/utility.cpp",
-    "output": "/home/federico/dev/cpp/spm/test/omp/mat_vec_mult/build/utility.o"
+    "file": "/home/federico/dev/cpp/spm/test/omp/mat_vec_mult/src/main.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/omp/mat_vec_mult/build/main.o"
   }
 ]
