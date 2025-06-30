@@ -107,6 +107,7 @@ static inline bool allocateFile(const char fname[], const size_t size,
         return false;
     }
     close(fd);
+
     return true;
 }
 
@@ -116,6 +117,7 @@ static inline bool isdot(const char dir[])
     int l = strlen(dir);
     if ((l > 0 && dir[l - 1] == '.'))
         return true;
+
     return false;
 }
 // returns true if 'p' is a directory, false if it is a file

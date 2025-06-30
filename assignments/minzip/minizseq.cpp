@@ -28,6 +28,7 @@ int main(int argc, char* argv[])
         usage(argv[0]);
         return -1;
     }
+
     // parse command line arguments and set some global variables
     long start = parseCommandLine(argc, argv);
     if (start < 0)
@@ -38,13 +39,10 @@ int main(int argc, char* argv[])
     {
         size_t filesize = 0;
         if (isDirectory(argv[start], filesize))
-        {
             success &= walkDir(argv[start], COMP);
-        }
         else
-        {
             success &= doWork(argv[start], filesize, COMP);
-        }
+
         start++;
     }
     if (!success)
@@ -53,5 +51,6 @@ int main(int argc, char* argv[])
         return -1;
     }
     printf("Exiting with Success\n");
+
     return 0;
 }
