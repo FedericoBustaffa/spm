@@ -1,0 +1,44 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Wall",
+      "-std=c++20",
+      "-I./",
+      "-I./miniz/",
+      "-O3",
+      "-ffast-math",
+      "-DNDEBUG",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "minizseq",
+      "minizseq.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/assignments/minzip",
+    "file": "/home/federico/dev/cpp/spm/assignments/minzip/minizseq.cpp",
+    "output": "/home/federico/dev/cpp/spm/assignments/minzip/minizseq"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Wall",
+      "-std=c++20",
+      "-I./",
+      "-I./miniz/",
+      "-O3",
+      "-ffast-math",
+      "-DNDEBUG",
+      "-pthread",
+      "-fopenmp",
+      "-o",
+      "minizseq",
+      "./miniz/miniz.c"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/assignments/minzip",
+    "file": "/home/federico/dev/cpp/spm/assignments/minzip/miniz/miniz.c",
+    "output": "/home/federico/dev/cpp/spm/assignments/minzip/minizseq"
+  }
+]
