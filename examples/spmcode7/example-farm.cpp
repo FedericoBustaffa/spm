@@ -1,7 +1,8 @@
-#include <ff/ff.hpp>
 #include <iostream>
 #include <random>
 #include <vector>
+
+#include <ff/ff.hpp>
 
 using namespace ff;
 
@@ -89,7 +90,8 @@ struct Sink : ff_node_t<float>
     }
 
     void svc_end() { std::printf("sum= %.4f\n", std::sqrt(sum)); }
-    float sum{0.0};
+
+    float sum = 0.0f;
 };
 
 int main(int argc, char* argv[])

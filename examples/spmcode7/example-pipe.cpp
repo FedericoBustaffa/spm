@@ -1,7 +1,8 @@
-#include <ff/ff.hpp>
 #include <iostream>
 #include <random>
 #include <vector>
+
+#include <ff/ff.hpp>
 
 using namespace ff;
 
