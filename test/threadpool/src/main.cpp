@@ -44,12 +44,13 @@ int main(int argc, const char** argv)
     timer.start();
     std::vector<int> s_res = sequential(numbers);
     double stime = timer.stop();
-    std::cout << "sequential time: " << stime << " seconds" << std::endl;
+    std::printf("sequential time: %.4f seconds\n", stime);
+    // std::cout << "sequential time: " << stime << " seconds" << std::endl;
 
     timer.start();
     std::vector<int> p_res = submit(numbers, pool);
     double ptime = timer.stop();
-    std::cout << "submit time: " << ptime << std::endl;
+    std::cout << "submit time: " << ptime << " seconds" << std::endl;
 
     std::cout << "submit speedup: " << (stime / ptime) << std::endl;
 

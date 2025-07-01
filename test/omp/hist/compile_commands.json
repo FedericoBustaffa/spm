@@ -8,15 +8,16 @@
       "-fopenmp",
       "-I./include/",
       "-I../../../lib/include/",
+      "-I../../../examples/spmcode2/include/",
       "-O3",
       "-march=native",
       "-c",
       "-o",
-      "build/main.o",
-      "src/main.cpp"
+      "build/sequential.o",
+      "src/sequential.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/test/omp/hist",
-    "file": "/home/federico/dev/cpp/spm/test/omp/hist/src/main.cpp",
-    "output": "/home/federico/dev/cpp/spm/test/omp/hist/build/main.o"
+    "file": "/home/federico/dev/cpp/spm/test/omp/hist/src/sequential.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/omp/hist/build/sequential.o"
   }
 ]

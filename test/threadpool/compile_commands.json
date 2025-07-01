@@ -16,23 +16,5 @@
     "directory": "/home/federico/dev/cpp/spm/test/threadpool",
     "file": "/home/federico/dev/cpp/spm/test/threadpool/src/main.cpp",
     "output": "/home/federico/dev/cpp/spm/test/threadpool/build/main.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/g++",
-      "-Wall",
-      "-std=c++20",
-      "-I./include/",
-      "-I../../lib/include/",
-      "-O3",
-      "-march=native",
-      "-c",
-      "-o",
-      "build/benchmarks.o",
-      "src/benchmarks.cpp"
-    ],
-    "directory": "/home/federico/dev/cpp/spm/test/threadpool",
-    "file": "/home/federico/dev/cpp/spm/test/threadpool/src/benchmarks.cpp",
-    "output": "/home/federico/dev/cpp/spm/test/threadpool/build/benchmarks.o"
   }
 ]

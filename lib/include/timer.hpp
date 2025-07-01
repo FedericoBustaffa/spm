@@ -8,21 +8,22 @@ namespace spm
 
 class timer
 {
+
 public:
     timer() = default;
 
-    void start() { m_start = std::chrono::high_resolution_clock::now(); }
+    inline void start() { m_start = std::chrono::system_clock::now(); }
 
-    double stop()
+    inline double stop()
     {
-        m_end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> elapsed = m_end - m_start;
+        std::chrono::duration<double> elapsed =
+            std::chrono::system_clock::now() - m_start;
 
         return elapsed.count();
     }
 
 private:
-    std::chrono::time_point<std::chrono::high_resolution_clock> m_start, m_end;
+    std::chrono::time_point<std::chrono::system_clock> m_start;
 };
 
 } // namespace spm
