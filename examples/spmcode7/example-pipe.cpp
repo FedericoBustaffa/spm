@@ -21,6 +21,7 @@ struct Source : ff_node_t<task_t>
             std::uniform_real_distribution<float> distribution(0, 1);
             return distribution(generator);
         };
+
         auto random = [](const int& min, const int& max) {
             static std::mt19937 generator;
             std::uniform_int_distribution<int> distribution(min, max);
