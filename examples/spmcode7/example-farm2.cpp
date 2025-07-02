@@ -19,17 +19,20 @@ struct Source : ff_node_t<task_t>
             std::uniform_real_distribution<float> distribution(0, 1);
             return distribution(generator);
         };
+
         auto random = [](const int& min, const int& max) {
             static std::mt19937 generator;
             std::uniform_int_distribution<int> distribution(min, max);
             return distribution(generator);
         };
+
         for (size_t i = 0; i < length; ++i)
         {
             float x = random01();
             size_t size = random(minVsize, maxVsize);
             ff_send_out(new task_t(x, size));
         }
+
         return EOS;
     }
 
@@ -44,6 +47,7 @@ struct dotProd : ff_node_t<task_t, float>
             float r;
             float* ptr;
         } U;
+
         float x = task->first;
         size_t size = task->second;
 
@@ -57,9 +61,11 @@ struct dotProd : ff_node_t<task_t, float>
 
         U.r = dotprod(V1, V2);
         ff_send_out(U.ptr);
+
         V1.clear();
         V2.clear();
         delete task;
+
         return GO_ON;
     }
 
@@ -68,6 +74,7 @@ struct dotProd : ff_node_t<task_t, float>
         float sum = 0.0;
         for (size_t i = 0; i < V1.size(); ++i)
             sum += V1[i] * V2[i];
+
         return sum;
     }
 
@@ -75,21 +82,24 @@ struct dotProd : ff_node_t<task_t, float>
     std::vector<float> V2;
 };
 
-struct Sink : ff_minode_t<float>
-{ // <--- in this version Sink is multi-input
+struct Sink : ff_minode_t<float> // <--- in this version Sink is multi-input
+{
     float* svc(float* f)
     {
         union {
             float r;
             float* ptr;
         } U;
+
         U.ptr = f;
         sum += U.r;
+
         return this->GO_ON;
     }
 
     void svc_end() { std::printf("sum= %.4f\n", std::sqrt(sum)); }
-    float sum{0.0};
+
+    float sum = 0.0f;
 };
 
 int main(int argc, char* argv[])
@@ -116,6 +126,7 @@ int main(int argc, char* argv[])
             return -1;
         }
     }
+
     Source first(length);
     Sink third;
 

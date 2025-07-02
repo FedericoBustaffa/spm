@@ -58,9 +58,11 @@ struct dotProd : ff_node_t<task_t, float>
 
         U.r = dotprod(V1, V2);
         ff_send_out(U.ptr);
+
         V1.clear();
         V2.clear();
         delete task;
+
         return GO_ON;
     }
 
@@ -69,6 +71,7 @@ struct dotProd : ff_node_t<task_t, float>
         float sum = 0.0;
         for (size_t i = 0; i < V1.size(); ++i)
             sum += V1[i] * V2[i];
+
         return sum;
     }
 
@@ -84,8 +87,10 @@ struct Sink : ff_node_t<float>
             float r;
             float* ptr;
         } U;
+
         U.ptr = f;
         sum += U.r;
+
         return this->GO_ON;
     }
 
@@ -118,6 +123,7 @@ int main(int argc, char* argv[])
             return -1;
         }
     }
+
     Source first(length);
     Sink third;
 
@@ -127,6 +133,7 @@ int main(int argc, char* argv[])
             W.push_back(make_unique<dotProd>());
         return W;
     }());
+
     farm.set_scheduling_ondemand();
 
     ff_Pipe pipe(first, farm, third);

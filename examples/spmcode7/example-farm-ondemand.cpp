@@ -12,6 +12,7 @@ const size_t maxVsize = 8192;
 struct Source : ff_node_t<task_t>
 {
     Source(const size_t length) : length(length) {}
+
     task_t* svc(task_t*)
     {
         auto random01 = []() {
@@ -19,17 +20,20 @@ struct Source : ff_node_t<task_t>
             std::uniform_real_distribution<float> distribution(0, 1);
             return distribution(generator);
         };
+
         auto random = [](const int& min, const int& max) {
             static std::mt19937 generator;
             std::uniform_int_distribution<int> distribution(min, max);
             return distribution(generator);
         };
+
         for (size_t i = 0; i < length; ++i)
         {
             float x = random01();
             size_t size = random(minVsize, maxVsize);
             ff_send_out(new task_t(x, size));
         }
+
         return EOS;
     }
 
@@ -45,6 +49,7 @@ struct Emitter : ff_monode_t<task_t, float>
         for (size_t i = 0; i < ready.size(); ++i)
             ready[i] = true;
         nready = ready.size();
+
         return 0;
     }
 
@@ -64,8 +69,10 @@ struct Emitter : ff_monode_t<task_t, float>
             }
             else
                 data.push_back(in); // no one ready, buffer task
+
             return GO_ON;
         } // coming from Workers...
+
         if (data.size() > 0)
         {
             ff_send_out_to(data.back(), wid);
@@ -78,14 +85,15 @@ struct Emitter : ff_monode_t<task_t, float>
             if (eos_received && (nready == ready.size()))
                 return EOS;
         }
+
         return GO_ON;
     }
+
     void eosnotify(ssize_t id)
     {
         if (id == -1)
         { // we have to receive all EOS from the previous stage
             // EOS is coming from the input channel
-
             eos_received = true;
             if (nready == ready.size() && data.size() == 0)
             {
@@ -113,6 +121,7 @@ struct Emitter : ff_monode_t<task_t, float>
                 return i;
             }
         }
+
         return -1;
     }
 
@@ -123,14 +132,15 @@ struct Emitter : ff_monode_t<task_t, float>
     std::vector<task_t*> data; // tasks' buffer
 };
 
-struct dotProd : ff_monode_t<task_t, float>
-{ // <--- must be multi-output
+struct dotProd : ff_monode_t<task_t, float> // <--- must be multi-output
+{
     float* svc(task_t* task)
     {
         union {
             float r;
             float* ptr;
         } U;
+
         float x = task->first;
         size_t size = task->second;
 
@@ -145,9 +155,11 @@ struct dotProd : ff_monode_t<task_t, float>
         U.r = dotprod(V1, V2);
         ff_send_out_to(task, 0);  // "ready flag" to the Emitter
         ff_send_out_to(U.ptr, 1); // the result to the next stage
+
         V1.clear();
         V2.clear();
         delete task;
+
         return GO_ON;
     }
 
@@ -177,7 +189,8 @@ struct Sink : ff_minode_t<float>
     }
 
     void svc_end() { std::printf("sum= %.4f\n", std::sqrt(sum)); }
-    float sum{0.0};
+
+    float sum = 0.0f;
 };
 
 int main(int argc, char* argv[])
@@ -204,6 +217,7 @@ int main(int argc, char* argv[])
             return -1;
         }
     }
+
     Source first(length);
     Sink third;
     Emitter emitter;
