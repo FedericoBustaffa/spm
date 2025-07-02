@@ -19,8 +19,8 @@ struct Stage_0 : ff_node_t<long>
     long onthefly{0};
 };
 
-struct Stage_A : ff_minode_t<long>
-{ // multi-input node
+struct Stage_A : ff_minode_t<long> // multi-input node
+{
     long* svc(long* in)
     {
         if (fromInput())

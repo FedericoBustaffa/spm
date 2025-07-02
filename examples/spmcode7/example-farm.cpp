@@ -20,17 +20,20 @@ struct Source : ff_node_t<task_t>
             std::uniform_real_distribution<float> distribution(0, 1);
             return distribution(generator);
         };
+
         auto random = [](const int& min, const int& max) {
             static std::mt19937 generator;
             std::uniform_int_distribution<int> distribution(min, max);
             return distribution(generator);
         };
+
         for (size_t i = 0; i < length; ++i)
         {
             float x = random01();
             size_t size = random(minVsize, maxVsize);
             ff_send_out(new task_t(x, size));
         }
+
         return EOS;
     }
 
@@ -45,6 +48,7 @@ struct dotProd : ff_node_t<task_t, float>
             float r;
             float* ptr;
         } U;
+
         float x = task->first;
         size_t size = task->second;
 
@@ -127,12 +131,11 @@ int main(int argc, char* argv[])
     Source first(length);
     Sink third;
 
-    ff_Farm<task_t, float> farm([&]() {
-        std::vector<std::unique_ptr<ff_node>> W;
-        for (auto i = 0; i < nworkers; ++i)
-            W.push_back(make_unique<dotProd>());
-        return W;
-    }());
+    std::vector<std::unique_ptr<ff_node>> W;
+    for (auto i = 0; i < nworkers; ++i)
+        W.push_back(make_unique<dotProd>());
+
+    ff_Farm<task_t, float> farm(std::move(W));
 
     farm.set_scheduling_ondemand();
 
@@ -140,7 +143,7 @@ int main(int argc, char* argv[])
 
     if (pipe.run_and_wait_end() < 0)
     {
-        error("running pipe");
+        error("running farm");
         return -1;
     }
     std::cout << "Time: " << pipe.ffTime() << "\n";

@@ -41,8 +41,17 @@ struct Source : ff_node_t<task_t>
     const size_t length;
 };
 
-struct dotProd : ff_node_t<task_t, float>
+struct Computational : ff_node_t<task_t, float>
 {
+    float dotprod(std::vector<float>& V1, std::vector<float>& V2)
+    {
+        float sum = 0.0;
+        for (size_t i = 0; i < V1.size(); ++i)
+            sum += V1[i] * V2[i];
+
+        return sum;
+    }
+
     float* svc(task_t* task)
     {
         union {
@@ -71,15 +80,6 @@ struct dotProd : ff_node_t<task_t, float>
         return GO_ON;
     }
 
-    float dotprod(std::vector<float>& V1, std::vector<float>& V2)
-    {
-        float sum = 0.0;
-        for (size_t i = 0; i < V1.size(); ++i)
-            sum += V1[i] * V2[i];
-
-        return sum;
-    }
-
     std::vector<float> V1;
     std::vector<float> V2;
 };
@@ -92,12 +92,14 @@ struct Sink : ff_node_t<float>
             float r;
             float* ptr;
         } U;
+
         U.ptr = f;
         sum += U.r;
+
         return GO_ON;
     }
 
-    void svc_end() { std::printf("sum= %.4f\n", std::sqrt(sum)); }
+    void svc_end() { std::printf("sum: %.4f\n", std::sqrt(sum)); }
 
     float sum = 0.0f;
 };
@@ -117,11 +119,11 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    Source first(length);
-    dotProd second;
-    Sink third;
+    Source source(length);
+    Computational comp;
+    Sink sink;
 
-    ff_Pipe pipe(first, second, third);
+    ff_Pipe pipe(source, comp, sink);
 
     if (pipe.run_and_wait_end() < 0)
     {

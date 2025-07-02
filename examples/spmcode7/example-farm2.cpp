@@ -1,7 +1,8 @@
-#include <ff/ff.hpp>
 #include <iostream>
 #include <random>
 #include <vector>
+
+#include <ff/ff.hpp>
 
 using namespace ff;
 
@@ -56,7 +57,7 @@ struct dotProd : ff_node_t<task_t, float>
         for (size_t i = 0; i < size; ++i)
         {
             V1.push_back(x * i);
-            V2.push_back(x * i / (float)size);
+            V2.push_back(x * i / size);
         }
 
         U.r = dotprod(V1, V2);
@@ -130,21 +131,20 @@ int main(int argc, char* argv[])
     Source first(length);
     Sink third;
 
-    ff_Farm<task_t, float> farm([&]() {
-        std::vector<std::unique_ptr<ff_node>> W;
-        for (auto i = 0; i < nworkers; ++i)
-            W.push_back(make_unique<dotProd>());
-        return W;
-    }());
+    std::vector<std::unique_ptr<ff_node>> W;
+    for (auto i = 0; i < nworkers; ++i)
+        W.push_back(make_unique<dotProd>());
 
-    farm.remove_collector(); // <-----
+    ff_Farm<task_t, float> farm(std::move(W),
+
+    farm.remove_collector(); // <----- diff from farm1
     farm.set_scheduling_ondemand();
 
     ff_Pipe pipe(first, farm, third);
 
     if (pipe.run_and_wait_end() < 0)
     {
-        error("running pipe");
+        error("running farm");
         return -1;
     }
     std::cout << "Time: " << pipe.ffTime() << "\n";
