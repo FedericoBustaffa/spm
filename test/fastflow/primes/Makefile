@@ -17,7 +17,7 @@ DEPSFLAGS = -MMD -MP
 INCLUDES = -I./include/ -I../../../lib/include/ -I$(HOME)/fastflow/
 
 # specify preprocessor definitions
-DEFINES =
+DEFINES = -DNDEBUG
 
 # convenient single variable to wrap all the flags
 FLAGS = $(CXXFLAGS)
