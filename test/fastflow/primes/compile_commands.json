@@ -13,11 +13,11 @@
       "-march=native",
       "-c",
       "-o",
-      "build/source.o",
-      "src/source.cpp"
+      "build/main.o",
+      "src/main.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/test/fastflow/primes",
-    "file": "/home/federico/dev/cpp/spm/test/fastflow/primes/src/source.cpp",
-    "output": "/home/federico/dev/cpp/spm/test/fastflow/primes/build/source.o"
+    "file": "/home/federico/dev/cpp/spm/test/fastflow/primes/src/main.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/fastflow/primes/build/main.o"
   }
 ]

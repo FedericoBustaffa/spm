@@ -28,15 +28,12 @@ int main(int argc, const char** argv)
         workers.push_back(std::make_unique<Worker>());
 
     ff_Farm<uint64_t> farm(std::move(workers));
-    // farm.remove_collector();
-
-    // farm.set_scheduling_ondemand();
 
     ff_Pipe<uint64_t> pipe(source, farm, sink);
 
     spm::timer timer;
     timer.start();
-    farm.run_and_wait_end();
+    pipe.run_and_wait_end();
 
     std::printf("found %lu primes in %.4f seconds with %d workers\n",
                 sink.counter(), timer.stop(), nworkers);
