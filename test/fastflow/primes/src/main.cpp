@@ -1,6 +1,7 @@
+#include <cstdint>
 #include <cstdio>
-#include <memory>
 #include <string>
+#include <vector>
 
 #include <ff/ff.hpp>
 
@@ -26,12 +27,12 @@ int main(int argc, const char** argv)
     for (int i = 0; i < nworkers; i++)
         workers.push_back(std::make_unique<Worker>());
 
-    ff_Farm<uint64_t> farm(std::move(workers), source, sink);
+    ff_Farm<uint64_t> farm(std::move(workers));
     // farm.remove_collector();
 
-    farm.set_scheduling_ondemand();
+    // farm.set_scheduling_ondemand();
 
-    // ff_Pipe<uint64_t> pipe(source, farm, sink);
+    ff_Pipe<uint64_t> pipe(source, farm, sink);
 
     spm::timer timer;
     timer.start();
