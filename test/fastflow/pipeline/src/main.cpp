@@ -10,21 +10,23 @@
 using namespace std::chrono_literals;
 using namespace ff;
 
+#define R 10ms
+
 uint64_t f(uint64_t x)
 {
-    std::this_thread::sleep_for(50ms);
+    std::this_thread::sleep_for(R);
     return x * 2.0;
 }
 
 uint64_t g(uint64_t x)
 {
-    std::this_thread::sleep_for(50ms);
+    std::this_thread::sleep_for(R);
     return x + 5.5;
 }
 
 uint64_t h(uint64_t x)
 {
-    std::this_thread::sleep_for(50ms);
+    std::this_thread::sleep_for(R);
     return x - 1.0;
 }
 
@@ -60,7 +62,7 @@ int main(int argc, const char** argv)
     {
         Source source(n);
         Sink sink;
-        Worker s1(f), s2(h), s3(g), s4(f), s5(g), s6(h);
+        Worker s1(h), s2(g), s3(f), s4(h), s5(g), s6(f);
         ff_Pipe<uint64_t> pipe(source, s1, s2, s3, s4, s5, s6, sink);
 
         timer.start();
