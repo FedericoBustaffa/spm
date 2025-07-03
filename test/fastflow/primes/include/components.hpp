@@ -24,7 +24,7 @@ public:
     uint64_t* svc(uint64_t* n) override;
 };
 
-class Sink : public ff_node_t<uint64_t>
+class Sink : public ff_minode_t<uint64_t>
 {
 public:
     uint64_t* svc(uint64_t* n) override;
