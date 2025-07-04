@@ -13,12 +13,12 @@
       "-march=native",
       "-c",
       "-o",
-      "build/sink.o",
-      "src/sink.cpp"
+      "build/main.o",
+      "src/main.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/test/fastflow/pipeline",
-    "file": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/src/sink.cpp",
-    "output": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/build/sink.o"
+    "file": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/src/main.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/build/main.o"
   },
   {
     "arguments": [
@@ -34,12 +34,12 @@
       "-march=native",
       "-c",
       "-o",
-      "build/main.o",
-      "src/main.cpp"
+      "build/worker.o",
+      "src/worker.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/test/fastflow/pipeline",
-    "file": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/src/main.cpp",
-    "output": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/build/main.o"
+    "file": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/src/worker.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/build/worker.o"
   },
   {
     "arguments": [
@@ -76,11 +76,11 @@
       "-march=native",
       "-c",
       "-o",
-      "build/worker.o",
-      "src/worker.cpp"
+      "build/sink.o",
+      "src/sink.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/test/fastflow/pipeline",
-    "file": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/src/worker.cpp",
-    "output": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/build/worker.o"
+    "file": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/src/sink.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/build/sink.o"
   }
 ]
