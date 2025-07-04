@@ -2,7 +2,7 @@
 # FF_ROOT     points to the FastFlow root directory (i.e.
 #             the one containing the ff directory).
 ifndef FF_ROOT 
-FF_ROOT		= ${HOME}/fastflow
+FF_ROOT		= ${HOME}/dev/cpp/spm/fastflow/
 endif
 
 CXX                = g++ -std=c++20
@@ -18,11 +18,11 @@ TARGET             = $(SOURCES:.cpp=)
 .PHONY: all clean cleanall 
 
 %: %.cpp
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) -o $@ $< $(LIBS)
+	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) -o $@.out $< $(LIBS)
 
 all: $(TARGET)
 
 clean: 
 	-rm -fr *.o *~
 cleanall: clean
-	-rm -fr $(TARGET)
+	-rm -fr *.out

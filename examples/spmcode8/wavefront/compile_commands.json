@@ -6,7 +6,7 @@
       "-std=c++20",
       "-I.",
       "-I",
-      "/home/federico/fastflow",
+      "/home/federico/dev/cpp/spm/fastflow/",
       "-Wall",
       "-O3",
       "-DNDEBUG",
@@ -14,12 +14,12 @@
       "-ffast-math",
       "-pthread",
       "-o",
-      "WF-ff",
+      "WF-ff.out",
       "WF-ff.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/examples/spmcode8/wavefront",
     "file": "/home/federico/dev/cpp/spm/examples/spmcode8/wavefront/WF-ff.cpp",
-    "output": "/home/federico/dev/cpp/spm/examples/spmcode8/wavefront/WF-ff"
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode8/wavefront/WF-ff.out"
   },
   {
     "arguments": [
@@ -28,7 +28,7 @@
       "-std=c++20",
       "-I.",
       "-I",
-      "/home/federico/fastflow",
+      "/home/federico/dev/cpp/spm/fastflow/",
       "-Wall",
       "-O3",
       "-DNDEBUG",
@@ -36,11 +36,11 @@
       "-ffast-math",
       "-pthread",
       "-o",
-      "WF-seq",
+      "WF-seq.out",
       "WF-seq.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/examples/spmcode8/wavefront",
     "file": "/home/federico/dev/cpp/spm/examples/spmcode8/wavefront/WF-seq.cpp",
-    "output": "/home/federico/dev/cpp/spm/examples/spmcode8/wavefront/WF-seq"
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode8/wavefront/WF-seq.out"
   }
 ]
