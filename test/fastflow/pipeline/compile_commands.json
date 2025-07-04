@@ -7,7 +7,28 @@
       "-pthread",
       "-I./include/",
       "-I../../../lib/include/",
-      "-I/home/federico/fastflow/",
+      "-I../../../fastflow/",
+      "-DNDEBUG",
+      "-O3",
+      "-march=native",
+      "-c",
+      "-o",
+      "build/sink.o",
+      "src/sink.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/test/fastflow/pipeline",
+    "file": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/src/sink.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/build/sink.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-std=c++20",
+      "-pthread",
+      "-I./include/",
+      "-I../../../lib/include/",
+      "-I../../../fastflow/",
       "-DNDEBUG",
       "-O3",
       "-march=native",
@@ -19,5 +40,47 @@
     "directory": "/home/federico/dev/cpp/spm/test/fastflow/pipeline",
     "file": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/src/main.cpp",
     "output": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/build/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-std=c++20",
+      "-pthread",
+      "-I./include/",
+      "-I../../../lib/include/",
+      "-I../../../fastflow/",
+      "-DNDEBUG",
+      "-O3",
+      "-march=native",
+      "-c",
+      "-o",
+      "build/source.o",
+      "src/source.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/test/fastflow/pipeline",
+    "file": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/src/source.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/build/source.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-std=c++20",
+      "-pthread",
+      "-I./include/",
+      "-I../../../lib/include/",
+      "-I../../../fastflow/",
+      "-DNDEBUG",
+      "-O3",
+      "-march=native",
+      "-c",
+      "-o",
+      "build/worker.o",
+      "src/worker.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/test/fastflow/pipeline",
+    "file": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/src/worker.cpp",
+    "output": "/home/federico/dev/cpp/spm/test/fastflow/pipeline/build/worker.o"
   }
 ]
