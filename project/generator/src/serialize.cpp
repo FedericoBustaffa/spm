@@ -12,7 +12,7 @@ void serialize(const std::vector<Record>& records, const char* filepath)
 
     uint64_t key;
     uint32_t length;
-    const uint8_t* payload;
+    const char* payload;
 
     std::ofstream out(filepath, std::ios::binary);
     for (const auto& r : records)
@@ -23,7 +23,7 @@ void serialize(const std::vector<Record>& records, const char* filepath)
 
         out.write(reinterpret_cast<const char*>(&key), sizeof(uint64_t));
         out.write(reinterpret_cast<const char*>(&length), sizeof(uint32_t));
-        out.write(reinterpret_cast<const char*>(payload), length);
+        out.write(payload, length);
 
         // update bytes generated
         payload_bytes += r.length();
@@ -43,15 +43,14 @@ std::vector<Record> deserialize(const char* filepath)
 
     uint64_t key;
     uint32_t length;
-    uint8_t* payload = new uint8_t[256];
+    char* payload = new char[MAX_PAYLOAD];
 
     std::ifstream in(filepath, std::ios::binary);
     while (!in.eof())
     {
-
         in.read(reinterpret_cast<char*>(&key), sizeof(uint64_t));
         in.read(reinterpret_cast<char*>(&length), sizeof(uint32_t));
-        in.read(reinterpret_cast<char*>(payload), length);
+        in.read(payload, length);
 
         if (in.eof())
             break;
