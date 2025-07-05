@@ -9,6 +9,8 @@ class Record
 public:
     Record(uint32_t length);
 
+    Record(uint64_t key, uint32_t length, const uint8_t* payload);
+
     Record(const Record& other);
 
     Record(Record&& other);
