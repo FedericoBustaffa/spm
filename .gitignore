@@ -56,3 +56,4 @@ _minted/
 .vscode/
 svg-inkscape/
 
+*.dat
