@@ -19,13 +19,13 @@ int main(int argc, const char** argv)
     uint64_t n = std::stoul(argv[1]);
     std::printf("generating %lu records with MAX_PAYLOAD=%d\n", n, MAX_PAYLOAD);
 
-    std::mt19937 generator(42);
-    std::uniform_int_distribution<uint32_t> distribution(8, MAX_PAYLOAD);
-
+    // create records
     std::vector<Record> records;
     for (uint64_t i = 0; i < n; i++)
-        records.emplace_back(distribution(generator));
+        records.emplace_back((8 + i) % MAX_PAYLOAD);
 
+    // shuffle records
+    std::mt19937 generator(42);
     std::shuffle(records.begin(), records.end(), generator);
     serialize(records, "file.dat");
 
