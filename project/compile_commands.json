@@ -12,8 +12,8 @@
       "build/main.o",
       "src/main.cpp"
     ],
-    "directory": "/home/federico/dev/cpp/spm/project/sequential",
-    "file": "/home/federico/dev/cpp/spm/project/sequential/src/main.cpp",
-    "output": "/home/federico/dev/cpp/spm/project/sequential/build/main.o"
+    "directory": "/home/federico/dev/cpp/spm/project",
+    "file": "/home/federico/dev/cpp/spm/project/src/main.cpp",
+    "output": "/home/federico/dev/cpp/spm/project/build/main.o"
   }
 ]
