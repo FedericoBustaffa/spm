@@ -6,6 +6,8 @@ uint64_t record::s_counter = 0;
 
 std::mt19937 record::s_generator = std::mt19937(42);
 
+record::record() : m_key(0), m_length(0), m_payload(nullptr) {}
+
 record::record(uint32_t length) : m_key(s_counter++), m_length(length)
 {
     // fill the payload with random characters
@@ -67,11 +69,7 @@ bool record::operator==(const record& other) const
     if (m_key != other.m_key || m_length != other.m_length)
         return false;
 
-    for (uint32_t i = 0; i < m_length; i++)
-        if (m_payload[i] != other.m_payload[i])
-            return false;
-
-    return true;
+    return std::memcmp(m_payload, other.m_payload, m_length) == 0;
 }
 
 bool record::operator!=(const record& other) const { return !(*this == other); }

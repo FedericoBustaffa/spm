@@ -2,12 +2,11 @@
 #include <cassert>
 #include <cstdio>
 #include <cstring>
-#include <sstream>
 #include <string>
 #include <vector>
 
+#include "mergesort.hpp"
 #include "record.hpp"
-#include "utils.hpp"
 
 int main(int argc, const char** argv)
 {
@@ -20,32 +19,20 @@ int main(int argc, const char** argv)
 
     // generate and serialize data
     std::vector<record> records = generate_records(n);
-    serialize(records);
-
-    // deserialize data
-    std::printf("*********************\n");
-    std::stringstream ss;
-    ss << "records_" << n << ".dat";
-    std::vector<record> readed = deserialize(ss.str().c_str());
-    assert(readed.size() == records.size());
-
-    for (size_t i = 0; i < readed.size(); i++)
-    {
-        if (records[i] != readed[i])
-        {
-            std::printf("readed diff from written\n");
-            return 1;
-        }
-    }
-    std::printf("records serialized correctly\n");
-
-    // sort
-    std::sort(
+    bool sorted = std::is_sorted(
         records.begin(), records.end(),
         [](const record& a, const record& b) { return a.key() < b.key(); });
+    std::printf("starting array %s\n", sorted ? "sorted" : "unsorted");
 
-    for (size_t i = 0; i < records.size(); i++)
-        std::printf("%lu\n", records[i].key());
+    const char* filepath = serialize(records);
+
+    mergesort(filepath);
+
+    std::vector<record> result = deserialize(filepath);
+    sorted = std::is_sorted(
+        result.begin(), result.end(),
+        [](const record& a, const record& b) { return a.key() < b.key(); });
+    std::printf("result array %s\n", sorted ? "sorted" : "unsorted");
 
     return 0;
 }

@@ -9,11 +9,11 @@
       "-march=native",
       "-c",
       "-o",
-      "build/main.o",
-      "src/main.cpp"
+      "build/mergesort.o",
+      "src/mergesort.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/project",
-    "file": "/home/federico/dev/cpp/spm/project/src/main.cpp",
-    "output": "/home/federico/dev/cpp/spm/project/build/main.o"
+    "file": "/home/federico/dev/cpp/spm/project/src/mergesort.cpp",
+    "output": "/home/federico/dev/cpp/spm/project/build/mergesort.o"
   }
 ]

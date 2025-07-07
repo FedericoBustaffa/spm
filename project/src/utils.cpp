@@ -1,4 +1,4 @@
-#include "utils.hpp"
+#include "mergesort.hpp"
 
 #include <algorithm>
 #include <cstdint>
@@ -22,7 +22,7 @@ std::vector<record> generate_records(uint64_t n)
     return records;
 }
 
-void serialize(const std::vector<record>& records)
+const char* serialize(const std::vector<record>& records)
 {
     uint64_t total_bytes = 0;
     uint64_t payload_bytes = 0;
@@ -54,6 +54,8 @@ void serialize(const std::vector<record>& records)
     std::printf("file produced: %s\n", ss.str().c_str());
     std::printf("payload generated: %lu bytes\n", payload_bytes);
     std::printf("total generated: %lu bytes\n", total_bytes);
+
+    return std::move(ss.str().c_str());
 }
 
 std::vector<record> deserialize(const char* filepath)

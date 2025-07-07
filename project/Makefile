@@ -69,7 +69,7 @@ $(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.cpp
 -include $(DEPS)
 
 clean-fast:
-	-rm -rf $(BUILD_DIR)
+	-rm -rf $(BUILD_DIR) *.dat
 
 clean: clean-fast
 	-rm -rf $(TARGET)

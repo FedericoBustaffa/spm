@@ -9,6 +9,8 @@
 class record
 {
 public:
+    record();
+
     record(uint32_t length);
 
     record(uint64_t key, uint32_t length, const char* payload);
