@@ -18,7 +18,7 @@ int main(int argc, const char** argv)
     }
     uint64_t n = std::stoul(argv[1]);
 
-    // generate shuffled v
+    // generate shuffled vector
     std::vector<record> a = generate_records(n);
 
     // check if sorted

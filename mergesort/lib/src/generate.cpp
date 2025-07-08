@@ -19,7 +19,7 @@ std::vector<record> generate_records(uint64_t n)
 
     for (uint64_t i = 0; i < n; i++)
     {
-        length = MAX_PAYLOAD;
+        length = 8 + i % MAX_PAYLOAD;
         payload = new char[length];
         for (uint32_t i = 0; i < length; i++)
             payload[i] = distribution(generator);

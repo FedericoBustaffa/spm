@@ -11,7 +11,7 @@ DBGFLAGS = -g
 OPTFLAGS = -O3 -march=native
 
 # specify include directories with -I<dir>
-INCLUDES = -I./lib/include/
+INCLUDES = -I./lib/include/ -I../lib/include/
 
 # specify preprocessor definitions
 DEFINES =
@@ -34,17 +34,16 @@ endif
 # link libraries
 LIBS = -pthread -L./lib/build/ -lmergesort
 
-.PHONY: all lib clean-fast clean recompile
+.PHONY: all clean recompile
 
 TARGETS = $(patsubst %.cpp, %.out, $(wildcard *.cpp))
 
-all: lib $(TARGETS)
-
-%.out: %.cpp
-	$(CXX) $(FLAGS) $^ -o $@ $(LIBS)
-
-lib:
+all:
 	$(MAKE) -C lib
+	$(MAKE) $(TARGETS)
+
+%.out: %.cpp ./lib/build/libmergesort.a
+	$(CXX) $(FLAGS) $< -o $@ $(LIBS)
 
 clean:
 	$(MAKE) -C lib clean
