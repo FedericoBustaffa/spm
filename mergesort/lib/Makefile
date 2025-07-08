@@ -53,15 +53,15 @@ OBJECTS = $(patsubst $(SOURCE_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SOURCES))
 
 .PHONY: all clean-fast clean recompile
 
-TARGET = run.out
+TARGET = libmergesort.a
 
-all: $(BUILD_DIR) $(TARGET)
+all: $(BUILD_DIR) $(BUILD_DIR)/$(TARGET)
 
 $(BUILD_DIR):
 	@mkdir -p $@
 
-$(TARGET): $(OBJECTS)
-	$(CXX) $(LDFLAGS) $^ -o $@ $(LIBS)
+$(BUILD_DIR)/$(TARGET): $(OBJECTS)
+	ar rcs $@ $^
 
 $(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.cpp
 	$(CXX) $(FLAGS) -c $< -o $@

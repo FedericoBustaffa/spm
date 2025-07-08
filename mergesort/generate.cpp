@@ -17,22 +17,15 @@ int main(int argc, const char** argv)
     }
     uint64_t n = std::stoul(argv[1]);
 
-    // generate and serialize data
+    // generate shuffled records
     std::vector<record> records = generate_records(n);
+
+    // check if sorted
     bool sorted = std::is_sorted(
         records.begin(), records.end(),
         [](const record& a, const record& b) { return a.key() < b.key(); });
+
     std::printf("starting array %s\n", sorted ? "sorted" : "unsorted");
-
-    const char* filepath = serialize(records);
-
-    mergesort(filepath);
-
-    std::vector<record> result = deserialize(filepath);
-    sorted = std::is_sorted(
-        result.begin(), result.end(),
-        [](const record& a, const record& b) { return a.key() < b.key(); });
-    std::printf("result array %s\n", sorted ? "sorted" : "unsorted");
 
     return 0;
 }

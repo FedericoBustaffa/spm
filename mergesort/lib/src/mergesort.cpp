@@ -49,9 +49,9 @@ void mergesort(std::vector<record>& v)
     delete[] support;
 }
 
-void mergesort(const char* filepath)
-{
-    std::vector<record> v = deserialize(filepath);
-    mergesort(v);
-    serialize(v);
-}
+// void mergesort(const char* filepath)
+// {
+//     std::vector<record> v = deserialize(filepath);
+//     mergesort(v);
+//     serialize(v, filepath);
+// }
