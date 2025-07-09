@@ -40,6 +40,7 @@ TARGETS = $(patsubst %.cpp, %.out, $(wildcard *.cpp))
 
 all:
 	$(MAKE) -C lib
+	$(MAKE) -C test
 	$(MAKE) $(TARGETS)
 
 %.out: %.cpp ./lib/build/libmergesort.a
