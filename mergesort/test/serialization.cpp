@@ -2,18 +2,20 @@
 #include <cassert>
 #include <cstdio>
 #include <cstring>
+#include <filesystem>
 #include <fstream>
 #include <string>
 #include <vector>
 
-#include "mergesort.hpp"
 #include "record.hpp"
+#include "serialize.hpp"
+#include "utils.hpp"
 
 int main(int argc, const char** argv)
 {
     if (argc < 2)
     {
-        std::printf("USAGE: %s <n>\n", argv[0]);
+        std::printf("USAGE: %s <N>\n", argv[0]);
         return 1;
     }
     uint64_t n = std::stoul(argv[1]);
@@ -22,10 +24,9 @@ int main(int argc, const char** argv)
     std::vector<record> a = generate_records(n);
 
     // check if sorted
-    bool sorted = std::is_sorted(
+    assert(!std::is_sorted(
         a.begin(), a.end(),
-        [](const record& a, const record& b) { return a.key() < b.key(); });
-    std::printf("starting array %s\n", sorted ? "sorted" : "unsorted");
+        [](const record& a, const record& b) { return a.key() < b.key(); }));
 
     // serialize the array in a file
     std::ofstream out("records.dat", std::ios::binary);
@@ -34,12 +35,15 @@ int main(int argc, const char** argv)
 
     // deserialize
     std::ifstream in("records.dat", std::ios::binary);
-    std::vector<record> b = deserialize(in);
+    std::vector<record> b = deserialize(in, 8192);
     in.close();
 
     // compare the two to see if the serialization is correct
-    bool equal = std::equal(a.begin(), a.end(), b.begin());
-    std::printf("vectors are %s\n", equal ? "the same" : "different");
+    assert(std::equal(a.begin(), a.end(), b.begin()));
+
+    // delete the created file
+    std::filesystem::path created("records.dat");
+    std::filesystem::remove(created);
 
     return 0;
 }

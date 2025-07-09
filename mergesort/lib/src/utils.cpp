@@ -1,4 +1,4 @@
-#include "mergesort.hpp"
+#include "utils.hpp"
 
 #include <algorithm>
 #include <cstdint>
@@ -12,17 +12,18 @@ std::vector<record> generate_records(uint64_t n)
     records.reserve(n);
 
     std::mt19937 generator(42);
-    std::uniform_int_distribution<char> distribution(0, 127);
+    std::uniform_int_distribution<uint32_t> length_dist(8, MAX_PAYLOAD);
+    std::uniform_int_distribution<char> payload_dist(97, 122);
 
     uint32_t length;
     char* payload;
 
     for (uint64_t i = 0; i < n; i++)
     {
-        length = 8 + i % MAX_PAYLOAD;
+        length = length_dist(generator);
         payload = new char[length];
         for (uint32_t i = 0; i < length; i++)
-            payload[i] = distribution(generator);
+            payload[i] = payload_dist(generator);
 
         records.emplace_back(i, length, payload);
     }

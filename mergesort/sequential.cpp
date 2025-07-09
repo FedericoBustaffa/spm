@@ -4,6 +4,7 @@
 
 #include "mergesort.hpp"
 #include "timer.hpp"
+#include "utils.hpp"
 
 int main(int argc, const char** argv)
 {
