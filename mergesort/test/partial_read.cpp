@@ -61,8 +61,7 @@ int main(int argc, const char** argv)
     assert(std::equal(records.begin(), records.end(), records2.begin(),
                       records2.end()));
 
-    std::filesystem::path generated("records.dat");
-    std::filesystem::remove(generated);
+    std::filesystem::remove("records.dat");
 
     return 0;
 }

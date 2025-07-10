@@ -80,8 +80,7 @@ int main(int argc, const char** argv)
     in.close();
     std::printf("total bytes read: %lu\n", bytes);
 
-    std::filesystem::path generated("records.dat");
-    std::filesystem::remove(generated);
+    std::filesystem::remove("records.dat");
 
     return 0;
 }

@@ -42,8 +42,7 @@ int main(int argc, const char** argv)
     assert(std::equal(a.begin(), a.end(), b.begin()));
 
     // delete the created file
-    std::filesystem::path created("records.dat");
-    std::filesystem::remove(created);
+    std::filesystem::remove("records.dat");
 
     return 0;
 }
