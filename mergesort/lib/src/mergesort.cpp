@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+#include "serialize.hpp"
+
 void merge(record* v, size_t first, size_t middle, size_t last, record* support)
 {
     size_t left = first;
@@ -28,6 +30,12 @@ void merge(record* v, size_t first, size_t middle, size_t last, record* support)
     // copy the support array in the original
     for (size_t i = first; i < last; i++)
         v[i] = std::move(support[i]);
+}
+
+void merge_blocks(const char* blk1, const char* blk2)
+{
+    // read sorted blocks
+    // merge
 }
 
 void sort(record* v, size_t first, size_t last, record* support)
