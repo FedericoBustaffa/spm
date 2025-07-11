@@ -1,6 +1,5 @@
 #include "mergesort.hpp"
 
-#include <algorithm>
 #include <cmath>
 #include <sstream>
 
@@ -54,7 +53,6 @@ void mergesort(std::vector<record>& v)
     sort(v, 0, v.size(), support);
 }
 
-// FILE MergeSort
 void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit)
 {
     std::ifstream file1(filepath1, std::ios::binary);
