@@ -1,4 +1,4 @@
-#include "serialize.hpp"
+#include "utils.hpp"
 
 #include <cstdint>
 #include <fstream>
@@ -12,7 +12,7 @@ void dump(const record& r, std::ofstream& file)
     file.write(r.payload(), r.length());
 }
 
-void serialize(const std::vector<record>& records, std::ofstream& file)
+void dump(const std::vector<record>& records, std::ofstream& file)
 {
     for (const auto& r : records)
         dump(r, file);
@@ -34,7 +34,7 @@ record load(std::ifstream& file)
     return record(key, length, payload);
 }
 
-std::vector<record> deserialize(std::ifstream& file, uint64_t limit)
+std::vector<record> load(std::ifstream& file, uint64_t limit)
 {
     std::vector<record> records;
     // try to optimize reallocation in the worst case (many small records)

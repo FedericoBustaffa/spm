@@ -2,8 +2,6 @@
 
 #include <cmath>
 
-#include "serialize.hpp"
-
 void merge(record* v, size_t first, size_t middle, size_t last, record* support)
 {
     size_t left = first;
@@ -32,12 +30,6 @@ void merge(record* v, size_t first, size_t middle, size_t last, record* support)
         v[i] = std::move(support[i]);
 }
 
-void merge_blocks(const char* blk1, const char* blk2)
-{
-    // read sorted blocks
-    // merge
-}
-
 void sort(record* v, size_t first, size_t last, record* support)
 {
     if (last - first <= 1)
@@ -56,10 +48,3 @@ void mergesort(std::vector<record>& v)
     sort(v.data(), 0, v.size(), support);
     delete[] support;
 }
-
-// void mergesort(const char* filepath)
-// {
-//     std::vector<record> v = deserialize(filepath);
-//     mergesort(v);
-//     serialize(v, filepath);
-// }

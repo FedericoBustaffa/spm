@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "record.hpp"
-#include "serialize.hpp"
 #include "utils.hpp"
 
 int main(int argc, const char** argv)
@@ -30,12 +29,12 @@ int main(int argc, const char** argv)
 
     // serialize the array in a file
     std::ofstream out("records.dat", std::ios::binary);
-    serialize(a, out);
+    dump(a, out);
     out.close();
 
     // deserialize
     std::ifstream in("records.dat", std::ios::binary);
-    std::vector<record> b = deserialize(in, 8192);
+    std::vector<record> b = load(in, 8192);
     in.close();
 
     // compare the two to see if the serialization is correct

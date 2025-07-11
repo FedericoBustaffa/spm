@@ -4,7 +4,6 @@
 #include <fstream>
 
 #include "record.hpp"
-#include "serialize.hpp"
 #include "utils.hpp"
 
 uint64_t mem_usage(const std::vector<record>& v)
@@ -36,7 +35,7 @@ int main(int argc, const char** argv)
     std::printf("total bytes produced: %lu\n", bytes);
 
     std::ofstream out("records.dat", std::ios::binary);
-    serialize(records, out);
+    dump(records, out);
     out.close();
 
     // partial reading with limits
@@ -45,7 +44,7 @@ int main(int argc, const char** argv)
     std::ifstream in("records.dat", std::ios::binary);
     while (!in.eof())
     {
-        temp = deserialize(in, limit);
+        temp = load(in, limit);
         if (records.size() == 0)
             break;
 

@@ -6,7 +6,6 @@
 
 #include "mergesort.hpp"
 #include "record.hpp"
-#include "serialize.hpp"
 #include "utils.hpp"
 
 uint64_t mem_usage(const std::vector<record>& v)
@@ -41,7 +40,7 @@ int main(int argc, const char** argv)
 
     // save unsorted records to a file
     std::ofstream out("records.dat", std::ios::binary);
-    serialize(records, out);
+    dump(records, out);
     out.close();
 
     // sort records
@@ -57,7 +56,7 @@ int main(int argc, const char** argv)
     bytes = 0;
     while (!in.eof())
     {
-        temp = deserialize(in, limit);
+        temp = load(in, limit);
         if (records.size() == 0)
             break;
 
@@ -69,7 +68,7 @@ int main(int argc, const char** argv)
         std::stringstream ss;
         ss << "block_" << i++ << ".dat";
         std::ofstream block_file(ss.str());
-        serialize(temp, block_file);
+        dump(temp, block_file);
         block_file.close();
 
         // check memory usage of a block
