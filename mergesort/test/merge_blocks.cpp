@@ -2,7 +2,6 @@
 #include <cassert>
 #include <cstdio>
 #include <filesystem>
-#include <fstream>
 
 #include "mergesort.hpp"
 #include "record.hpp"
@@ -20,17 +19,12 @@ uint64_t mem_usage(const std::vector<record>& v)
 
 int main(int argc, const char** argv)
 {
-    if (argc != 3)
+    if (argc != 2)
     {
-        std::printf("USAGE: %s <N> <L>\n", argv[0]);
+        std::printf("USAGE: %s <N>\n", argv[0]);
         return 1;
     }
-    uint64_t n = std::stoull(argv[1]);     // # of records
-    uint64_t limit = std::stoull(argv[2]); // max bytes
-
-    // limit must be at least key + length + MAX_PAYLOAD
-    uint64_t min_limit = sizeof(uint64_t) + sizeof(uint32_t) + MAX_PAYLOAD;
-    limit = limit < min_limit ? min_limit : limit;
+    uint64_t n = std::stoull(argv[1]); // # of records
 
     auto compare = [](const record& a, const record& b) {
         return a.key() < b.key();
@@ -39,48 +33,29 @@ int main(int argc, const char** argv)
     // generate records
     std::vector<record> records = generate_records(n);
 
-    // save unsorted records to a file
-    std::ofstream out("records.dat", std::ios::binary);
-    serialize(records, out);
-    out.close();
+    std::vector<record> blk1, blk2;
+    for (size_t i = 0; i < records.size() / 2; i++)
+        blk1.push_back(records[i]);
 
-    // sort records
-    mergesort(records);
-    assert(std::is_sorted(records.begin(), records.end(), compare));
-    uint64_t bytes = mem_usage(records);
-    std::printf("total bytes produced: %lu\n", bytes);
+    for (size_t i = records.size() / 2; i < records.size(); i++)
+        blk2.push_back(records[i]);
 
-    // partial reading with limits
-    std::vector<record> temp;
-    std::ifstream in("records.dat", std::ios::binary);
-    uint64_t i = 0;
-    bytes = 0;
-    while (!in.eof())
-    {
-        temp = deserialize(in, limit);
-        if (records.size() == 0)
-            break;
+    std::printf("blk1 size: %lu\n", blk1.size());
+    std::printf("blk2 size: %lu\n", blk2.size());
 
-        // order the block
-        mergesort(temp);
-        assert(is_sorted(temp.begin(), temp.end(), compare));
+    mergesort(blk1);
+    mergesort(blk2);
+    assert(std::is_sorted(blk1.begin(), blk1.end(), compare));
+    assert(std::is_sorted(blk2.begin(), blk2.end(), compare));
+    serialize(blk1, "blk1.dat");
+    serialize(blk2, "blk2.dat");
 
-        // save the sorted block in a file
-        std::stringstream ss;
-        ss << "block_" << i++ << ".dat";
-        std::ofstream block_file(ss.str());
-        serialize(temp, block_file);
-        block_file.close();
+    // test
+    // merge_blocks("blk1.dat", "blk2.dat");
 
-        // check memory usage of a block
-        uint64_t b = mem_usage(temp);
-        bytes += b;
-        assert(b <= limit);
-    }
-    in.close();
-    std::printf("total bytes read: %lu\n", bytes);
-
-    std::filesystem::remove("records.dat");
+    // final clean up
+    std::filesystem::remove("blk1.dat");
+    std::filesystem::remove("blk2.dat");
 
     return 0;
 }

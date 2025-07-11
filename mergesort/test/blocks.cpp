@@ -1,3 +1,7 @@
+
+/* Test to see if a sequence of blocks are
+ * sorted and serialized correctly */
+
 #include <algorithm>
 #include <cassert>
 #include <cstdio>
@@ -32,23 +36,15 @@ int main(int argc, const char** argv)
     uint64_t min_limit = sizeof(uint64_t) + sizeof(uint32_t) + MAX_PAYLOAD;
     limit = limit < min_limit ? min_limit : limit;
 
-    auto compare = [](const record& a, const record& b) {
-        return a.key() < b.key();
-    };
-
     // generate records
     std::vector<record> records = generate_records(n);
+    uint64_t bytes = mem_usage(records);
+    std::printf("total bytes produced: %lu\n", bytes);
 
     // save unsorted records to a file
     std::ofstream out("records.dat", std::ios::binary);
     serialize(records, out);
     out.close();
-
-    // sort records
-    mergesort(records);
-    assert(std::is_sorted(records.begin(), records.end(), compare));
-    uint64_t bytes = mem_usage(records);
-    std::printf("total bytes produced: %lu\n", bytes);
 
     // partial reading with limits
     std::vector<record> temp;
@@ -63,7 +59,10 @@ int main(int argc, const char** argv)
 
         // order the block
         mergesort(temp);
-        assert(is_sorted(temp.begin(), temp.end(), compare));
+        assert(is_sorted(temp.begin(), temp.end(),
+                         [](const record& a, const record& b) {
+                             return a.key() < b.key();
+                         }));
 
         // save the sorted block in a file
         std::stringstream ss;

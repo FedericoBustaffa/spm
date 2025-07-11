@@ -9,6 +9,8 @@ void dump(const record& r, std::ofstream& file);
 
 void serialize(const std::vector<record>& records, std::ofstream& file);
 
+void serialize(const std::vector<record>& records, const char* filepath);
+
 record load(std::ifstream& file);
 
 std::vector<record> deserialize(std::ifstream& file, uint64_t limit);

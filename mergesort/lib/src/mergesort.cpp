@@ -1,10 +1,13 @@
 #include "mergesort.hpp"
 
+#include <algorithm>
 #include <cmath>
+#include <sstream>
 
 #include "serialize.hpp"
 
-void merge(record* v, size_t first, size_t middle, size_t last, record* support)
+void merge(std::vector<record>& v, size_t first, size_t middle, size_t last,
+           std::vector<record>& support)
 {
     size_t left = first;
     size_t right = middle;
@@ -32,13 +35,8 @@ void merge(record* v, size_t first, size_t middle, size_t last, record* support)
         v[i] = std::move(support[i]);
 }
 
-void merge_blocks(const char* blk1, const char* blk2)
-{
-    // read sorted blocks
-    // merge
-}
-
-void sort(record* v, size_t first, size_t last, record* support)
+void sort(std::vector<record>& v, size_t first, size_t last,
+          std::vector<record>& support)
 {
     if (last - first <= 1)
         return;
@@ -52,14 +50,54 @@ void sort(record* v, size_t first, size_t last, record* support)
 
 void mergesort(std::vector<record>& v)
 {
-    record* support = new record[v.size()];
-    sort(v.data(), 0, v.size(), support);
-    delete[] support;
+    std::vector<record> support(v.size());
+    sort(v, 0, v.size(), support);
 }
 
-// void mergesort(const char* filepath)
-// {
-//     std::vector<record> v = deserialize(filepath);
-//     mergesort(v);
-//     serialize(v, filepath);
-// }
+// FILE MergeSort
+void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit)
+{
+    std::ifstream file1(filepath1, std::ios::binary);
+    std::ifstream file2(filepath2, std::ios::binary);
+
+    while (!file1.eof() && !file2.eof())
+    {
+        std::vector<record> blk1 = deserialize(file1, limit / 4);
+        std::vector<record> blk2 = deserialize(file2, limit / 4);
+
+        std::vector<record> result(blk1.size() + blk2.size());
+
+        serialize(result, "merged.dat");
+    }
+}
+
+void mergesort(const char* filepath, uint64_t limit)
+{
+    std::ifstream file(filepath, std::ios::binary);
+    std::stringstream ss;
+
+    std::vector<record> block;
+    size_t block_counter = 0;
+    while (!file.eof())
+    {
+        // read a block
+        block = deserialize(file, limit / 2);
+
+        // sort
+        mergesort(block);
+
+        // save the sorted block to a file
+        ss << "block" << block_counter++ << ".bin";
+        serialize(block, ss.str().c_str());
+        ss.str("");
+        ss.clear();
+    }
+
+    for (size_t i = 0; i < block_counter; i += 2)
+    {
+        ss << "block" << i << ".bin";
+        const char* filepath1 = std::move(ss.str().c_str());
+        const char* filepath2 = std::move(ss.str().c_str());
+        merge_blocks(filepath1, filepath2, limit);
+    }
+}

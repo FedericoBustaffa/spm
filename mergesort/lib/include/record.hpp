@@ -35,6 +35,8 @@ public:
 
     bool operator!=(const record& other) const;
 
+    bool operator<(const record& other) const;
+
     ~record();
 
 private:

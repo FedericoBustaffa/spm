@@ -1,44 +1,25 @@
-#include <algorithm>
 #include <cassert>
 #include <cstdio>
 
 #include "mergesort.hpp"
-#include "timer.hpp"
+#include "serialize.hpp"
 #include "utils.hpp"
 
 int main(int argc, const char** argv)
 {
-    if (argc < 2)
+    if (argc < 3)
     {
-        std::printf("USAGE: %s <e>\n", argv[0]);
+        std::printf("USAGE: %s <E> <L>\n", argv[0]);
         return 1;
     }
     uint64_t n = 1ULL << std::stoul(argv[1]);
+    uint64_t limit = std::stoul(argv[2]);
 
-    // generate shuffled vector
+    // generate and save shuffled vector
     std::vector<record> a = generate_records(n);
-    std::vector<record> b = a;
+    serialize(a, "vector.bin");
 
-    auto compare = [](const record& a, const record& b) {
-        return a.key() < b.key();
-    };
-
-    spm::timer timer;
-
-    // std::sort timing
-    timer.start();
-    std::sort(a.begin(), a.end(), compare);
-    std::printf("std::sort time: %.4f\n", timer.stop());
-
-    // mergesort
-    timer.start();
-    mergesort(b);
-    std::printf("mergesort time: %.4f\n", timer.stop());
-
-    // asserts to test correctness
-    assert(std::equal(a.begin(), a.end(), b.begin(), b.end()));
-    assert(std::is_sorted(a.begin(), a.end(), compare));
-    assert(std::is_sorted(b.begin(), b.end(), compare));
+    mergesort("vector.bin", limit);
 
     return 0;
 }

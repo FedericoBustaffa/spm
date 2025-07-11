@@ -18,6 +18,12 @@ void serialize(const std::vector<record>& records, std::ofstream& file)
         dump(r, file);
 }
 
+void serialize(const std::vector<record>& records, const char* filepath)
+{
+    std::ofstream out(filepath, std::ios::binary);
+    serialize(records, out);
+}
+
 record load(std::ifstream& file)
 {
     uint64_t key;

@@ -7,4 +7,6 @@
 
 void mergesort(std::vector<record>& v);
 
+void mergesort(const char* filepath, uint64_t limit);
+
 #endif

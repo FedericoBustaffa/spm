@@ -63,4 +63,9 @@ bool record::operator==(const record& other) const
 
 bool record::operator!=(const record& other) const { return !(*this == other); }
 
+bool record::operator<(const record& other) const
+{
+    return m_key < other.m_key;
+}
+
 record::~record() { delete[] m_payload; }
