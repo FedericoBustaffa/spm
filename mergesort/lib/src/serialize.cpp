@@ -1,30 +1,30 @@
-#include "utils.hpp"
+#include "serialize.hpp"
 
 #include <cstdint>
 #include <fstream>
 
 #include "record.hpp"
 
-void dump(const record& r, std::ofstream& file)
+void dump_record(const record& r, std::ofstream& file)
 {
     file.write(reinterpret_cast<const char*>(&r.key()), sizeof(uint64_t));
     file.write(reinterpret_cast<const char*>(&r.length()), sizeof(uint32_t));
     file.write(r.payload(), r.length());
 }
 
-void dump(const std::vector<record>& records, std::ofstream& file)
+void dump_vector(const std::vector<record>& records, std::ofstream& file)
 {
     for (const auto& r : records)
-        dump(r, file);
+        dump_record(r, file);
 }
 
-void serialize(const std::vector<record>& records, const char* filepath)
+void dump_vector(const std::vector<record>& records, const char* filepath)
 {
     std::ofstream out(filepath, std::ios::binary);
-    serialize(records, out);
+    dump_vector(records, out);
 }
 
-record load(std::ifstream& file)
+record load_record(std::ifstream& file)
 {
     uint64_t key;
     file.read(reinterpret_cast<char*>(&key), sizeof(uint64_t));
@@ -40,9 +40,10 @@ record load(std::ifstream& file)
     return record(key, length, payload);
 }
 
-std::vector<record> load(std::ifstream& file, uint64_t limit)
+std::vector<record> load_vector(std::ifstream& file, uint64_t limit)
 {
     std::vector<record> records;
+
     // try to optimize reallocation in the worst case (many small records)
     records.reserve(limit / 20); // 20 is the minimum size for a record
 
@@ -60,7 +61,7 @@ std::vector<record> load(std::ifstream& file, uint64_t limit)
             break;
 
         // read one record
-        temp = load(file);
+        temp = load_record(file);
         bytes += sizeof(uint64_t) + sizeof(uint32_t) + temp.length();
 
         // invalid record means EOF

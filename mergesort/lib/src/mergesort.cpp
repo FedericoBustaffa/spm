@@ -60,12 +60,12 @@ void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit)
 
     while (!file1.eof() && !file2.eof())
     {
-        std::vector<record> blk1 = deserialize(file1, limit / 4);
-        std::vector<record> blk2 = deserialize(file2, limit / 4);
+        std::vector<record> blk1 = load_vector(file1, limit / 4);
+        std::vector<record> blk2 = load_vector(file2, limit / 4);
 
         std::vector<record> result(blk1.size() + blk2.size());
 
-        serialize(result, "merged.dat");
+        dump_vector(result, "merged.dat");
     }
 }
 
@@ -79,14 +79,14 @@ void mergesort(const char* filepath, uint64_t limit)
     while (!file.eof())
     {
         // read a block
-        block = deserialize(file, limit / 2);
+        block = load_vector(file, limit / 2);
 
         // sort
         mergesort(block);
 
         // save the sorted block to a file
         ss << "block" << block_counter++ << ".bin";
-        serialize(block, ss.str().c_str());
+        dump_vector(block, ss.str().c_str());
         ss.str("");
         ss.clear();
     }

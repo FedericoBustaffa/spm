@@ -17,7 +17,7 @@ int main(int argc, const char** argv)
 
     // generate and save shuffled vector
     std::vector<record> a = generate_records(n);
-    serialize(a, "vector.bin");
+    dump_vector(a, "vector.bin");
 
     mergesort("vector.bin", limit);
 

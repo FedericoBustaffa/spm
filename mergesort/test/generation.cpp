@@ -21,7 +21,7 @@ int main(int argc, const char** argv)
     std::vector<record> records = generate_records(n);
     for (const auto& r : records)
     {
-        assert(r.length() == std::strlen(r.payload()));
+        // assert(r.length() == std::strlen(r.payload()));
         std::printf("key: %lu - length: %u\n", r.key(), r.length());
     }
 

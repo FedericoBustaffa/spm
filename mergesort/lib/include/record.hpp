@@ -4,8 +4,6 @@
 #include <cstdint>
 #include <random>
 
-#define MAX_PAYLOAD 256
-
 class record
 {
 public:
