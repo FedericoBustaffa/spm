@@ -26,23 +26,6 @@
       "-march=native",
       "-c",
       "-o",
-      "build/serialize.o",
-      "src/serialize.cpp"
-    ],
-    "directory": "/home/federico/dev/cpp/spm/mergesort/lib",
-    "file": "/home/federico/dev/cpp/spm/mergesort/lib/src/serialize.cpp",
-    "output": "/home/federico/dev/cpp/spm/mergesort/lib/build/serialize.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/g++",
-      "-Wall",
-      "-std=c++20",
-      "-I./include/",
-      "-O3",
-      "-march=native",
-      "-c",
-      "-o",
       "build/record.o",
       "src/record.cpp"
     ],
@@ -60,31 +43,29 @@
       "-march=native",
       "-c",
       "-o",
+      "build/serialize.o",
+      "src/serialize.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/mergesort/lib",
+    "file": "/home/federico/dev/cpp/spm/mergesort/lib/src/serialize.cpp",
+    "output": "/home/federico/dev/cpp/spm/mergesort/lib/build/serialize.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-std=c++20",
+      "-I./include/",
+      "-O3",
+      "-march=native",
+      "-c",
+      "-o",
       "build/utils.o",
       "src/utils.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/mergesort/lib",
     "file": "/home/federico/dev/cpp/spm/mergesort/lib/src/utils.cpp",
     "output": "/home/federico/dev/cpp/spm/mergesort/lib/build/utils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/g++",
-      "-c",
-      "-Wall",
-      "-std=c++20",
-      "-I../lib/include/",
-      "-I../../lib/include/",
-      "-O3",
-      "-march=native",
-      "-pthread",
-      "-o",
-      "blocks.out",
-      "blocks.cpp"
-    ],
-    "directory": "/home/federico/dev/cpp/spm/mergesort/test",
-    "file": "/home/federico/dev/cpp/spm/mergesort/test/blocks.cpp",
-    "output": "/home/federico/dev/cpp/spm/mergesort/test/blocks.out"
   },
   {
     "arguments": [
@@ -117,12 +98,12 @@
       "-march=native",
       "-pthread",
       "-o",
-      "partial_read.out",
-      "partial_read.cpp"
+      "blocks.out",
+      "blocks.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/mergesort/test",
-    "file": "/home/federico/dev/cpp/spm/mergesort/test/partial_read.cpp",
-    "output": "/home/federico/dev/cpp/spm/mergesort/test/partial_read.out"
+    "file": "/home/federico/dev/cpp/spm/mergesort/test/blocks.cpp",
+    "output": "/home/federico/dev/cpp/spm/mergesort/test/blocks.out"
   },
   {
     "arguments": [
@@ -142,6 +123,44 @@
     "directory": "/home/federico/dev/cpp/spm/mergesort/test",
     "file": "/home/federico/dev/cpp/spm/mergesort/test/serialization.cpp",
     "output": "/home/federico/dev/cpp/spm/mergesort/test/serialization.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Wall",
+      "-std=c++20",
+      "-I../lib/include/",
+      "-I../../lib/include/",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "partial_read.out",
+      "partial_read.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/mergesort/test",
+    "file": "/home/federico/dev/cpp/spm/mergesort/test/partial_read.cpp",
+    "output": "/home/federico/dev/cpp/spm/mergesort/test/partial_read.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Wall",
+      "-std=c++20",
+      "-I../lib/include/",
+      "-I../../lib/include/",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "merge_blocks.out",
+      "merge_blocks.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/mergesort/test",
+    "file": "/home/federico/dev/cpp/spm/mergesort/test/merge_blocks.cpp",
+    "output": "/home/federico/dev/cpp/spm/mergesort/test/merge_blocks.out"
   },
   {
     "arguments": [

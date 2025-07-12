@@ -26,13 +26,14 @@ int main(int argc, const char** argv)
     mergesort("vector.bin", limit);
 
     // check if the array is sorted correctly
-    std::vector<record> result =
-        load_vector("block_0.bin", a.size() * (12 + MAX_PAYLOAD));
+    std::vector<record> result = load_vector("block_0.bin", 10000000);
 
+    std::printf("\n");
     for (const auto& r : result)
         std::printf("%lu\n", r.key());
 
     assert(result.size() == a.size());
+    assert(!std::equal(a.begin(), a.end(), result.begin(), result.end()));
     assert(!std::is_sorted(a.begin(), a.end()));
     assert(std::is_sorted(result.begin(), result.end()));
 

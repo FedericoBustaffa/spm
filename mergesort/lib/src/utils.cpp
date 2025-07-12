@@ -6,14 +6,14 @@
 
 #include "record.hpp"
 
+static std::mt19937 generator(42);
+static std::uniform_int_distribution<uint32_t> length_dist(8, MAX_PAYLOAD);
+static std::uniform_int_distribution<char> payload_dist(97, 122);
+
 std::vector<record> generate_records(uint64_t n)
 {
     std::vector<record> records;
     records.reserve(n);
-
-    std::mt19937 generator(42);
-    std::uniform_int_distribution<uint32_t> length_dist(8, MAX_PAYLOAD);
-    std::uniform_int_distribution<char> payload_dist(97, 122);
 
     uint32_t length;
     char* payload;
