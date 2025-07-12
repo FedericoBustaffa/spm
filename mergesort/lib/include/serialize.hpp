@@ -15,4 +15,6 @@ record load_record(std::ifstream& file);
 
 std::vector<record> load_vector(std::ifstream& file, uint64_t limit);
 
+std::vector<record> load_vector(const char* filepath, uint64_t limit);
+
 #endif

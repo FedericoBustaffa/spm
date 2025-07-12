@@ -81,3 +81,9 @@ std::vector<record> load_vector(std::ifstream& file, uint64_t limit)
 
     return records;
 }
+
+std::vector<record> load_vector(const char* filepath, uint64_t limit)
+{
+    std::ifstream file(filepath, std::ios::binary);
+    return load_vector(file, limit);
+}
