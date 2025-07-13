@@ -13,11 +13,11 @@ int main(int argc, const char** argv)
 {
     if (argc != 3)
     {
-        std::printf("USAGE: %s <N> <L>\n", argv[0]);
+        std::printf("USAGE: %s <E> <L>\n", argv[0]);
         return 1;
     }
-    uint64_t n = std::stoull(argv[1]);     // # of records
-    uint64_t limit = std::stoull(argv[2]); // max bytes
+    uint64_t n = 1ULL << std::stoull(argv[1]); // # of records
+    uint64_t limit = std::stoull(argv[2]);     // max bytes
 
     // generate 2 blocks
     std::vector<record> blk1 = generate_records(n, MAX_PAYLOAD);
@@ -35,9 +35,16 @@ int main(int argc, const char** argv)
     std::vector<record> correct(blk1.size() + blk2.size());
     std::merge(blk1.begin(), blk1.end(), blk2.begin(), blk2.end(),
                correct.begin());
-    assert(std::is_sorted(correct.begin(), correct.end()));
 
+    // merge 2 blocks with implemented function
     merge_blocks("blk1.bin", "blk2.bin", limit);
+    std::vector<record> result = load_vector("blk1.bin");
+
+    // checks
+    assert(std::is_sorted(correct.begin(), correct.end()));
+    assert(std::is_sorted(result.begin(), result.end()));
+    assert(std::equal(correct.begin(), correct.end(), result.begin(),
+                      result.end()));
 
     return 0;
 }

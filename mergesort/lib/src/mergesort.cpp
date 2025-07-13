@@ -71,7 +71,6 @@ void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit)
     result.reserve((limit / 2) / 20);
 
     size_t i1 = 0, i2 = 0;
-
     while (!blk1.empty() && !blk2.empty())
     {
         while (i1 < blk1.size() && i2 < blk2.size() &&
@@ -81,23 +80,22 @@ void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit)
                 result.push_back(std::move(blk1[i1++]));
             else
                 result.push_back(std::move(blk2[i2++]));
-        }
 
-        std::printf("ok\n");
+            // std::printf("i1: %lu, i2: %lu, r: %lu\n", i1, i2, result.size());
+        }
 
         if (i1 >= blk1.size())
         {
-            std::vector<record> blk1 =
-                load_vector(in1, fs::file_size(filepath1), limit / 4);
+            blk1 = load_vector(in1, fs::file_size(filepath1), limit / 4);
             i1 = 0;
         }
         else if (i2 >= blk2.size())
         {
-            std::vector<record> blk2 =
-                load_vector(in2, fs::file_size(filepath2), limit / 4);
+            blk2 = load_vector(in2, fs::file_size(filepath2), limit / 4);
             i2 = 0;
         }
-        else
+
+        if (mem_usage(result) < limit / 2)
         {
             dump_vector(result, out);
             result.clear();
@@ -132,8 +130,6 @@ void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit)
     in1.close();
     in2.close();
     out.close();
-
-    // std::printf("merged.bin size: %lu\n", fs::file_size("merged.bin"));
 
     fs::remove(filepath1);
     fs::remove(filepath2);
