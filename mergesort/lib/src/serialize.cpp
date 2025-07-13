@@ -1,9 +1,13 @@
 #include "serialize.hpp"
 
 #include <cstdint>
+#include <cstring>
+#include <filesystem>
 #include <fstream>
 
 #include "record.hpp"
+
+namespace fs = std::filesystem;
 
 void dump_record(const record& r, std::ofstream& file)
 {
@@ -40,11 +44,13 @@ record load_record(std::ifstream& file)
     return record(key, length, payload);
 }
 
-std::vector<record> load_vector(std::ifstream& file, uint64_t limit)
+std::vector<record> load_vector(std::ifstream& file, size_t filesize,
+                                uint64_t limit)
 {
     std::vector<record> records;
 
     // try to optimize reallocation in the worst case (many small records)
+    limit = filesize < limit ? filesize : limit;
     records.reserve(limit / 20); // 20 is the minimum size for a record
 
     record temp;
@@ -57,7 +63,8 @@ std::vector<record> load_vector(std::ifstream& file, uint64_t limit)
 
         // if reading the key, the length and a minimum payload increase the
         // memory usage beyond the limit don't even try to read the next record
-        if (bytes + sizeof(uint64_t) + sizeof(uint32_t) + 8 > limit)
+        if (bytes + sizeof(uint64_t) + sizeof(uint32_t) + 8 > limit &&
+            limit > 0)
             break;
 
         // read one record
@@ -70,7 +77,7 @@ std::vector<record> load_vector(std::ifstream& file, uint64_t limit)
 
         // if adding the record exceeds the limit, the file cursor position is
         // put back at the start of the record that will be read next iteration
-        if (bytes > limit)
+        if (bytes > limit && limit > 0)
         {
             file.seekg(pos);
             break;
@@ -85,5 +92,5 @@ std::vector<record> load_vector(std::ifstream& file, uint64_t limit)
 std::vector<record> load_vector(const char* filepath, uint64_t limit)
 {
     std::ifstream file(filepath, std::ios::binary);
-    return load_vector(file, limit);
+    return load_vector(file, fs::file_size(filepath), limit);
 }

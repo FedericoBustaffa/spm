@@ -1,10 +1,14 @@
 #include <algorithm>
 #include <cassert>
 #include <cstdio>
+#include <filesystem>
 
 #include "mergesort.hpp"
 #include "serialize.hpp"
+#include "timer.hpp"
 #include "utils.hpp"
+
+namespace fs = std::filesystem;
 
 int main(int argc, const char** argv)
 {
@@ -17,25 +21,34 @@ int main(int argc, const char** argv)
     uint64_t limit = std::stoul(argv[2]);
 
     // generate and save shuffled vector
-    std::vector<record> a = generate_records(n);
+    std::vector<record> a = generate_records(n, 256);
     dump_vector(a, "vector.bin");
-    for (const auto& i : a)
-        std::printf("%lu\n", i.key());
+    std::printf("initial file size: %lu\n", fs::file_size("vector.bin"));
+
+    // for (const auto& i : a)
+    //     std::printf("%lu\n", i.key());
 
     // sort and generate a file with sorted array
+    spm::timer timer;
+    timer.start();
     mergesort("vector.bin", limit);
+    double time = timer.stop();
 
     // check if the array is sorted correctly
-    std::vector<record> result = load_vector("block_0.bin", 10000000);
+    std::vector<record> result = load_vector("vector.bin");
 
-    std::printf("\n");
-    for (const auto& r : result)
-        std::printf("%lu\n", r.key());
+    // std::printf("\n");
+    // for (const auto& r : result)
+    //     std::printf("%lu\n", r.key());
 
     assert(result.size() == a.size());
     assert(!std::equal(a.begin(), a.end(), result.begin(), result.end()));
     assert(!std::is_sorted(a.begin(), a.end()));
     assert(std::is_sorted(result.begin(), result.end()));
+
+    std::printf(
+        "file size: %lu, n: %lu, limit: %lu bytes, time: %.4f seconds\n",
+        fs::file_size("vector.bin"), n, limit, time);
 
     return 0;
 }

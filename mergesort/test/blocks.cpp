@@ -13,14 +13,7 @@
 #include "serialize.hpp"
 #include "utils.hpp"
 
-uint64_t mem_usage(const std::vector<record>& v)
-{
-    uint64_t bytes = 0;
-    for (const auto& i : v)
-        bytes += sizeof(uint64_t) + sizeof(uint32_t) + i.length();
-
-    return bytes;
-}
+namespace fs = std::filesystem;
 
 int main(int argc, const char** argv)
 {
@@ -32,54 +25,44 @@ int main(int argc, const char** argv)
     uint64_t n = std::stoull(argv[1]);     // # of records
     uint64_t limit = std::stoull(argv[2]); // max bytes
 
-    // limit must be at least key + length + MAX_PAYLOAD
-    uint64_t min_limit = sizeof(uint64_t) + sizeof(uint32_t) + MAX_PAYLOAD;
-    limit = limit < min_limit ? min_limit : limit;
-
     // generate records
-    std::vector<record> records = generate_records(n);
+    std::vector<record> records = generate_records(n, 64);
     uint64_t bytes = mem_usage(records);
     std::printf("total bytes produced: %lu\n", bytes);
 
     // save unsorted records to a file
-    std::ofstream out("records.dat", std::ios::binary);
+    std::ofstream out("records.bin", std::ios::binary | std::ios::trunc);
     dump_vector(records, out);
     out.close();
 
     // partial reading with limits
-    std::vector<record> temp;
-    std::ifstream in("records.dat", std::ios::binary);
+    std::ifstream in("records.bin", std::ios::binary);
+    std::vector<record> temp = load_vector(in, limit);
     uint64_t i = 0;
     bytes = 0;
-    while (!in.eof())
+    while (!temp.empty())
     {
-        temp = load_vector(in, limit);
-        if (records.size() == 0)
-            break;
-
         // order the block
         mergesort(temp);
-        assert(is_sorted(temp.begin(), temp.end(),
-                         [](const record& a, const record& b) {
-                             return a.key() < b.key();
-                         }));
+        assert(is_sorted(temp.begin(), temp.end()));
 
         // save the sorted block in a file
         std::stringstream ss;
-        ss << "block_" << i++ << ".dat";
+        ss << "block_" << i++ << ".bin";
         std::ofstream block_file(ss.str());
         dump_vector(temp, block_file);
-        block_file.close();
 
         // check memory usage of a block
         uint64_t b = mem_usage(temp);
         bytes += b;
         assert(b <= limit);
+
+        temp = load_vector(in, limit);
     }
     in.close();
     std::printf("total bytes read: %lu\n", bytes);
 
-    std::filesystem::remove("records.dat");
+    fs::remove("records.bin");
 
     return 0;
 }

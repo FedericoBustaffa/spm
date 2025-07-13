@@ -11,6 +11,8 @@
 #include "serialize.hpp"
 #include "utils.hpp"
 
+namespace fs = std::filesystem;
+
 int main(int argc, const char** argv)
 {
     if (argc < 2)
@@ -21,7 +23,7 @@ int main(int argc, const char** argv)
     uint64_t n = std::stoul(argv[1]);
 
     // generate shuffled vector
-    std::vector<record> a = generate_records(n);
+    std::vector<record> a = generate_records(n, 64);
 
     // check if sorted
     assert(!std::is_sorted(
@@ -35,14 +37,14 @@ int main(int argc, const char** argv)
 
     // deserialize
     std::ifstream in("records.dat", std::ios::binary);
-    std::vector<record> b = load_vector(in, n * (12 + MAX_PAYLOAD));
+    std::vector<record> b = load_vector(in, 10000000);
     in.close();
 
     // compare the two to see if the serialization is correct
     assert(std::equal(a.begin(), a.end(), b.begin()));
 
     // delete the created file
-    std::filesystem::remove("records.dat");
+    fs::remove("records.dat");
 
     return 0;
 }

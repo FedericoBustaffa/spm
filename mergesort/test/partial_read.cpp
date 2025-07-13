@@ -7,14 +7,7 @@
 #include "serialize.hpp"
 #include "utils.hpp"
 
-uint64_t mem_usage(const std::vector<record>& v)
-{
-    uint64_t bytes = 0;
-    for (const auto& i : v)
-        bytes += sizeof(uint64_t) + sizeof(uint32_t) + i.length();
-
-    return bytes;
-}
+namespace fs = std::filesystem;
 
 int main(int argc, const char** argv)
 {
@@ -26,12 +19,8 @@ int main(int argc, const char** argv)
     uint64_t n = std::stoull(argv[1]);     // # of records
     uint64_t limit = std::stoull(argv[2]); // max bytes
 
-    // limit must be at least key + length + MAX_PAYLOAD
-    uint64_t min_limit = sizeof(uint64_t) + sizeof(uint32_t) + MAX_PAYLOAD;
-    limit = limit < min_limit ? min_limit : limit;
-
     // generate and save records to a file
-    std::vector<record> records = generate_records(n);
+    std::vector<record> records = generate_records(n, 64);
     uint64_t bytes = mem_usage(records);
     std::printf("total bytes produced: %lu\n", bytes);
 
@@ -61,7 +50,7 @@ int main(int argc, const char** argv)
     assert(std::equal(records.begin(), records.end(), records2.begin(),
                       records2.end()));
 
-    std::filesystem::remove("records.dat");
+    fs::remove("records.dat");
 
     return 0;
 }

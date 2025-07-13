@@ -18,7 +18,7 @@ int main(int argc, const char** argv)
     uint64_t n = std::stoul(argv[1]);
 
     // generate shuffled records
-    std::vector<record> records = generate_records(n);
+    std::vector<record> records = generate_records(n, 64);
     for (const auto& r : records)
     {
         // assert(r.length() == std::strlen(r.payload()));

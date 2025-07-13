@@ -7,6 +7,8 @@
 #include "serialize.hpp"
 #include "utils.hpp"
 
+namespace fs = std::filesystem;
+
 void merge(std::vector<record>& v, size_t first, size_t middle, size_t last,
            std::vector<record>& support)
 {
@@ -59,48 +61,51 @@ void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit)
 {
     std::ifstream in1(filepath1, std::ios::binary);
     std::ifstream in2(filepath2, std::ios::binary);
-    std::ofstream out("merged.bin",
-                      std::ios::trunc | std::ios::binary | std::ios::app);
+    std::ofstream out("merged.bin", std::ios::binary | std::ios::app);
 
-    std::vector<record> blk1 = load_vector(in1, limit / 4);
-    std::vector<record> blk2 = load_vector(in2, limit / 4);
+    std::vector<record> blk1 =
+        load_vector(in1, fs::file_size(filepath1), limit / 4);
+    std::vector<record> blk2 =
+        load_vector(in2, fs::file_size(filepath2), limit / 4);
     std::vector<record> result;
-    result.reserve(limit / 2);
+    result.reserve((limit / 2) / 20);
 
-    size_t i1 = 0, i2 = 0, r = 0;
+    size_t i1 = 0, i2 = 0;
 
     while (!blk1.empty() && !blk2.empty())
     {
-        while (i1 < blk1.size() && i2 < blk2.size() && r < result.size())
+        while (i1 < blk1.size() && i2 < blk2.size() &&
+               mem_usage(result) < limit / 2)
         {
             if (blk1[i1].key() <= blk2[i2].key())
                 result.push_back(std::move(blk1[i1++]));
             else
                 result.push_back(std::move(blk2[i2++]));
-            std::printf("%lu %lu %lu\n", i1, i2, r);
         }
+
+        std::printf("ok\n");
 
         if (i1 >= blk1.size())
         {
-            blk1 = load_vector(in1, limit / 4);
+            std::vector<record> blk1 =
+                load_vector(in1, fs::file_size(filepath1), limit / 4);
             i1 = 0;
         }
         else if (i2 >= blk2.size())
         {
-            blk2 = load_vector(in2, limit / 4);
+            std::vector<record> blk2 =
+                load_vector(in2, fs::file_size(filepath2), limit / 4);
             i2 = 0;
         }
         else
         {
             dump_vector(result, out);
-            result = std::vector<record>(limit / 2);
-            r = 0;
-
-            std::printf("%lu\n", std::filesystem::file_size("merged.bin"));
+            result.clear();
         }
     }
 
     // create some convenience aliases to simplify the code
+    const char* filepath = blk1.empty() ? filepath2 : filepath1;
     std::vector<record>& last_blk = blk1.empty() ? blk2 : blk1;
     size_t idx = blk1.empty() ? i2 : i1;
     std::ifstream& in_last = blk1.empty() ? in2 : in1;
@@ -108,40 +113,42 @@ void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit)
     // consume the remaining file
     while (!last_blk.empty())
     {
-        while (idx < last_blk.size() && r < result.size())
-            result[r++] = std::move(last_blk[idx++]);
+        while (idx < last_blk.size() && mem_usage(result) < limit / 2)
+            result.push_back(std::move(last_blk[idx++]));
 
         if (idx >= last_blk.size())
         {
-            last_blk = load_vector(in_last, limit / 2);
+            last_blk = load_vector(in_last, fs::file_size(filepath), limit / 2);
             idx = 0;
         }
         else
         {
             dump_vector(result, out);
-            result = std::vector<record>(limit / 2);
-            r = 0;
-            std::printf("%lu\n", std::filesystem::file_size("merged.bin"));
+            result.clear();
         }
     }
 
     dump_vector(result, out);
-    std::printf("%lu\n", std::filesystem::file_size("merged.bin"));
+    in1.close();
+    in2.close();
+    out.close();
 
-    // std::filesystem::remove(filepath1);
-    // std::filesystem::remove(filepath2);
-    // std::filesystem::rename("merged.bin", filepath1);
+    // std::printf("merged.bin size: %lu\n", fs::file_size("merged.bin"));
+
+    fs::remove(filepath1);
+    fs::remove(filepath2);
+    fs::rename("merged.bin", filepath1);
 }
 
 void mergesort(const char* filepath, uint64_t limit)
 {
-    limit = limit >= 12 + MAX_PAYLOAD ? limit : 12 + MAX_PAYLOAD;
     std::ifstream file(filepath, std::ios::binary);
     std::stringstream ss;
 
-    std::vector<record> block = load_vector(file, limit / 2);
+    std::vector<record> block =
+        load_vector(file, fs::file_size(filepath), limit / 2);
     size_t block_counter = 0;
-    do
+    while (!block.empty())
     {
         // sort
         mergesort(block);
@@ -153,8 +160,8 @@ void mergesort(const char* filepath, uint64_t limit)
         ss.clear();
 
         // read the next block
-        block = load_vector(file, limit / 2);
-    } while (!block.empty());
+        block = load_vector(file, fs::file_size(filepath), limit / 2);
+    }
 
     std::string filepath1, filepath2;
     for (size_t i = 0; i < std::ceil(std::log2(block_counter)); i++)
@@ -178,9 +185,10 @@ void mergesort(const char* filepath, uint64_t limit)
 
                 std::printf("merge %s with %s\n", filepath1.c_str(),
                             filepath2.c_str());
+
                 merge_blocks(filepath1.c_str(), filepath2.c_str(), limit);
             }
         }
     }
-    // std::filesystem::rename("block_0.bin", filepath);
+    fs::rename("block_0.bin", filepath);
 }

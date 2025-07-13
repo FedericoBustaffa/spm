@@ -7,11 +7,12 @@
 #include "record.hpp"
 
 static std::mt19937 generator(42);
-static std::uniform_int_distribution<uint32_t> length_dist(8, MAX_PAYLOAD);
-static std::uniform_int_distribution<char> payload_dist(97, 122);
 
-std::vector<record> generate_records(uint64_t n)
+std::vector<record> generate_records(uint64_t n, uint64_t max_payload)
 {
+    std::uniform_int_distribution<uint32_t> length_dist(8, max_payload);
+    std::uniform_int_distribution<char> payload_dist(97, 122);
+
     std::vector<record> records;
     records.reserve(n);
 
@@ -21,6 +22,7 @@ std::vector<record> generate_records(uint64_t n)
     for (uint64_t i = 0; i < n; i++)
     {
         length = length_dist(generator);
+        // length = max_payload; // TODO: only for debugging -> should be random
         payload = new char[length];
         for (uint32_t i = 0; i < length; i++)
             payload[i] = payload_dist(generator);
@@ -31,4 +33,13 @@ std::vector<record> generate_records(uint64_t n)
     std::shuffle(records.begin(), records.end(), generator);
 
     return records;
+}
+
+uint64_t mem_usage(const std::vector<record>& v)
+{
+    uint64_t bytes = 0;
+    for (const auto& i : v)
+        bytes += sizeof(uint64_t) + sizeof(uint32_t) + i.length();
+
+    return bytes;
 }

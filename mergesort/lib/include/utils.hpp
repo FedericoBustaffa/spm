@@ -5,8 +5,8 @@
 
 #include "record.hpp"
 
-#define MAX_PAYLOAD 64
+std::vector<record> generate_records(uint64_t n, uint64_t max_payload);
 
-std::vector<record> generate_records(uint64_t n);
+uint64_t mem_usage(const std::vector<record>& v);
 
 #endif

@@ -26,23 +26,6 @@
       "-march=native",
       "-c",
       "-o",
-      "build/record.o",
-      "src/record.cpp"
-    ],
-    "directory": "/home/federico/dev/cpp/spm/mergesort/lib",
-    "file": "/home/federico/dev/cpp/spm/mergesort/lib/src/record.cpp",
-    "output": "/home/federico/dev/cpp/spm/mergesort/lib/build/record.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/g++",
-      "-Wall",
-      "-std=c++20",
-      "-I./include/",
-      "-O3",
-      "-march=native",
-      "-c",
-      "-o",
       "build/serialize.o",
       "src/serialize.cpp"
     ],
@@ -70,6 +53,23 @@
   {
     "arguments": [
       "/usr/bin/g++",
+      "-Wall",
+      "-std=c++20",
+      "-I./include/",
+      "-O3",
+      "-march=native",
+      "-c",
+      "-o",
+      "build/record.o",
+      "src/record.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/mergesort/lib",
+    "file": "/home/federico/dev/cpp/spm/mergesort/lib/src/record.cpp",
+    "output": "/home/federico/dev/cpp/spm/mergesort/lib/build/record.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
       "-c",
       "-Wall",
       "-std=c++20",
@@ -85,25 +85,6 @@
     "directory": "/home/federico/dev/cpp/spm/mergesort/test",
     "file": "/home/federico/dev/cpp/spm/mergesort/test/generation.cpp",
     "output": "/home/federico/dev/cpp/spm/mergesort/test/generation.out"
-  },
-  {
-    "arguments": [
-      "/usr/bin/g++",
-      "-c",
-      "-Wall",
-      "-std=c++20",
-      "-I../lib/include/",
-      "-I../../lib/include/",
-      "-O3",
-      "-march=native",
-      "-pthread",
-      "-o",
-      "blocks.out",
-      "blocks.cpp"
-    ],
-    "directory": "/home/federico/dev/cpp/spm/mergesort/test",
-    "file": "/home/federico/dev/cpp/spm/mergesort/test/blocks.cpp",
-    "output": "/home/federico/dev/cpp/spm/mergesort/test/blocks.out"
   },
   {
     "arguments": [
@@ -161,6 +142,25 @@
     "directory": "/home/federico/dev/cpp/spm/mergesort/test",
     "file": "/home/federico/dev/cpp/spm/mergesort/test/merge_blocks.cpp",
     "output": "/home/federico/dev/cpp/spm/mergesort/test/merge_blocks.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Wall",
+      "-std=c++20",
+      "-I../lib/include/",
+      "-I../../lib/include/",
+      "-O3",
+      "-march=native",
+      "-pthread",
+      "-o",
+      "blocks.out",
+      "blocks.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/mergesort/test",
+    "file": "/home/federico/dev/cpp/spm/mergesort/test/blocks.cpp",
+    "output": "/home/federico/dev/cpp/spm/mergesort/test/blocks.out"
   },
   {
     "arguments": [

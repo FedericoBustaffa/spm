@@ -13,8 +13,9 @@ void dump_vector(const std::vector<record>& records, const char* filepath);
 
 record load_record(std::ifstream& file);
 
-std::vector<record> load_vector(std::ifstream& file, uint64_t limit);
+std::vector<record> load_vector(std::ifstream& file, size_t filesize,
+                                uint64_t limit = 0);
 
-std::vector<record> load_vector(const char* filepath, uint64_t limit);
+std::vector<record> load_vector(const char* filepath, uint64_t limit = 0);
 
 #endif
