@@ -2,13 +2,10 @@
 
 #include <cstdint>
 #include <cstring>
-#include <filesystem>
 #include <fstream>
 
 #include "record.hpp"
 #include "utils.hpp"
-
-namespace fs = std::filesystem;
 
 void dump_record(const record& r, std::ofstream& file)
 {
@@ -16,12 +13,6 @@ void dump_record(const record& r, std::ofstream& file)
     file.write(reinterpret_cast<const char*>(&r.length()), sizeof(uint32_t));
     file.write(r.payload(), r.length());
 }
-
-// void dump_vector(const std::vector<record>& records, std::ofstream& file)
-// {
-//     for (const auto& r : records)
-//         dump_record(r, file);
-// }
 
 void dump_vector(const std::vector<record>& records, std::ofstream& file)
 {
@@ -67,13 +58,11 @@ record load_record(std::ifstream& file)
     return record(key, length, payload);
 }
 
-std::vector<record> load_vector(std::ifstream& file, size_t filesize,
-                                uint64_t limit)
+std::vector<record> load_vector(std::ifstream& file, uint64_t limit)
 {
     std::vector<record> records;
 
     // try to optimize reallocation in the worst case (many small records)
-    limit = filesize < limit ? filesize : limit;
     records.reserve(limit / 20); // 20 is the minimum size for a record
 
     record temp;
@@ -115,5 +104,5 @@ std::vector<record> load_vector(std::ifstream& file, size_t filesize,
 std::vector<record> load_vector(const char* filepath, uint64_t limit)
 {
     std::ifstream file(filepath, std::ios::binary);
-    return load_vector(file, fs::file_size(filepath), limit);
+    return load_vector(file, limit);
 }

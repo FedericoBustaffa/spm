@@ -5,7 +5,6 @@
 #include <sstream>
 
 #include "serialize.hpp"
-#include "utils.hpp"
 
 namespace fs = std::filesystem;
 
@@ -63,67 +62,76 @@ void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit)
     std::ifstream in2(filepath2, std::ios::binary);
     std::ofstream out("merged.bin", std::ios::binary | std::ios::app);
 
-    std::vector<record> blk1 =
-        load_vector(in1, fs::file_size(filepath1), limit / 4);
-    std::vector<record> blk2 =
-        load_vector(in2, fs::file_size(filepath2), limit / 4);
-    std::vector<record> result;
-    result.reserve((limit / 2) / 20);
+    std::vector<record> blk1 = load_vector(in1, limit / 4);
+    std::vector<record> blk2 = load_vector(in2, limit / 4);
+
+    std::vector<record> buffer;
+    buffer.reserve((limit / 2) / 20);
+    uint64_t bufsize = 0; // in bytes
 
     size_t i1 = 0, i2 = 0;
     while (!blk1.empty() && !blk2.empty())
     {
-        while (i1 < blk1.size() && i2 < blk2.size())
+        while (i1 < blk1.size() && i2 < blk2.size() && bufsize < limit / 2)
         {
             if (blk1[i1].key() <= blk2[i2].key())
-                result.push_back(std::move(blk1[i1++]));
+                buffer.push_back(std::move(blk1[i1++]));
             else
-                result.push_back(std::move(blk2[i2++]));
+                buffer.push_back(std::move(blk2[i2++]));
+
+            bufsize +=
+                sizeof(uint64_t) + sizeof(uint32_t) + buffer.back().length();
         }
 
         if (i1 >= blk1.size())
         {
-            blk1 = load_vector(in1, fs::file_size(filepath1), limit / 4);
+            blk1 = load_vector(in1, limit / 4);
             i1 = 0;
         }
         else if (i2 >= blk2.size())
         {
-            blk2 = load_vector(in2, fs::file_size(filepath2), limit / 4);
+            blk2 = load_vector(in2, limit / 4);
             i2 = 0;
         }
 
-        if (mem_usage(result) >= limit / 2)
+        if (bufsize >= limit / 2)
         {
-            dump_vector(result, out);
-            result.clear();
+            dump_vector(buffer, out);
+            buffer.clear();
+            bufsize = 0;
         }
     }
 
     // create some convenience aliases to simplify the code
-    const char* filepath = blk1.empty() ? filepath2 : filepath1;
     std::vector<record>& last_blk = blk1.empty() ? blk2 : blk1;
     size_t idx = blk1.empty() ? i2 : i1;
     std::ifstream& in_last = blk1.empty() ? in2 : in1;
+    bufsize = 0;
 
     // consume the remaining file
     while (!last_blk.empty())
     {
-        while (idx < last_blk.size() && mem_usage(result) < limit / 2)
-            result.push_back(std::move(last_blk[idx++]));
+        while (idx < last_blk.size() && bufsize < limit / 2)
+        {
+            buffer.push_back(std::move(last_blk[idx++]));
+            bufsize +=
+                sizeof(uint64_t) + sizeof(uint32_t) + buffer.back().length();
+        }
 
         if (idx >= last_blk.size())
         {
-            last_blk = load_vector(in_last, fs::file_size(filepath), limit / 2);
+            last_blk = load_vector(in_last, limit / 2);
             idx = 0;
         }
         else
         {
-            dump_vector(result, out);
-            result.clear();
+            dump_vector(buffer, out);
+            buffer.clear();
+            bufsize = 0;
         }
     }
 
-    dump_vector(result, out);
+    dump_vector(buffer, out);
     in1.close();
     in2.close();
     out.close();
@@ -138,8 +146,7 @@ void mergesort(const char* filepath, uint64_t limit)
     std::ifstream file(filepath, std::ios::binary);
     std::stringstream ss;
 
-    std::vector<record> block =
-        load_vector(file, fs::file_size(filepath), limit / 2);
+    std::vector<record> block = load_vector(file, limit / 2);
     size_t block_counter = 0;
     while (!block.empty())
     {
@@ -153,7 +160,7 @@ void mergesort(const char* filepath, uint64_t limit)
         ss.clear();
 
         // read the next block
-        block = load_vector(file, fs::file_size(filepath), limit / 2);
+        block = load_vector(file, limit / 2);
     }
 
     std::string filepath1, filepath2;
