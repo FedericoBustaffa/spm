@@ -6,6 +6,7 @@
 #include <fstream>
 
 #include "record.hpp"
+#include "utils.hpp"
 
 namespace fs = std::filesystem;
 
@@ -16,10 +17,32 @@ void dump_record(const record& r, std::ofstream& file)
     file.write(r.payload(), r.length());
 }
 
+// void dump_vector(const std::vector<record>& records, std::ofstream& file)
+// {
+//     for (const auto& r : records)
+//         dump_record(r, file);
+// }
+
 void dump_vector(const std::vector<record>& records, std::ofstream& file)
 {
+    uint64_t bufsize = mem_usage(records);
+    char* buffer = new char[bufsize];
+    size_t index = 0;
+
     for (const auto& r : records)
-        dump_record(r, file);
+    {
+        std::memcpy(buffer + index, &r.key(), sizeof(uint64_t));
+        index += sizeof(uint64_t);
+
+        std::memcpy(buffer + index, &r.length(), sizeof(uint32_t));
+        index += sizeof(uint32_t);
+
+        std::memcpy(buffer + index, r.payload(), r.length());
+        index += r.length();
+    }
+
+    file.write(buffer, bufsize);
+    delete[] buffer;
 }
 
 void dump_vector(const std::vector<record>& records, const char* filepath)

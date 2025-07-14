@@ -73,15 +73,12 @@ void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit)
     size_t i1 = 0, i2 = 0;
     while (!blk1.empty() && !blk2.empty())
     {
-        while (i1 < blk1.size() && i2 < blk2.size() &&
-               mem_usage(result) < limit / 2)
+        while (i1 < blk1.size() && i2 < blk2.size())
         {
             if (blk1[i1].key() <= blk2[i2].key())
                 result.push_back(std::move(blk1[i1++]));
             else
                 result.push_back(std::move(blk2[i2++]));
-
-            // std::printf("i1: %lu, i2: %lu, r: %lu\n", i1, i2, result.size());
         }
 
         if (i1 >= blk1.size())
@@ -95,7 +92,7 @@ void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit)
             i2 = 0;
         }
 
-        if (mem_usage(result) < limit / 2)
+        if (mem_usage(result) >= limit / 2)
         {
             dump_vector(result, out);
             result.clear();
