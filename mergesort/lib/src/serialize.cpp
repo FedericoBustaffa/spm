@@ -2,10 +2,13 @@
 
 #include <cstdint>
 #include <cstring>
+#include <filesystem>
 #include <fstream>
 
 #include "record.hpp"
 #include "utils.hpp"
+
+namespace fs = std::filesystem;
 
 void dump(const std::vector<record>& records, std::ofstream& file)
 {
@@ -35,115 +38,60 @@ void dump(const std::vector<record>& records, const char* filepath)
     dump(records, out);
 }
 
-record load_record(std::ifstream& file)
-{
-    uint64_t key;
-    file.read(reinterpret_cast<char*>(&key), sizeof(uint64_t));
-    if (file.eof())
-        return record();
-
-    uint32_t length;
-    file.read(reinterpret_cast<char*>(&length), sizeof(uint32_t));
-
-    char* payload = new char[length];
-    file.read(payload, length);
-
-    return record(key, length, payload);
-}
-
-// std::vector<record> load(std::ifstream& file, uint64_t limit)
-// {
-//     std::vector<record> records;
-//     records.reserve(limit / 20);
-//
-//     char* buffer = new char[limit];
-//     size_t index = 0;
-//
-//     uint64_t key;
-//     uint32_t length;
-//     char* payload;
-//
-//     file.read(buffer, limit);
-//     size_t bytes = file.gcount();
-//
-//     while (index < bytes)
-//     {
-//         // read the key from the buffer
-//         if (index + sizeof(uint64_t) > bytes)
-//         {
-//             file.seekg(index - bytes, std::ios::cur);
-//             break;
-//         }
-//         std::memcpy(&key, buffer + index, sizeof(uint64_t));
-//         index += sizeof(uint64_t);
-//
-//         // read the length from the buffer
-//         if (index + sizeof(uint32_t) > bytes)
-//         {
-//             file.seekg(index - bytes - sizeof(uint64_t), std::ios::cur);
-//             break;
-//         }
-//         std::memcpy(&length, buffer + index, sizeof(uint32_t));
-//         index += sizeof(uint32_t);
-//
-//         // read the payload from the buffer
-//         if (index + length > bytes)
-//         {
-//             file.seekg(index - bytes - sizeof(uint64_t) - sizeof(uint32_t),
-//                        std::ios::cur);
-//             break;
-//         }
-//         payload = new char[length];
-//         std::memcpy(payload, buffer + index, length);
-//         index += length;
-//
-//         records.emplace_back(key, length, payload);
-//     }
-//
-//     delete[] buffer;
-//
-//     return records;
-// }
-
 std::vector<record> load(std::ifstream& file, uint64_t limit)
 {
     std::vector<record> records;
+    records.reserve(limit / 20);
 
-    // try to optimize reallocation in the worst case (many small records)
-    records.reserve(limit / 20); // 20 is the minimum size for a record
+    char* buffer = new char[limit];
+    size_t index = 0;
 
-    record temp;
-    uint64_t bytes = 0;
+    uint64_t key;
+    uint32_t length;
+    char* payload;
 
-    while (true)
+    file.read(buffer, limit);
+    size_t bytes = file.gcount();
+
+    while (index < bytes)
     {
-        // get the current file cursor position
-        int pos = file.tellg();
-
-        // if reading the key, the length and a minimum payload increase the
-        // memory usage beyond the limit don't even try to read the next record
-        if (bytes + sizeof(uint64_t) + sizeof(uint32_t) + 8 > limit &&
-            limit > 0)
-            break;
-
-        // read one record
-        temp = load_record(file);
-        bytes += sizeof(uint64_t) + sizeof(uint32_t) + temp.length();
-
-        // invalid record means EOF
-        if (!temp.is_valid())
-            break;
-
-        // if adding the record exceeds the limit, the file cursor position is
-        // put back at the start of the record that will be read next iteration
-        if (bytes > limit && limit > 0)
+        // read the key from the buffer
+        if (index + sizeof(uint64_t) > bytes)
         {
-            file.seekg(pos);
+            file.seekg(static_cast<std::streamoff>(index - bytes),
+                       std::ios::cur);
             break;
         }
+        std::memcpy(&key, buffer + index, sizeof(uint64_t));
+        index += sizeof(uint64_t);
 
-        records.push_back(std::move(temp));
+        // read the length from the buffer
+        if (index + sizeof(uint32_t) > bytes)
+        {
+            file.seekg(
+                static_cast<std::streamoff>(index - bytes - sizeof(uint64_t)),
+                std::ios::cur);
+            break;
+        }
+        std::memcpy(&length, buffer + index, sizeof(uint32_t));
+        index += sizeof(uint32_t);
+
+        // read the payload from the buffer
+        if (index + length > bytes)
+        {
+            file.seekg(static_cast<std::streamoff>(
+                           index - bytes - sizeof(uint64_t) - sizeof(uint32_t)),
+                       std::ios::cur);
+            break;
+        }
+        payload = new char[length];
+        std::memcpy(payload, buffer + index, length);
+        index += length;
+
+        records.emplace_back(key, length, payload);
     }
+
+    delete[] buffer;
 
     return records;
 }
@@ -151,5 +99,6 @@ std::vector<record> load(std::ifstream& file, uint64_t limit)
 std::vector<record> load(const char* filepath, uint64_t limit)
 {
     std::ifstream file(filepath, std::ios::binary);
+    limit = limit == 0 ? fs::file_size(filepath) : limit;
     return load(file, limit);
 }
