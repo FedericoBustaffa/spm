@@ -1,7 +1,3 @@
-
-/* Test to see if a sequence of blocks are
- * sorted and serialized correctly */
-
 #include <algorithm>
 #include <cassert>
 #include <cstdio>
@@ -32,12 +28,12 @@ int main(int argc, const char** argv)
 
     // save unsorted records to a file
     std::ofstream out("records.bin", std::ios::binary | std::ios::trunc);
-    dump_vector(records, out);
+    dump(records, out);
     out.close();
 
     // partial reading with limits
     std::ifstream in("records.bin", std::ios::binary);
-    std::vector<record> temp = load_vector(in, limit);
+    std::vector<record> temp = load(in, limit);
     uint64_t i = 0;
     bytes = 0;
     while (!temp.empty())
@@ -50,14 +46,14 @@ int main(int argc, const char** argv)
         std::stringstream ss;
         ss << "block_" << i++ << ".bin";
         std::ofstream block_file(ss.str());
-        dump_vector(temp, block_file);
+        dump(temp, block_file);
 
         // check memory usage of a block
         uint64_t b = mem_usage(temp);
         bytes += b;
         assert(b <= limit);
 
-        temp = load_vector(in, limit);
+        temp = load(in, limit);
     }
     in.close();
     std::printf("total bytes read: %lu\n", bytes);

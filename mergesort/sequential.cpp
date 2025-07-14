@@ -22,11 +22,7 @@ int main(int argc, const char** argv)
 
     // generate and save shuffled vector
     std::vector<record> a = generate_records(n, 256);
-    dump_vector(a, "vector.bin");
-    std::printf("initial file size: %lu\n", fs::file_size("vector.bin"));
-
-    // for (const auto& i : a)
-    //     std::printf("%lu\n", i.key());
+    dump(a, "vector.bin");
 
     // sort and generate a file with sorted array
     spm::timer timer;
@@ -35,11 +31,7 @@ int main(int argc, const char** argv)
     double time = timer.stop();
 
     // check if the array is sorted correctly
-    std::vector<record> result = load_vector("vector.bin");
-
-    // std::printf("\n");
-    // for (const auto& r : result)
-    //     std::printf("%lu\n", r.key());
+    std::vector<record> result = load("vector.bin");
 
     assert(result.size() == a.size());
     assert(!std::equal(a.begin(), a.end(), result.begin(), result.end()));

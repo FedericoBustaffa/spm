@@ -5,16 +5,12 @@
 
 #include "record.hpp"
 
-void dump_record(const record& r, std::ofstream& file);
+void dump(const std::vector<record>& records, std::ofstream& file);
 
-void dump_vector(const std::vector<record>& records, std::ofstream& file);
+void dump(const std::vector<record>& records, const char* filepath);
 
-void dump_vector(const std::vector<record>& records, const char* filepath);
+std::vector<record> load(std::ifstream& file, uint64_t limit = 0);
 
-record load_record(std::ifstream& file);
-
-std::vector<record> load_vector(std::ifstream& file, uint64_t limit = 0);
-
-std::vector<record> load_vector(const char* filepath, uint64_t limit = 0);
+std::vector<record> load(const char* filepath, uint64_t limit = 0);
 
 #endif

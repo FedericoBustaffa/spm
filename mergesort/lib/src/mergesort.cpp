@@ -62,8 +62,8 @@ void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit)
     std::ifstream in2(filepath2, std::ios::binary);
     std::ofstream out("merged.bin", std::ios::binary | std::ios::app);
 
-    std::vector<record> blk1 = load_vector(in1, limit / 4);
-    std::vector<record> blk2 = load_vector(in2, limit / 4);
+    std::vector<record> blk1 = load(in1, limit / 4);
+    std::vector<record> blk2 = load(in2, limit / 4);
 
     std::vector<record> buffer;
     buffer.reserve((limit / 2) / 20);
@@ -85,18 +85,18 @@ void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit)
 
         if (i1 >= blk1.size())
         {
-            blk1 = load_vector(in1, limit / 4);
+            blk1 = load(in1, limit / 4);
             i1 = 0;
         }
         else if (i2 >= blk2.size())
         {
-            blk2 = load_vector(in2, limit / 4);
+            blk2 = load(in2, limit / 4);
             i2 = 0;
         }
 
         if (bufsize >= limit / 2)
         {
-            dump_vector(buffer, out);
+            dump(buffer, out);
             buffer.clear();
             bufsize = 0;
         }
@@ -120,18 +120,18 @@ void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit)
 
         if (idx >= last_blk.size())
         {
-            last_blk = load_vector(in_last, limit / 2);
+            last_blk = load(in_last, limit / 2);
             idx = 0;
         }
         else
         {
-            dump_vector(buffer, out);
+            dump(buffer, out);
             buffer.clear();
             bufsize = 0;
         }
     }
 
-    dump_vector(buffer, out);
+    dump(buffer, out);
     in1.close();
     in2.close();
     out.close();
@@ -146,7 +146,7 @@ void mergesort(const char* filepath, uint64_t limit)
     std::ifstream file(filepath, std::ios::binary);
     std::stringstream ss;
 
-    std::vector<record> block = load_vector(file, limit / 2);
+    std::vector<record> block = load(file, limit / 2);
     size_t block_counter = 0;
     while (!block.empty())
     {
@@ -155,12 +155,12 @@ void mergesort(const char* filepath, uint64_t limit)
 
         // save the sorted block to a file
         ss << "block_" << block_counter++ << ".bin";
-        dump_vector(block, ss.str().c_str());
+        dump(block, ss.str().c_str());
         ss.str("");
         ss.clear();
 
         // read the next block
-        block = load_vector(file, limit / 2);
+        block = load(file, limit / 2);
     }
 
     std::string filepath1, filepath2;
