@@ -10,7 +10,7 @@
 
 #define MAX_PAYLOAD 64
 
-void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit);
+void merge(const char* filepath1, const char* filepath2, uint64_t limit);
 
 int main(int argc, const char** argv)
 {
@@ -40,7 +40,7 @@ int main(int argc, const char** argv)
                correct.begin());
 
     // merge 2 blocks with implemented function
-    merge_blocks("blk1.bin", "blk2.bin", limit);
+    merge("blk1.bin", "blk2.bin", limit);
     std::vector<record> result = load("blk1.bin");
 
     // checks

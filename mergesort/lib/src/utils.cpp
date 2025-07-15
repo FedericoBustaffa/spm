@@ -1,6 +1,7 @@
 #include "utils.hpp"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdint>
 #include <random>
 #include <regex>
@@ -48,21 +49,31 @@ uint64_t mem_usage(const std::vector<record>& v)
 uint64_t parse_mem_limit(const char* limit)
 {
     std::string input = std::move(limit);
-    std::regex pattern(R"(^([1-9][0-9]*)(B|KB|MB|GB)$)");
+    std::regex int_pattern(R"(^([1-9][0-9]*)(B|KB|MB|GB)$)");
+    std::regex float_pattern(R"(^([0-9]*.[0-9]*)(KB|MB|GB)$)");
     std::smatch matches;
 
     uint64_t bytes;
 
-    if (std::regex_search(input, matches, pattern))
+    if (std::regex_search(input, matches, int_pattern))
     {
         if (matches[2] == "B")
             bytes = std::stoull(matches[1]);
         else if (matches[2] == "KB")
             bytes = std::stoull(matches[1]) * 1024;
         else if (matches[2] == "MB")
-            bytes = std::stoull(matches[1]) * 1024 * 1024;
+            bytes = std::stoull(matches[1]) * std::pow(1024, 2);
         else
-            bytes = std::stoull(matches[1]) * 1024 * 1024 * 1024;
+            bytes = std::stoull(matches[1]) * std::pow(1024, 3);
+    }
+    else if (std::regex_search(input, matches, float_pattern))
+    {
+        if (matches[2] == "KB")
+            bytes = std::round(std::stod(matches[1]) * 1024);
+        else if (matches[2] == "MB")
+            bytes = std::round(std::stod(matches[1]) * std::pow(1024, 2));
+        else
+            bytes = std::round(std::stod(matches[1]) * std::pow(1024, 3));
     }
     else
         return 0;

@@ -7,7 +7,7 @@
 
 namespace fs = std::filesystem;
 
-void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit)
+void merge(const char* filepath1, const char* filepath2, uint64_t limit)
 {
     std::ifstream in1(filepath1, std::ios::binary);
     std::ifstream in2(filepath2, std::ios::binary);
@@ -57,7 +57,6 @@ void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit)
     std::vector<record>& last_blk = blk1.empty() ? blk2 : blk1;
     size_t idx = blk1.empty() ? i2 : i1;
     std::ifstream& in_last = blk1.empty() ? in2 : in1;
-    bufsize = 0;
 
     // consume the remaining file
     while (!last_blk.empty())
@@ -137,7 +136,7 @@ void mergesort(const char* filepath, uint64_t limit)
                 std::printf("merge %s with %s\n", filepath1.c_str(),
                             filepath2.c_str());
 
-                merge_blocks(filepath1.c_str(), filepath2.c_str(), limit);
+                merge(filepath1.c_str(), filepath2.c_str(), limit);
             }
         }
     }
