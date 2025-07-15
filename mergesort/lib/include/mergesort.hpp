@@ -5,10 +5,10 @@
 
 #include "record.hpp"
 
+// --- internal.cpp ---
 void mergesort(std::vector<record>& v);
 
-void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit);
-
+// --- external.cpp ---
 void mergesort(const char* filepath, uint64_t limit);
 
 #endif

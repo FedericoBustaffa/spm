@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cstdio>
+#include <filesystem>
 
 #include "mergesort.hpp"
 #include "record.hpp"
@@ -8,6 +9,8 @@
 #include "utils.hpp"
 
 #define MAX_PAYLOAD 64
+
+void merge_blocks(const char* filepath1, const char* filepath2, uint64_t limit);
 
 int main(int argc, const char** argv)
 {
@@ -45,6 +48,8 @@ int main(int argc, const char** argv)
     assert(std::is_sorted(result.begin(), result.end()));
     assert(std::equal(correct.begin(), correct.end(), result.begin(),
                       result.end()));
+
+    std::filesystem::remove("blk1.bin");
 
     return 0;
 }

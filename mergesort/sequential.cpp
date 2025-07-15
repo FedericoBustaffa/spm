@@ -12,13 +12,18 @@ namespace fs = std::filesystem;
 
 int main(int argc, const char** argv)
 {
-    if (argc < 3)
+    if (argc != 3)
     {
-        std::printf("USAGE: %s <E> <L>\n", argv[0]);
+        std::printf("USAGE: %s <E> <L>[K|M|G]B\n", argv[0]);
         return 1;
     }
     uint64_t n = 1ULL << std::stoul(argv[1]);
-    uint64_t limit = std::stoul(argv[2]);
+    uint64_t limit = parse_mem_limit(argv[2]);
+    if (limit == 0)
+    {
+        std::printf("USAGE: %s <E> <L>[K|M|G]B\n", argv[0]);
+        return 1;
+    }
 
     // generate and save shuffled vector
     std::vector<record> a = generate_records(n, 256);
