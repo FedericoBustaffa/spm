@@ -116,7 +116,7 @@ void mergesort(const char* filepath, uint64_t limit)
     std::string filepath1, filepath2;
     for (size_t i = 0; i < std::ceil(std::log2(block_counter)); i++)
     {
-        std::printf("- - - - - level %lu - - - - -\n", i);
+        // std::printf("- - - - - level %lu - - - - -\n", i);
         for (size_t j = 0; j < block_counter; j += 2 * std::pow(2, i))
         {
             // compute second file index
@@ -133,8 +133,8 @@ void mergesort(const char* filepath, uint64_t limit)
                 ss.str("");
                 ss.clear();
 
-                std::printf("merge %s with %s\n", filepath1.c_str(),
-                            filepath2.c_str());
+                // std::printf("merge %s with %s\n", filepath1.c_str(),
+                //             filepath2.c_str());
 
                 merge(filepath1.c_str(), filepath2.c_str(), limit);
             }

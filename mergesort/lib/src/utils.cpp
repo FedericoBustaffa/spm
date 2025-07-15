@@ -78,7 +78,7 @@ uint64_t parse_mem_limit(const char* limit)
     else
         return 0;
 
-    std::printf("%s = %lu bytes\n", limit, bytes);
+    // std::printf("%s = %lu bytes\n", limit, bytes);
 
     return bytes;
 }

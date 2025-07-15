@@ -1,6 +1,6 @@
 #!/bin/bash
 
 
-for i in 2048 4096 8192 16384 32768 65536; do
+for i in "128MB" "256MB" "512MB" "1GB" "2GB" "3GB"; do
     ./sequential.out $1 $i | grep -i "time"
 done
