@@ -10,8 +10,27 @@
       "-O3",
       "-march=native",
       "-ffast-math",
-      "-I/usr/lib/x86_64-linux-gnu/openmpi/include",
-      "-I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi",
+      "-I/usr/include/openmpi-x86_64",
+      "-o",
+      "farm_double-buffering.out",
+      "farm_double-buffering.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode10",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode10/farm_double-buffering.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode10/farm_double-buffering.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-ffast-math",
+      "-I/usr/include/openmpi-x86_64",
       "-o",
       "hello_world.out",
       "hello_world.cpp"
@@ -31,50 +50,7 @@
       "-O3",
       "-march=native",
       "-ffast-math",
-      "-I/usr/lib/x86_64-linux-gnu/openmpi/include",
-      "-I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi",
-      "-o",
-      "ping_pong_ring_nb.out",
-      "ping_pong_ring_nb.cpp"
-    ],
-    "directory": "/home/federico/dev/cpp/spm/examples/spmcode10",
-    "file": "/home/federico/dev/cpp/spm/examples/spmcode10/ping_pong_ring_nb.cpp",
-    "output": "/home/federico/dev/cpp/spm/examples/spmcode10/ping_pong_ring_nb.out"
-  },
-  {
-    "arguments": [
-      "/usr/bin/g++",
-      "-c",
-      "-std=c++20",
-      "-I.",
-      "-I./include",
-      "-Wall",
-      "-O3",
-      "-march=native",
-      "-ffast-math",
-      "-I/usr/lib/x86_64-linux-gnu/openmpi/include",
-      "-I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi",
-      "-o",
-      "trapezoid.out",
-      "trapezoid.cpp"
-    ],
-    "directory": "/home/federico/dev/cpp/spm/examples/spmcode10",
-    "file": "/home/federico/dev/cpp/spm/examples/spmcode10/trapezoid.cpp",
-    "output": "/home/federico/dev/cpp/spm/examples/spmcode10/trapezoid.out"
-  },
-  {
-    "arguments": [
-      "/usr/bin/g++",
-      "-c",
-      "-std=c++20",
-      "-I.",
-      "-I./include",
-      "-Wall",
-      "-O3",
-      "-march=native",
-      "-ffast-math",
-      "-I/usr/lib/x86_64-linux-gnu/openmpi/include",
-      "-I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi",
+      "-I/usr/include/openmpi-x86_64",
       "-o",
       "master-workers.out",
       "master-workers.cpp"
@@ -94,8 +70,27 @@
       "-O3",
       "-march=native",
       "-ffast-math",
-      "-I/usr/lib/x86_64-linux-gnu/openmpi/include",
-      "-I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi",
+      "-I/usr/include/openmpi-x86_64",
+      "-o",
+      "ping_pong_ring_nb.out",
+      "ping_pong_ring_nb.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode10",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode10/ping_pong_ring_nb.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode10/ping_pong_ring_nb.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-ffast-math",
+      "-I/usr/include/openmpi-x86_64",
       "-o",
       "send-recv.out",
       "send-recv.cpp"
@@ -115,14 +110,13 @@
       "-O3",
       "-march=native",
       "-ffast-math",
-      "-I/usr/lib/x86_64-linux-gnu/openmpi/include",
-      "-I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi",
+      "-I/usr/include/openmpi-x86_64",
       "-o",
-      "farm_double-buffering.out",
-      "farm_double-buffering.cpp"
+      "trapezoid.out",
+      "trapezoid.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/examples/spmcode10",
-    "file": "/home/federico/dev/cpp/spm/examples/spmcode10/farm_double-buffering.cpp",
-    "output": "/home/federico/dev/cpp/spm/examples/spmcode10/farm_double-buffering.out"
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode10/trapezoid.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode10/trapezoid.out"
   }
 ]

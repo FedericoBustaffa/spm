@@ -4,14 +4,14 @@ CXXFLAGS          += -Wall
 INCLUDES	   = -I. -I./include
 LIBS               = 
 SOURCES            = $(wildcard *.cpp)
-TARGET             = $(SOURCES:.cpp=)
+TARGET             = $(SOURCES:.cpp=.out)
 FFTW_INC           = `pkgconf --cflags /opt/ohpc/pub/libs/gnu12/openmpi4/fftw/3.3.10/lib/pkgconfig/fftw3.pc`
 FFTW_LIB           = `pkgconf --libs /opt/ohpc/pub/libs/gnu12/openmpi4/fftw/3.3.10/lib/pkgconfig/fftw3.pc`
 FFTW_LIB_DIR       = `pkgconf --variable=libdir /opt/ohpc/pub/libs/gnu12/openmpi4/fftw/3.3.10/lib/pkgconfig/fftw3.pc`
 
 .PHONY: all clean cleanall 
 
-%: %.cpp
+%.out: %.cpp
 	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) -o $@ $< $(LIBS)
 
 all: $(TARGET)
