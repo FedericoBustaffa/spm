@@ -11,6 +11,7 @@
       "-march=native",
       "-ffast-math",
       "-I/usr/include/openmpi-x86_64",
+<<<<<<< HEAD
       "-o",
       "farm_double-buffering.out",
       "farm_double-buffering.cpp"
@@ -31,13 +32,15 @@
       "-march=native",
       "-ffast-math",
       "-I/usr/include/openmpi-x86_64",
+=======
+>>>>>>> refs/remotes/origin/master
       "-o",
-      "hello_world.out",
-      "hello_world.cpp"
+      "farm_double-buffering.out",
+      "farm_double-buffering.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/examples/spmcode10",
-    "file": "/home/federico/dev/cpp/spm/examples/spmcode10/hello_world.cpp",
-    "output": "/home/federico/dev/cpp/spm/examples/spmcode10/hello_world.out"
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode10/farm_double-buffering.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode10/farm_double-buffering.out"
   },
   {
     "arguments": [
@@ -72,6 +75,29 @@
       "-ffast-math",
       "-I/usr/include/openmpi-x86_64",
       "-o",
+<<<<<<< HEAD
+=======
+      "trapezoid.out",
+      "trapezoid.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode10",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode10/trapezoid.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode10/trapezoid.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-march=native",
+      "-ffast-math",
+      "-I/usr/include/openmpi-x86_64",
+      "-o",
+>>>>>>> refs/remotes/origin/master
       "ping_pong_ring_nb.out",
       "ping_pong_ring_nb.cpp"
     ],
@@ -112,11 +138,20 @@
       "-ffast-math",
       "-I/usr/include/openmpi-x86_64",
       "-o",
+<<<<<<< HEAD
       "trapezoid.out",
       "trapezoid.cpp"
     ],
     "directory": "/home/federico/dev/cpp/spm/examples/spmcode10",
     "file": "/home/federico/dev/cpp/spm/examples/spmcode10/trapezoid.cpp",
     "output": "/home/federico/dev/cpp/spm/examples/spmcode10/trapezoid.out"
+=======
+      "hello_world.out",
+      "hello_world.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode10",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode10/hello_world.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode10/hello_world.out"
+>>>>>>> refs/remotes/origin/master
   }
 ]
