@@ -1,29 +1,29 @@
-FF_ROOT            = ~/fastflow
+FF_ROOT            = ${HOME}/dev/cpp/spm/fastflow/
 CXX                = mpicxx -std=c++20
 OPTFLAGS	   = -O3
 CXXFLAGS          += -Wall 
 INCLUDES	   = -I. -I./include
 LIBS               = 
 SOURCES            = $(wildcard *.cpp)
-TARGET             = $(SOURCES:.cpp=)
+TARGET             = $(SOURCES:.cpp=.out)
 
 .PHONY: all clean cleanall 
 
-%: %.cpp
+%.out: %.cpp
 	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) -o $@ $< $(LIBS)
 
 all: $(TARGET)
 
-summa_omp:summa_omp.cpp
+summa_omp.out: summa_omp.cpp
 	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) -o $@ $< $(LIBS) -fopenmp
 
-trapezoid_mpi+omp: trapezoid_mpi+omp.cpp
+trapezoid_mpi+omp.out: trapezoid_mpi+omp.cpp
 	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) -o $@ $< $(LIBS) -fopenmp
 
-trapezoid_mpi+ff: trapezoid_mpi+ff.cpp
+trapezoid_mpi+ff.out: trapezoid_mpi+ff.cpp
 	$(CXX) $(INCLUDES) -I $(FF_ROOT) $(CXXFLAGS) $(OPTFLAGS) -o $@ $< $(LIBS) -pthread
 
-Farm+ff_farm: Farm+ff_farm.cpp
+Farm+ff_farm.out: Farm+ff_farm.cpp
 	$(CXX) $(INCLUDES) -I $(FF_ROOT) $(CXXFLAGS) $(OPTFLAGS) -o $@ $< $(LIBS) -pthread
 
 

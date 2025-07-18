@@ -17,7 +17,7 @@ FFTW_LIB_DIR       = `pkgconf --variable=libdir /opt/ohpc/pub/libs/gnu12/openmpi
 all: $(TARGET)
 
 # compile on the spmcluster
-fft1d: fft1d.cpp
+fft1d.out: fft1d.cpp
 	$(CXX) $(INCLUDES) $(CXXFLAGS) $(FFTW_INC) $(OPTFLAGS) -o $@ $< $(LIBS) $(FFTW_LIB) -Wl,-rpath,$(FFTW_LIB_DIR)
 
 clean: 

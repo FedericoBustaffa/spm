@@ -1,0 +1,128 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-I/usr/include/openmpi-x86_64",
+      "-o",
+      "maxloc.out",
+      "maxloc.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode11",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode11/maxloc.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode11/maxloc.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-I/usr/include/openmpi-x86_64",
+      "-o",
+      "vectorsum.out",
+      "vectorsum.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode11",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode11/vectorsum.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode11/vectorsum.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-I/usr/include/openmpi-x86_64",
+      "-o",
+      "vectorsumV.out",
+      "vectorsumV.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode11",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode11/vectorsumV.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode11/vectorsumV.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-I/usr/include/openmpi-x86_64",
+      "-o",
+      "scan.out",
+      "scan.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode11",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode11/scan.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode11/scan.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-I/usr/include/openmpi-x86_64",
+      "-o",
+      "trapezoidReduce.out",
+      "trapezoidReduce.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode11",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode11/trapezoidReduce.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode11/trapezoidReduce.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-I/usr/include/openmpi-x86_64",
+      "-o",
+      "power_iteration_partitioned.out",
+      "power_iteration_partitioned.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode11",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode11/power_iteration_partitioned.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode11/power_iteration_partitioned.out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++20",
+      "-I.",
+      "-I./include",
+      "-Wall",
+      "-O3",
+      "-I/usr/include/openmpi-x86_64",
+      "-o",
+      "power_iteration_replicated.out",
+      "power_iteration_replicated.cpp"
+    ],
+    "directory": "/home/federico/dev/cpp/spm/examples/spmcode11",
+    "file": "/home/federico/dev/cpp/spm/examples/spmcode11/power_iteration_replicated.cpp",
+    "output": "/home/federico/dev/cpp/spm/examples/spmcode11/power_iteration_replicated.out"
+  }
+]
