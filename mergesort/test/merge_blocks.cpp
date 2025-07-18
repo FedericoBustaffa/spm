@@ -20,7 +20,7 @@ int main(int argc, const char** argv)
         return 1;
     }
     uint64_t n = 1ULL << std::stoull(argv[1]); // # of records
-    uint64_t limit = std::stoull(argv[2]);     // max bytes
+    uint64_t limit = parse_mem_limit(argv[2]); // max bytes
 
     // generate 2 blocks
     std::vector<record> blk1 = generate_records(n, MAX_PAYLOAD);
