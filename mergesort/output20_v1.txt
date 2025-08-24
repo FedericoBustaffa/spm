@@ -1,4 +1,0 @@
-limit: 1048576 bytes, time: 2.5632 seconds
-limit: 10485760 bytes, time: 1.7901 seconds
-limit: 104857600 bytes, time: 1.5301 seconds
-limit: 524288000 bytes, time: 1.0086 seconds
