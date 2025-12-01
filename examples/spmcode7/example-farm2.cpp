@@ -135,7 +135,7 @@ int main(int argc, char* argv[])
     for (auto i = 0; i < nworkers; ++i)
         W.push_back(make_unique<dotProd>());
 
-    ff_Farm<task_t, float> farm(std::move(W),
+    ff_Farm<task_t, float> farm(std::move(W));
 
     farm.remove_collector(); // <----- diff from farm1
     farm.set_scheduling_ondemand();
